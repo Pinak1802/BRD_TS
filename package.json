@@ -1,0 +1,27 @@
+{
+  "name": "brd_ts",
+  "version": "1.0.0",
+  "description": "BRD Generation using TypeScript and MCP",
+  "type": "module",
+  "main": "dist/brd_generation.js",
+  "scripts": {
+    "dev": "tsx src/brd_generation.ts",
+    "build": "tsc",
+    "start": "node dist/brd_generation.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^12.0.0",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "dotenv": "^18.0.9",
+    "pdf-parse": "^2.4.5"
+  }
+}
