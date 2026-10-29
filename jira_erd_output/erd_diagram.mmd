@@ -1,0 +1,235 @@
+%%{init: {
+  "theme": "default",
+  "themeVariables": {
+    "background": "#ffffff",
+    "primaryColor": "#f4f7fb",
+    "primaryBorderColor": "#526d82",
+    "primaryTextColor": "#172b4d",
+    "lineColor": "#526d82",
+    "tertiaryColor": "#ffffff"
+  }
+}}%%
+erDiagram
+    direction TB
+    scheme ||--o{ scheme_change_audit : "has"
+    employer ||--o{ employer_contact : "has"
+    employer ||--o{ employer_scheme_association : "associates"
+    employer ||--o{ contribution_submission : "submits"
+    employer ||--o{ contribution_receipt : "submits"
+    scheme ||--o{ employer_scheme_association : "has"
+    scheme ||--o{ member : "enrolls"
+    scheme ||--o{ pension_account : "has"
+    member ||--o{ member_change_audit : "has"
+    member ||--o{ pension_account : "owns"
+    member ||--o{ benefit_request : "submits"
+    employer ||--o{ contribution_allocation : "submits"
+    member ||--o{ contribution_allocation : "receives"
+    scheme ||--o{ contribution_allocation : "has"
+    contribution_submission ||--o{ contribution_receipt : "matched_by"
+    contribution_receipt ||--o{ contribution_allocation : "allocated"
+    contribution_submission ||--o{ contribution_allocation : "covered_by"
+    pension_account ||--o{ contribution_allocation : "receives"
+    financial_exception }o--|| contribution_receipt : "related_to"
+    financial_exception }o--|| contribution_submission : "related_to"
+    financial_exception }o--|| contribution_allocation : "related_to"
+    financial_exception }o--|| benefit_request : "related_to"
+    financial_exception }o--|| benefit_approval : "related_to"
+    pension_account ||--o{ investment_record : "holds"
+    benefit_request ||--o{ benefit_approval : "passes_through"
+    benefit_request ||--o{ benefit_payment : "pays"
+    role ||--o{ user : "assigned_to"
+    user ||--o{ audit_log : "generated"
+
+    scheme {
+        int scheme_id PK
+        string identifier
+        string status
+        string eligibility_rules
+        date created_date
+        string created_by
+    }
+
+    scheme_change_audit {
+        int audit_id PK
+        int scheme_id FK
+        string changed_by
+        datetime change_timestamp
+        string old_values
+        string new_values
+        string reason
+    }
+
+    employer {
+        int employer_id PK
+        string identity
+        string status
+        date created_date
+        string created_by
+    }
+
+    employer_contact {
+        int contact_id PK
+        int employer_id FK
+        string name
+        string email
+        date effective_from
+        date effective_until
+        string reason
+    }
+
+    employer_scheme_association {
+        int association_id PK
+        int employer_id FK
+        int scheme_id FK
+        date effective_date
+        date created_date
+    }
+
+    member {
+        int member_id PK
+        string identity
+        string status
+        date registration_date
+        string rejected_reason
+    }
+
+    member_change_audit {
+        int audit_id PK
+        int member_id FK
+        string changed_by
+        datetime change_timestamp
+        string old_values
+        string new_values
+    }
+
+    pension_account {
+        int account_id PK
+        int member_id FK
+        int scheme_id FK
+        string status
+        date created_date
+    }
+
+    contribution_submission {
+        int submission_id PK
+        int employer_id FK
+        int member_id FK
+        int scheme_id FK
+        decimal submitted_amount
+        date submission_date
+    }
+
+    contribution_receipt {
+        int receipt_id PK
+        int submission_id FK
+        int employer_id FK
+        int member_id FK
+        int scheme_id FK
+        decimal received_amount
+        date receipt_date
+    }
+
+    contribution_allocation {
+        int allocation_id PK
+        int receipt_id FK
+        int contribution_id FK
+        int employer_id FK
+        int member_id FK
+        int scheme_id FK
+        int account_id FK
+        decimal allocated_amount
+    }
+
+    financial_exception {
+        int exception_id PK
+        int related_record_id FK
+        string exception_type
+        string status
+        string description
+        string created_by
+        datetime created_date
+    }
+
+    financial_action_audit {
+        int audit_id PK
+        string action_type
+        string actor
+        datetime action_timestamp
+        string values
+        string outcome
+    }
+
+    investment_record {
+        int investment_id PK
+        int account_id FK
+        string type
+        decimal allocated_amount
+        date created_date
+    }
+
+    investment_change_audit {
+        int audit_id PK
+        int investment_id FK
+        string changed_by
+        datetime change_timestamp
+        string old_values
+        string new_values
+    }
+
+    benefit_request {
+        int request_id PK
+        int member_id FK
+        int scheme_id FK
+        string status
+        string details
+        date submitted_date
+        string rejected_reason
+    }
+
+    benefit_approval {
+        int approval_id PK
+        int request_id FK
+        string stage
+        string decision
+        string approver
+        datetime decision_date
+    }
+
+    benefit_payment {
+        int payment_id PK
+        int request_id FK
+        decimal amount
+        date payment_date
+        string outcome
+    }
+
+    transaction_failure {
+        int failure_id PK
+        string reference
+        string failure_reason
+        string actor
+        datetime failure_timestamp
+        string action_type
+    }
+
+    role {
+        int role_id PK
+        string name
+        string permissions
+    }
+
+    user {
+        int user_id PK
+        string name
+        int role_id FK
+        date created_date
+    }
+
+    audit_log {
+        int audit_id PK
+        string action_type
+        int user_id FK
+        datetime change_timestamp
+        string changed_values
+        string entity_id
+    }

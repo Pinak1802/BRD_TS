@@ -1,0 +1,1082 @@
+{
+  "entities": [
+    {
+      "name": "scheme",
+      "description": "Pension scheme configuration",
+      "attributes": [
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "identifier",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "eligibility_rules",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_by",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "scheme_change_audit",
+      "description": "Chronological audit of scheme changes",
+      "attributes": [
+        {
+          "name": "audit_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "changed_by",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "change_timestamp",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "old_values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "new_values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "reason",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "employer",
+      "description": "Employer registration record",
+      "attributes": [
+        {
+          "name": "employer_id",
+          "type": "INTEGER",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "identity",
+          "type": "VARCHAR(150)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_by",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "employer_contact",
+      "description": "Authorized employer contact",
+      "attributes": [
+        {
+          "name": "contact_id",
+          "type": "INTEGER",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "employer_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(150)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "email",
+          "type": "VARCHAR(150)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "effective_from",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "effective_until",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "reason",
+          "type": "VARCHAR(255)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "employer_scheme_association",
+      "description": "Employer to scheme association with effective date",
+      "attributes": [
+        {
+          "name": "association_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "employer_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "effective_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "member",
+      "description": "Enrolled pension scheme member",
+      "attributes": [
+        {
+          "name": "member_id",
+          "type": "INTEGER",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "identity",
+          "type": "VARCHAR(150)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "registration_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "rejected_reason",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "member_change_audit",
+      "description": "Material member record change audit",
+      "attributes": [
+        {
+          "name": "audit_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "member_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "changed_by",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "change_timestamp",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "old_values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "new_values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "pension_account",
+      "description": "Member pension account",
+      "attributes": [
+        {
+          "name": "account_id",
+          "type": "INTEGER",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "member_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "contribution_submission",
+      "description": "Employer contribution submission",
+      "attributes": [
+        {
+          "name": "submission_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "employer_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "member_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "submitted_amount",
+          "type": "DECIMAL(12,2)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "submission_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "contribution_receipt",
+      "description": "Recorded contribution receipt",
+      "attributes": [
+        {
+          "name": "receipt_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "submission_id",
+          "type": "BIGINT",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "employer_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "member_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "received_amount",
+          "type": "DECIMAL(12,2)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "receipt_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "contribution_allocation",
+      "description": "Allocation outcome for a contribution",
+      "attributes": [
+        {
+          "name": "allocation_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "receipt_id",
+          "type": "BIGINT",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "contribution_id",
+          "type": "BIGINT",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "employer_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "member_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "account_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "allocated_amount",
+          "type": "DECIMAL(12,2)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "financial_exception",
+      "description": "Flagged financial exception",
+      "attributes": [
+        {
+          "name": "exception_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "related_record_id",
+          "type": "BIGINT",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "exception_type",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "description",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_by",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_date",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "financial_action_audit",
+      "description": "Evidence of material financial actions",
+      "attributes": [
+        {
+          "name": "audit_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "action_type",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "actor",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "action_timestamp",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "outcome",
+          "type": "VARCHAR(255)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "investment_record",
+      "description": "Approved investment record linked to pension account",
+      "attributes": [
+        {
+          "name": "investment_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "account_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "type",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "allocated_amount",
+          "type": "DECIMAL(12,2)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "created_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "investment_change_audit",
+      "description": "Audit of investment record changes",
+      "attributes": [
+        {
+          "name": "audit_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "investment_id",
+          "type": "BIGINT",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "changed_by",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "change_timestamp",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "old_values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "new_values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "benefit_request",
+      "description": "Member benefit request",
+      "attributes": [
+        {
+          "name": "request_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "member_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "scheme_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "status",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "details",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "submitted_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "rejected_reason",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "benefit_approval",
+      "description": "Review and approval stage record",
+      "attributes": [
+        {
+          "name": "approval_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "request_id",
+          "type": "BIGINT",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "stage",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "decision",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "approver",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "decision_date",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "benefit_payment",
+      "description": "Payment outcome for a benefit request",
+      "attributes": [
+        {
+          "name": "payment_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "request_id",
+          "type": "BIGINT",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "amount",
+          "type": "DECIMAL(12,2)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "payment_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "outcome",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "transaction_failure",
+      "description": "Failed transaction record",
+      "attributes": [
+        {
+          "name": "failure_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "reference",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "failure_reason",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "actor",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "failure_timestamp",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "action_type",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "role",
+      "description": "Access control role",
+      "attributes": [
+        {
+          "name": "role_id",
+          "type": "INTEGER",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(50)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "permissions",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "user",
+      "description": "System user with role assignment",
+      "attributes": [
+        {
+          "name": "user_id",
+          "type": "INTEGER",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "name",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "role_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "created_date",
+          "type": "DATE",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    },
+    {
+      "name": "audit_log",
+      "description": "Material actions change audit trail",
+      "attributes": [
+        {
+          "name": "audit_id",
+          "type": "BIGINT",
+          "primary_key": true,
+          "foreign_key": false
+        },
+        {
+          "name": "action_type",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "user_id",
+          "type": "INTEGER",
+          "primary_key": false,
+          "foreign_key": true
+        },
+        {
+          "name": "change_timestamp",
+          "type": "TIMESTAMP",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "changed_values",
+          "type": "TEXT",
+          "primary_key": false,
+          "foreign_key": false
+        },
+        {
+          "name": "entity_id",
+          "type": "VARCHAR(100)",
+          "primary_key": false,
+          "foreign_key": false
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "scheme",
+      "to": "scheme_change_audit",
+      "label": "has",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "employer",
+      "to": "employer_contact",
+      "label": "has",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "employer",
+      "to": "employer_scheme_association",
+      "label": "associates",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "employer",
+      "to": "contribution_submission",
+      "label": "submits",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "employer",
+      "to": "contribution_receipt",
+      "label": "submits",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "scheme",
+      "to": "employer_scheme_association",
+      "label": "has",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "scheme",
+      "to": "member",
+      "label": "enrolls",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "scheme",
+      "to": "pension_account",
+      "label": "has",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "member",
+      "to": "member_change_audit",
+      "label": "has",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "member",
+      "to": "pension_account",
+      "label": "owns",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "member",
+      "to": "benefit_request",
+      "label": "submits",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "employer",
+      "to": "contribution_allocation",
+      "label": "submits",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "member",
+      "to": "contribution_allocation",
+      "label": "receives",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "scheme",
+      "to": "contribution_allocation",
+      "label": "has",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "contribution_submission",
+      "to": "contribution_receipt",
+      "label": "matched_by",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "contribution_receipt",
+      "to": "contribution_allocation",
+      "label": "allocated",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "contribution_submission",
+      "to": "contribution_allocation",
+      "label": "covered_by",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "pension_account",
+      "to": "contribution_allocation",
+      "label": "receives",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "financial_exception",
+      "to": "contribution_receipt",
+      "label": "related_to",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "financial_exception",
+      "to": "contribution_submission",
+      "label": "related_to",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "financial_exception",
+      "to": "contribution_allocation",
+      "label": "related_to",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "financial_exception",
+      "to": "benefit_request",
+      "label": "related_to",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "financial_exception",
+      "to": "benefit_approval",
+      "label": "related_to",
+      "cardinality": "many-to-one"
+    },
+    {
+      "from": "pension_account",
+      "to": "investment_record",
+      "label": "holds",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "benefit_request",
+      "to": "benefit_approval",
+      "label": "passes_through",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "benefit_request",
+      "to": "benefit_payment",
+      "label": "pays",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "role",
+      "to": "user",
+      "label": "assigned_to",
+      "cardinality": "one-to-many"
+    },
+    {
+      "from": "user",
+      "to": "audit_log",
+      "label": "generated",
+      "cardinality": "one-to-many"
+    }
+  ],
+  "assumptions": [
+    "Contribution allocation references both a receipt and a submission to support reconciliation matching and exception tracking.",
+    "Financial exceptions can relate to any financial record type via related_record_id plus exception_type discriminator.",
+    "A single generic audit_log covers material actions per the Reporting and Audit epic, while domain-specific audit tables preserve detail required by domain epics.",
+    "Benefit approval records capture workflow stage and approver for the controlled review and approval requirement.",
+    "Investment records exclude trading, portfolio execution, and financial advice per out-of-scope requirement.",
+    "Reconciliation logic is implied but not modeled as a separate entity; unmatched/discrepancy states are represented in financial_exception and related amounts."
+  ]
+}
