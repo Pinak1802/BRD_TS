@@ -1,0 +1,228 @@
+FUNCTIONAL REQUIREMENTS DOCUMENT (FRD)
+
+1. DOCUMENT OVERVIEW
+
+1.1 Purpose
+This document defines the functional requirements for the pension administration system based on the supplied Jira source records. It specifies what the system shall do, who shall use each capability, when behavior shall occur, which rules apply, and how successful behavior shall be verified. It is intended for stakeholder review, functional validation, and test design.
+
+1.2 System or product overview
+The system is a pension administration platform that manages pension schemes, employers, members, pension accounts, contributions, investments, benefits, reporting, audit, and security. This FRD batch covers the Scheme Management capability only.
+
+1.3 Scope of the FRD
+This batch covers the Scheme Management epic and its single story SRC-001. It defines requirements for creating, configuring, maintaining, and auditing scheme records, including eligibility rules, status, effective dates, and scheme identity uniqueness.
+
+1.4 Source artifacts and coverage
+- Epics supplied: 9 (Scheme Management, Employer Management, Member Management, Pension Account Administration, Contributions and Financial Reconciliation, Investment Records, Benefits Administration, Reporting and Audit, Security, Access Control, and Exception Handling). Epic keys are not provided in the source.
+- Stories supplied in this batch: 1 (SRC-001).
+- Coverage: SRC-001 is fully mapped to requirements FR-001 through FR-004. The remaining eight epics have no stories in this batch and are therefore not covered by requirements in this batch.
+
+1.5 Terminology and definitions
+- Scheme: A pension scheme with a unique identifier, eligibility rules, status, and effective dates.
+- Scheme identifier: The unique value used to identify a scheme.
+- Material scheme change: A change to scheme configuration that is significant enough to require audit recording.
+- Eligibility rules: Rules that determine whether a person or entity qualifies for a scheme.
+- Audit record: A record of a material change capturing the changing user, timestamp, and old/new values.
+- Duplicate scheme identity: A scheme record whose scheme identifier matches an existing scheme record.
+
+2. BUSINESS CONTEXT AND FUNCTIONAL SCOPE
+
+2.1 Business objectives evidenced by the Jira stories
+- Establish and maintain a definitive configuration for each pension scheme.
+- Ensure scheme configuration is consistent and auditable.
+- Enforce unique scheme identity to prevent duplicate or conflicting scheme records.
+
+2.2 In-scope functional capabilities
+- Create and maintain scheme configuration, including eligibility rules, status, and effective dates.
+- Prevent or flag duplicate scheme identities.
+- Record and retrieve audit information for material scheme changes.
+
+2.3 Out-of-scope items
+Not specified in source. The source does not explicitly exclude any functionality.
+
+2.4 Dependencies and known constraints
+- SRC-001 requires a scheme identifier to create a scheme record.
+- SRC-001 requires eligibility rules, rules, status, and effective dates to be captured at creation.
+- Not specified in source — requires confirmation: the exact set of fields constituting "scheme details," the definition of "material scheme change," and the behavior when a duplicate is flagged for review.
+
+3. ACTORS AND ROLES
+
+3.1 Pension administrator
+- Role: The user who creates, configures, and maintains scheme details.
+- Responsibilities: Create scheme records, capture material scheme changes, and maintain scheme configuration.
+- Relevant capabilities: Scheme creation, scheme maintenance, audit record retrieval.
+- Jira story keys: SRC-001.
+- Authorization detail: Not specified in source — requires confirmation. The source mentions "the changing user" for audit purposes but does not define role-based permissions for scheme creation or maintenance.
+
+4. FUNCTIONAL MODULES AND DETAILED REQUIREMENTS
+
+Module ID: MOD-001
+Module name: Scheme Management
+Purpose and scope: Establish and maintain the definitive configuration for each pension scheme, including eligibility rules, status, effective dates, and a chronological audit trail of material changes, while enforcing unique scheme identity.
+Related epic keys: Not provided in source.
+Related story keys: SRC-001.
+Actors: Pension administrator.
+
+FR-001: Create scheme record
+Title: Create and store a new scheme record
+Requirement statement: The system shall allow a pension administrator to create a scheme record by providing a scheme identifier, eligibility rules, rules, status, and effective date.
+Triggering event: Pension administrator initiates scheme creation.
+Expected observable behavior: The system stores the scheme record with the provided scheme identifier, eligibility rules, rules, status, and effective date.
+Input data: Scheme identifier, eligibility rules, rules, status, effective date.
+Output/result: A stored scheme record.
+Validations and business rules: None specified beyond the requirement to provide the listed fields.
+Exception/alternate behavior: Not specified in source — requires confirmation.
+Source Jira keys: SRC-001.
+Verifiable acceptance criteria: Given a new scheme record, when it is created with a scheme identifier, eligibility rules, rules, status, and effective date, then it is stored.
+
+FR-002: Prevent duplicate scheme identity
+Title: Prevent or flag duplicate scheme identity
+Requirement statement: The system shall prevent or explicitly flag for review an attempt to create a scheme record with a scheme identifier that matches an existing scheme record.
+Triggering event: Pension administrator submits a scheme creation with a scheme identifier that matches an existing scheme.
+Expected observable behavior: The system either prevents the creation or explicitly flags it for review.
+Input data: Scheme identifier.
+Output/result: Creation prevented or flagged for review.
+Validations and business rules: Scheme identifier uniqueness against existing scheme records.
+Exception/alternate behavior: Not specified in source — requires confirmation.
+Source Jira keys: SRC-001.
+Verifiable acceptance criteria: Given an attempt to create a duplicate scheme identity, when it is submitted, then it is prevented or explicitly flagged for review.
+
+FR-003: Record material scheme change audit
+Title: Record audit information for material scheme changes
+Requirement statement: The system shall record, for each material scheme change, the changing user, timestamp, and old and new values.
+Triggering event: A material scheme change is captured.
+Expected observable behavior: The system records the changing user, timestamp, and old/new values.
+Input data: Changing user, timestamp, old values, new values.
+Output/result: An audit record.
+Validations and business rules: None specified beyond the requirement to capture the listed fields.
+Exception/alternate behavior: Not specified in source — requires confirmation.
+Source Jira keys: SRC-001.
+Verifiable acceptance criteria: Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are recorded.
+
+FR-004: Retrieve audit information
+Title: Retrieve audit information for material scheme changes
+Requirement statement: The system shall make the recorded audit information for material scheme changes retrievable for audit purposes.
+Triggering event: A request for audit information is made.
+Expected observable behavior: The system returns the recorded changing user, timestamp, and old/new values for the requested material scheme change.
+Input data: Request identifying the material scheme change.
+Output/result: The recorded audit information.
+Validations and business rules: None specified.
+Exception/alternate behavior: Not specified in source — requires confirmation.
+Source Jira keys: SRC-001.
+Verifiable acceptance criteria: Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are retrievable for audit.
+
+Postconditions: Scheme records are stored with unique scheme identifiers, and material scheme changes are recorded and retrievable for audit.
+Dependencies: SRC-001.
+
+5. END-TO-END FUNCTIONAL WORKFLOWS
+
+Workflow 1: Create a new scheme
+- Actor: Pension administrator.
+- Trigger: Pension administrator initiates scheme creation.
+- Preconditions: None specified in source.
+- Main success flow:
+  1. Pension administrator provides a scheme identifier, eligibility rules, rules, status, and effective date.
+  2. The system validates the scheme identifier against existing scheme records.
+  3. The system stores the scheme record.
+- Alternate/exception flows:
+  - If the scheme identifier matches an existing scheme record, the system prevents creation or flags it for review.
+- Result: A stored scheme record, or a prevented/flagged duplicate.
+- Jira references: SRC-001.
+
+Workflow 2: Capture a material scheme change
+- Actor: Pension administrator.
+- Trigger: A material scheme change is captured.
+- Preconditions: An existing scheme record.
+- Main success flow:
+  1. The system captures the material scheme change.
+  2. The system records the changing user, timestamp, and old/new values.
+- Alternate/exception flows: Not specified in source.
+- Result: An audit record for the material scheme change.
+- Jira references: SRC-001.
+
+Workflow 3: Retrieve audit information
+- Actor: Pension administrator.
+- Trigger: A request for audit information is made.
+- Preconditions: At least one material scheme change has been captured.
+- Main success flow:
+  1. The system retrieves the recorded audit information for the requested material scheme change.
+- Alternate/exception flows: Not specified in source.
+- Result: The recorded audit information.
+- Jira references: SRC-001.
+
+6. BUSINESS RULES AND VALIDATIONS
+
+BRULE-001: Unique scheme identity
+- Exact meaning: A scheme identifier must be unique across scheme records. An attempt to create a scheme with a duplicate scheme identifier shall be prevented or explicitly flagged for review.
+- Affected functional requirements: FR-002.
+- Jira sources: SRC-001.
+
+BRULE-002: Material scheme change audit
+- Exact meaning: For each material scheme change, the system shall record the changing user, timestamp, and old/new values.
+- Affected functional requirements: FR-003, FR-004.
+- Jira sources: SRC-001.
+
+VAL-001: Scheme creation field completeness
+- Exact meaning: A scheme record shall be created with a scheme identifier, eligibility rules, rules, status, and effective date.
+- Affected functional requirements: FR-001.
+- Jira sources: SRC-001.
+
+7. DATA REQUIREMENTS (FUNCTIONAL VIEW)
+
+Business data objects:
+- Scheme record: Contains scheme identifier, eligibility rules, rules, status, and effective date.
+- Audit record: Contains changing user, timestamp, and old/new values.
+
+User-visible fields:
+- Scheme identifier: Required for scheme creation and uniqueness validation.
+- Eligibility rules: Required for scheme creation.
+- Rules: Required for scheme creation.
+- Status: Required for scheme creation.
+- Effective date: Required for scheme creation.
+- Changing user: Recorded for audit.
+- Timestamp: Recorded for audit.
+- Old values: Recorded for audit.
+- New values: Recorded for audit.
+
+Data relationships:
+- Audit records are associated with scheme records through material scheme changes.
+
+Unspecified fields: Not specified in source — requires confirmation. The exact set of fields constituting "scheme details" is not defined.
+
+8. EXCEPTION AND ERROR SCENARIOS
+
+Scenario 1: Duplicate scheme identity
+- Trigger: Pension administrator submits a scheme creation with a scheme identifier that matches an existing scheme record.
+- User-visible expected result: Creation prevented or flagged for review.
+- Affected FR IDs: FR-002.
+- Jira source: SRC-001.
+
+Scenario 2: Unspecified error handling
+- Trigger: Not specified in source.
+- User-visible expected result: Not specified in source — requires confirmation.
+- Affected FR IDs: None.
+- Jira source: None.
+
+9. ACCEPTANCE CRITERIA AND TESTABILITY
+
+FR-001 -> Given a new scheme record, when it is created with a scheme identifier, eligibility rules, rules, status, and effective date, then it is stored. -> SRC-001.
+FR-002 -> Given an attempt to create a duplicate scheme identity, when it is submitted, then it is prevented or explicitly flagged for review. -> SRC-001.
+FR-003 -> Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are recorded. -> SRC-001.
+FR-004 -> Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are retrievable for audit. -> SRC-001.
+
+10. REQUIREMENTS TRACEABILITY MATRIX
+
+Epic Key | Story Key | Module | FR IDs | Acceptance-Criteria Coverage
+Not provided | SRC-001 | MOD-001 Scheme Management | FR-001, FR-002, FR-003, FR-004 | All acceptance criteria covered.
+
+11. OPEN QUESTIONS, AMBIGUITIES AND COVERAGE GAPS
+
+- What is the exact set of fields constituting "scheme details"? Not specified in source — requires confirmation.
+- What defines a "material scheme change"? Not specified in source — requires confirmation.
+- What is the behavior when a duplicate scheme identity is flagged for review? Not specified in source — requires confirmation.
+- What are the authorization rules for scheme creation and maintenance? Not specified in source — requires confirmation.
+- What is the error handling for unspecified failure scenarios? Not specified in source — requires confirmation.
+- The remaining eight epics (Employer Management, Member Management, Pension Account Administration, Contributions and Financial Reconciliation, Investment Records, Benefits Administration, Reporting and Audit, Security, Access Control, and Exception Handling) have no stories in this batch and are therefore not covered by requirements in this batch.
+
+12. SUMMARY AND READINESS
+
+This batch documents the Scheme Management capability with four functional requirements (FR-001 through FR-004) derived from SRC-001. All acceptance criteria from SRC-001 are mapped to requirements. Unresolved gaps include the definition of "scheme details," "material scheme change," duplicate-flag behavior, authorization rules, and unspecified error handling. Stakeholders need to confirm these items before implementation. The remaining eight epics are not covered in this batch due to the absence of stories.
