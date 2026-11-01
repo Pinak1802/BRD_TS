@@ -1,0 +1,78 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within two epics: Member Management (SRC-010, SRC-011) and Pension Accounts (SRC-012). Supported capabilities are: maintenance of member records with auditability and historical state retrieval; detection and prevention of duplicate or invalid member registrations with recorded outcomes; and creation and maintenance of pension-account records linked to members and schemes with auditability and association display. Epic keys are not provided in the source records.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Member Record Maintenance (SRC-010)
+Jira Story Key: SRC-010
+Parent Epic Key: Not specified in source — requires confirmation
+Story Summary: Maintain member records
+Supported actor(s): Pension administrator or member
+Trigger/precondition: A member record change is initiated by an authorized actor
+Functional requirements:
+SRC-010-FR-01: The system shall record a member record change with the identity of the actor who made it and the timestamp of the change when the change is made by an authorized actor.
+SRC-010-FR-02: The system shall display the current information of a member record when the record is queried.
+SRC-010-FR-03: The system shall retrieve and display the member state as it existed at a requested past date when a historical query is made.
+Inputs and outputs: Input — member record change initiated by an authorized actor; query for current information; historical query with a requested past date. Output — recorded change with actor and timestamp; current member information; member state at the requested past date.
+Explicit business rules and validations: Not specified in source — requires confirmation. Authorization rules for "authorized actor" are not defined.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a member record change, when it is made by an authorized actor, then the change is recorded with actor and timestamp.
+Given a member record, when it is queried, then its current information is displayed.
+Given a historical query, when it requests a past member state, then the state at that date is retrievable.
+Missing details or ambiguities: The source does not define how authorization is determined, what constitutes a member record change, the format or precision of the timestamp, the mechanism for storing historical states, or how a historical query date is validated.
+
+Capability: Duplicate and Invalid Registration Prevention (SRC-011)
+Jira Story Key: SRC-011
+Parent Epic Key: Not specified in source — requires confirmation
+Story Summary: Prevent duplicate and invalid member registrations
+Supported actor(s): Pension administrator or operations personnel
+Trigger/precondition: A registration attempt is processed or submitted
+Functional requirements:
+SRC-011-FR-01: The system shall flag a potential duplicate when a registration attempt is processed for a potential duplicate.
+SRC-011-FR-02: The system shall not complete an invalid registration silently when it is submitted.
+SRC-011-FR-03: The system shall record the outcome of a duplicate detection as one of block, merge, or escalate when duplicate detection occurs.
+Inputs and outputs: Input — registration attempt for a potential duplicate; invalid registration submission; duplicate detection event. Output — flag on the potential duplicate; non-completion of the invalid registration with an observable indication; recorded outcome of block, merge, or escalate.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the duplicate detection criteria, the definition of an invalid registration, the conditions under which block, merge, or escalate is selected, or the observable indication shown when an invalid registration is not completed.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a registration attempt for a potential duplicate, when it is processed, then the potential duplicate is flagged.
+Given an invalid registration, when it is submitted, then it cannot be completed silently.
+Given a duplicate detection, when it occurs, then the outcome (block, merge, or escalate) is recorded.
+Missing details or ambiguities: The source does not specify how duplicates are detected, what makes a registration invalid, how the outcome is recorded, or what the user observes when a registration is blocked.
+
+Capability: Pension Account Record Maintenance (SRC-012)
+Jira Story Key: SRC-012
+Parent Epic Key: Not specified in source — requires confirmation
+Story Summary: Create and maintain pension-account records
+Supported actor(s): Pension administrator
+Trigger/precondition: An account creation is initiated or an account record is updated
+Functional requirements:
+SRC-012-FR-01: The system shall create an identifiable pension-account record and link it to a member and a scheme when an account creation is completed.
+SRC-012-FR-02: The system shall record an account record update with the identity of the actor who made it and the timestamp of the change when the record is updated.
+SRC-012-FR-03: The system shall display the associations of an account when the account is queried.
+Inputs and outputs: Input — account creation request; account record update; account query. Output — identifiable account record linked to a member and scheme; recorded update with actor and timestamp; account associations.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define what makes an account identifiable, which member and scheme associations are required, or how associations are displayed.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an account creation, when it is completed, then the account has an identifiable record and is linked to a member and scheme.
+Given an account record, when it is updated, then the change is recorded with actor and timestamp.
+Given an account, when it is queried, then its associations are displayed.
+Missing details or ambiguities: The source does not define the account identifier, the validation of member and scheme associations, the format of the timestamp, or the display format of associations.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The stories support discrete operations: member record maintenance and historical state retrieval (SRC-010), registration attempt processing with duplicate flagging and outcome recording (SRC-011), and pension-account creation, update, and association display (SRC-012). Each operation is linked to its story key as noted above.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules, validations, and data objects are limited to what the acceptance criteria state. Member records are subject to change recording with actor and timestamp and historical state retrieval (SRC-010). Registration attempts are subject to duplicate flagging, non-completion of invalid registrations, and outcome recording (SRC-011). Pension-account records are subject to identifiable record creation, member and scheme linking, update recording with actor and timestamp, and association display (SRC-012). No field constraints, data relationships, or additional validation rules are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-010 | Not specified | SRC-010-FR-01, SRC-010-FR-02, SRC-010-FR-03 | Covered
+SRC-011 | Not specified | SRC-011-FR-01, SRC-011-FR-02, SRC-011-FR-03 | Covered
+SRC-012 | Not specified | SRC-012-FR-01, SRC-012-FR-02, SRC-012-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-010: What defines an authorized actor, and how is authorization enforced? What is the timestamp format and precision? How are historical member states stored and how is the query date validated?
+SRC-011: What criteria are used to detect duplicates? What defines an invalid registration? What conditions determine whether the outcome is block, merge, or escalate? What observable indication is shown when an invalid registration is not completed?
+SRC-012: What makes an account identifiable? Which member and scheme associations are required at creation? How are associations displayed?
+All three stories lack explicit business rules and exception handling in the source. All three stories have acceptance criteria, but several criteria reference undefined terms that require confirmation.

@@ -1,0 +1,107 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories in the Reporting and Audit epic (SRC-028) and the Security, Access Control, and Exception Handling epic (SRC-029, SRC-030). Supported capabilities: export of audit records for external audit review; enforcement of role-based access control for users and sensitive operations; and separation of submission, review, and approval duties for sensitive financial or benefit actions.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Audit Record Export (SRC-028)
+
+Jira Story Key: SRC-028
+Parent Epic Key: Reporting and Audit
+Story Summary: Export audit records for audit review
+Supported actor(s): Compliance personnel (exporter); external auditors (consumers of the export)
+Trigger/precondition: Audit records exist in the system and a request to export them is made.
+Functional requirements:
+SRC-028-FR-01: The system shall export audit records in a format acceptable for audit review when requested by an authorized user.
+SRC-028-FR-02: The system shall include all relevant records, actions, and decisions in an audit export when it is generated.
+Inputs and outputs: Input — request to export audit records. Output — an audit export file or presentation containing all relevant records, actions, and decisions.
+Explicit business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given audit records, when they are exported, then they are in a format acceptable for audit review.
+Given an audit export, when it is generated, then it includes all relevant records, actions, and decisions.
+Missing details or ambiguities:
+- What file format(s) are acceptable for audit review (e.g., CSV, PDF, XML)? Not specified in source — requires confirmation.
+- What defines "all relevant records, actions, and decisions" — is there a defined scope, date range, entity filter, or event-type filter? Not specified in source — requires confirmation.
+- Who is authorized to request an export and through which interface (UI, API, scheduled job)? Not specified in source — requires confirmation.
+- Is there a retention or volume limit for exports, and must exports be logged? Not specified in source — requires confirmation.
+
+Capability: Role-Based Access Control (SRC-029)
+
+Jira Story Key: SRC-029
+Parent Epic Key: Security, Access Control, and Exception Handling
+Story Summary: Enforce role-based access control
+Supported actor(s): System administrator (role and permission assignment); all users (subject to access control)
+Trigger/precondition: Users exist with assigned roles; sensitive operations exist in the system.
+Functional requirements:
+SRC-029-FR-01: The system shall enforce role-based access control for all users and sensitive operations.
+SRC-029-FR-02: The system shall deny access to an unauthorized user who attempts a sensitive operation.
+SRC-029-FR-03: The system shall make only the operations authorized for a role accessible to that role when permissions are assigned to the role.
+Inputs and outputs: Input — user role assignments and permission definitions; user access attempts. Output — access granted or denied; role-scoped operation visibility.
+Explicit business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an unauthorized user, when they attempt a sensitive operation, then access is denied.
+Given a role, when permissions are assigned, then only authorized operations are accessible to that role.
+Missing details or ambiguities:
+- What constitutes a "sensitive operation" — is there a defined list or classification? Not specified in source — requires confirmation.
+- What is the role model (roles, permissions, groups, inheritance, overrides)? Not specified in source — requires confirmation.
+- How are roles and permissions assigned and maintained (UI, API, bulk import)? Not specified in source — requires confirmation.
+- What is the expected behavior and message when access is denied, and is the denial logged? Not specified in source — requires confirmation.
+
+Capability: Separation of Duties (SRC-030)
+
+Jira Story Key: SRC-030
+Parent Epic Key: Security, Access Control, and Exception Handling
+Story Summary: Separate submission, review, and approval duties
+Supported actor(s): Compliance personnel; submitting, reviewing, and approving actors
+Trigger/precondition: A sensitive financial or benefit action requiring separation of duties exists.
+Functional requirements:
+SRC-030-FR-01: The system shall separate submission, review, and approval responsibilities for sensitive financial or benefit actions.
+SRC-030-FR-02: The system shall ensure that the submitting, reviewing, and approving actors are distinguishable roles for a sensitive financial or benefit action that requires separation.
+SRC-030-FR-03: The system shall prevent a single user from completing an entire sensitive action chain unless the action is approved.
+Inputs and outputs: Input — initiation of a sensitive financial or benefit action. Output — role-distinguished workflow steps; prevention of single-user completion of the chain.
+Explicit business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a sensitive financial or benefit action, when it requires separation, then the submitting, reviewing, and approving actors are distinguishable roles.
+Given a single user, when they attempt to complete an entire sensitive action chain, then the system prevents it unless approved.
+Missing details or ambiguities:
+- Which actions are classified as "sensitive financial or benefit actions" requiring separation? Not specified in source — requires confirmation.
+- What are the exact submission, review, and approval roles and their distinguishing attributes? Not specified in source — requires confirmation.
+- What does "unless approved" mean in the single-user prevention rule — is there an explicit override path, and who may authorize it? Not specified in source — requires confirmation.
+- How is the separation enforced technically (role check per step, workflow routing, or both), and is each step logged? Not specified in source — requires confirmation.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The stories support the following partial, linked behaviors:
+- Audit export: compliance personnel request export of existing audit records; the system produces an export containing all relevant records, actions, and decisions (SRC-028).
+- Access control: a user attempts a sensitive operation; the system evaluates the user's role and denies access if unauthorized, and exposes only role-authorized operations (SRC-029).
+- Separation of duties: a sensitive financial or benefit action is initiated; the system requires distinguishable submitting, reviewing, and approving roles and prevents a single user from completing the entire chain unless approved (SRC-030).
+
+D. RULES, VALIDATIONS, AND DATA
+- Audit export must be in a format acceptable for audit review and must include all relevant records, actions, and decisions (SRC-028).
+- Access to sensitive operations is controlled by user roles; unauthorized users are denied, and roles expose only their authorized operations (SRC-029).
+- Sensitive financial or benefit actions require distinguishable submission, review, and approval roles, and a single user cannot complete the entire chain unless approved (SRC-030).
+- No field constraints, data objects, or data relationships are specified in this batch.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-028 | Reporting and Audit | SRC-028-FR-01, SRC-028-FR-02 | Covered; format and scope definitions need clarification.
+SRC-029 | Security, Access Control, and Exception Handling | SRC-029-FR-01, SRC-029-FR-02, SRC-029-FR-03 | Covered; role model and sensitive-operation definition need clarification.
+SRC-030 | Security, Access Control, and Exception Handling | SRC-030-FR-01, SRC-030-FR-02, SRC-030-FR-03 | Covered; sensitive-action list, role definitions, and override path need clarification.
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-028:
+- What file format(s) are acceptable for audit review?
+- What is the defined scope of "all relevant records, actions, and decisions" (filters, date range, entity types)?
+- Who may request an export and through which interface?
+- Should exports be logged, and are there volume or retention limits?
+SRC-029:
+- What is the defined list or classification of "sensitive operations"?
+- What is the role model (roles, permissions, groups, inheritance)?
+- How are roles and permissions assigned and maintained?
+- What is the behavior and message on denial, and is denial logged?
+SRC-030:
+- Which actions are "sensitive financial or benefit actions" requiring separation?
+- What are the exact submission, review, and approval roles?
+- What does "unless approved" mean — is there an override path and who may authorize it?
+- How is separation enforced and logged per workflow step?
+All three stories have acceptance criteria; however, key definitions required to make the criteria testable are not specified in the source.

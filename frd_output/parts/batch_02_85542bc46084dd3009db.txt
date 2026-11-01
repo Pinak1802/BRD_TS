@@ -1,0 +1,129 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within the Employer Management and Member Management capabilities: SRC-004 (authorized employer contacts), SRC-005 (employer-to-scheme associations), and SRC-006 (member registration and enrollment). The supporting epics are Employer Management and Member Management. No epic keys are provided in the source records.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Employer Management — Authorized Contacts (SRC-004)
+Jira Story Key: SRC-004
+Parent Epic Key: Employer Management (epic key not provided in source)
+Story Summary: Manage authorized employer contacts
+Supported actor(s): Pension administrator
+Trigger/precondition: A pension administrator initiates maintenance of an authorized contact record for an employer.
+
+SRC-004-FR-01: The system shall store a linkage between an authorized contact and a specific employer.
+Inputs: Contact identity, employer identity, linkage action.
+Outputs: Stored linkage record.
+Acceptance criteria: Given an authorized contact, when it is linked to a specific employer, then the linkage is stored and change history is recorded.
+
+SRC-004-FR-02: The system shall record change history for the contact-to-employer linkage.
+Acceptance criteria: Given an authorized contact, when it is linked to a specific employer, then the linkage is stored and change history is recorded.
+
+SRC-004-FR-03: The system shall record an effective date and a reason when a contact retirement is processed.
+Inputs: Contact retirement action, effective date, reason.
+Outputs: Processed retirement record with effective date and reason.
+Acceptance criteria: Given a contact retirement, when it is processed, then an effective date and reason are recorded and the contact is no longer active.
+
+SRC-004-FR-04: The system shall mark a retired contact as no longer active.
+Acceptance criteria: Given a contact retirement, when it is processed, then an effective date and reason are recorded and the contact is no longer active.
+
+Missing details or ambiguities:
+- What constitutes a "contact retirement" versus a contact being removed or replaced? Is retirement a distinct status, or is it a reason value on a status change?
+- What fields must be captured for a contact (name, role, contact details, authorization level)? Not specified in source — requires confirmation.
+- What fields must be captured for the change history (who made the change, timestamp, before/after values)? Not specified in source — requires confirmation.
+- How is "no longer active" enforced in downstream processes (e.g., routing, reporting)? Not specified in source — requires confirmation.
+- Stakeholder question: Should a retired contact be retained in the system for audit purposes, and for how long?
+
+Capability: Employer Management — Employer-to-Scheme Associations (SRC-005)
+Jira Story Key: SRC-005
+Parent Epic Key: Employer Management (epic key not provided in source)
+Story Summary: Associate employers with schemes
+Supported actor(s): Pension administrator
+Trigger/precondition: A pension administrator establishes an association between an employer and a scheme.
+
+SRC-005-FR-01: The system shall establish an association between an employer and one or more schemes and record the effective date of each association.
+Inputs: Employer identity, scheme identity, effective date.
+Outputs: Stored association record.
+Acceptance criteria: Given an employer and scheme, when an association is established, then it is queryable and the effective date is recorded.
+
+SRC-005-FR-02: The system shall make an employer-to-scheme association queryable.
+Acceptance criteria: Given an employer and scheme, when an association is established, then it is queryable and the effective date is recorded.
+
+SRC-005-FR-03: The system shall retain historical employer-to-scheme associations and make them retrievable.
+Acceptance criteria: Given a historical association, when it is queried, then the historical association remains retrievable.
+
+Missing details or ambiguities:
+- Does an employer support multiple concurrent active scheme associations, or is a single active association enforced? Not specified in source — requires confirmation.
+- How are overlapping or conflicting effective dates handled when an employer is associated with multiple schemes? Not specified in source — requires confirmation.
+- What fields must be captured for an association (employer ID, scheme ID, effective date, end date, association type)? Not specified in source — requires confirmation.
+- Stakeholder question: Should historical associations be retained indefinitely, or is there a retention policy?
+
+Capability: Member Management — Registration and Enrollment (SRC-006)
+Jira Story Key: SRC-006
+Parent Epic Key: Member Management (epic key not provided in source)
+Story Summary: Register and enroll members
+Supported actor(s): Pension administrator
+Trigger/precondition: A pension administrator submits a member enrollment attempt.
+
+SRC-006-FR-01: The system shall capture member identity and required membership attributes during registration and enrollment.
+Inputs: Member identity attributes, required membership attributes.
+Outputs: Member record.
+Acceptance criteria: As a pension administrator, I want to register and enroll members by capturing member identity and required membership attributes, so that eligible members are recorded reliably.
+
+SRC-006-FR-02: The system shall evaluate a member enrollment attempt against scheme eligibility rules.
+Inputs: Enrollment attempt, scheme eligibility rules.
+Outputs: Eligibility determination.
+Acceptance criteria: Given a member enrollment attempt that satisfies scheme eligibility rules, when it is submitted, then it is confirmed as eligible.
+
+SRC-006-FR-03: The system shall confirm an enrollment attempt as eligible when it satisfies scheme eligibility rules.
+Acceptance criteria: Given a member enrollment attempt that satisfies scheme eligibility rules, when it is submitted, then it is confirmed as eligible.
+
+SRC-006-FR-04: The system shall reject or hold for review an enrollment attempt that fails scheme eligibility rules, and record the reason.
+Acceptance criteria: Given a member enrollment attempt that fails scheme eligibility rules, when it is submitted, then it is rejected or held for review with the reason recorded.
+
+SRC-006-FR-05: The system shall record the reason for rejection or hold when an enrollment attempt fails scheme eligibility rules.
+Acceptance criteria: Given a member enrollment attempt that fails scheme eligibility rules, when it is submitted, then it is rejected or held for review with the reason recorded.
+
+Missing details or ambiguities:
+- What are the scheme eligibility rules, and where are they defined (e.g., Scheme Management epic)? Not specified in source — requires confirmation.
+- What fields constitute "member identity" and "required membership attributes"? Not specified in source — requires confirmation.
+- What is the difference between "rejected" and "held for review," and who performs the review? Not specified in source — requires confirmation.
+- What happens after a member is confirmed as eligible (e.g., account creation, notification)? Not specified in source — requires confirmation.
+- Stakeholder question: Should ineligible enrollments be permanently rejected, or can they be resubmitted after correction?
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports the following partial workflows, each linked to story keys:
+
+1. Authorized contact maintenance (SRC-004): A pension administrator links an authorized contact to an employer, the system stores the linkage and records change history; separately, a pension administrator processes a contact retirement, the system records an effective date and reason, and marks the contact as no longer active.
+
+2. Employer-to-scheme association (SRC-005): A pension administrator establishes an employer-to-scheme association with an effective date, the system stores and makes it queryable, and historical associations remain retrievable.
+
+3. Member enrollment (SRC-006): A pension administrator submits a member enrollment attempt; the system captures member identity and required attributes, evaluates eligibility against scheme rules, confirms eligible enrollments, and rejects or holds ineligible enrollments with the reason recorded.
+
+D. RULES, VALIDATIONS, AND DATA
+- Eligibility rule evaluation: An enrollment attempt is confirmed as eligible when it satisfies scheme eligibility rules; it is rejected or held for review when it fails scheme eligibility rules (SRC-006).
+- Change history: Contact-to-employer linkages and retirements record change history (SRC-004).
+- Effective dates: Contact retirements record an effective date; employer-to-scheme associations record an effective date (SRC-004, SRC-005).
+- Contact status: A retired contact is marked as no longer active (SRC-004).
+- Historical retrievability: Historical employer-to-scheme associations remain retrievable (SRC-005).
+- Data objects implied by the source: authorized contact records, contact-to-employer linkages, contact retirement records, employer-to-scheme association records, member enrollment records, and change history records. Field-level constraints and data relationships are not specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-004 | Employer Management (key not provided) | SRC-004-FR-01, SRC-004-FR-02, SRC-004-FR-03, SRC-004-FR-04 | Covered
+SRC-005 | Employer Management (key not provided) | SRC-005-FR-01, SRC-005-FR-02, SRC-005-FR-03 | Covered
+SRC-006 | Member Management (key not provided) | SRC-006-FR-01, SRC-006-FR-02, SRC-006-FR-03, SRC-006-FR-04, SRC-006-FR-05 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-004: What fields must be captured for an authorized contact (name, role, contact details, authorization level)? Not specified in source — requires confirmation.
+- SRC-004: What fields must be captured for the change history (who made the change, timestamp, before/after values)? Not specified in source — requires confirmation.
+- SRC-004: What constitutes a "contact retirement," and how is "no longer active" enforced downstream? Not specified in source — requires confirmation.
+- SRC-004: Should retired contacts be retained for audit, and for how long?
+- SRC-005: Does an employer support multiple concurrent active scheme associations? Not specified in source — requires confirmation.
+- SRC-005: How are overlapping or conflicting effective dates handled across multiple scheme associations? Not specified in source — requires confirmation.
+- SRC-005: What fields must be captured for an association (employer ID, scheme ID, effective date, end date, association type)? Not specified in source — requires confirmation.
+- SRC-005: Is there a retention policy for historical associations?
+- SRC-006: What are the scheme eligibility rules, and where are they defined? Not specified in source — requires confirmation.
+- SRC-006: What fields constitute "member identity" and "required membership attributes"? Not specified in source — requires confirmation.
+- SRC-006: What is the difference between "rejected" and "held for review," and who performs the review? Not specified in source — requires confirmation.
+- SRC-006: What happens after a member is confirmed as eligible (e.g., account creation, notification)? Not specified in source — requires confirmation.
+- SRC-006: Should ineligible enrollments be permanently rejected or resubmittable after correction?
+- All stories: Epic keys are not provided in the source records; please confirm the correct epic keys for SRC-004, SRC-005, and SRC-006.

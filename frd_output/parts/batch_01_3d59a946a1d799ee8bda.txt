@@ -1,0 +1,111 @@
+A. BATCH FUNCTIONAL SCOPE
+
+This batch covers the Scheme Management epic. It defines the capability to register and configure pension schemes, define and store scheme eligibility rules, and track scheme status and effective dates for historical and period-based processing.
+
+Story keys in this batch: SRC-001, SRC-002, SRC-003.
+Parent epic key: Not specified in source (epicKey is empty in all records). Epic summary: Scheme Management.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Functional Capability: Scheme Registration and Configuration (SRC-001)
+
+Jira Story Key: SRC-001
+Parent Epic Key: Not specified in source
+Story Summary: Register and configure pension schemes
+Supported actor(s): Authorized pension administrator
+Trigger/precondition: An authorized pension administrator initiates scheme creation.
+Functional requirements:
+SRC-001-FR-01: The system shall allow an authorized pension administrator to create a new scheme record with identifiable details and a configuration record.
+SRC-001-FR-02: The system shall prevent creation of a scheme record when no configuration exists.
+SRC-001-FR-03: The system shall ensure that each scheme record has a unique identity and shall prevent the creation of duplicate scheme records.
+Inputs and outputs: Inputs — scheme details and configuration (specific fields not specified in source). Outputs — scheme record and configuration record.
+Explicit business rules and validations: A scheme record cannot be created without configuration. Scheme identity must be unique.
+Exceptions/alternate paths: Not specified in source.
+Acceptance criteria:
+Given an authorized pension administrator, when a new scheme is created, then the scheme has identifiable details and a configuration record exists.
+Given a scheme registration attempt, when no configuration exists, then the scheme record cannot be created without configuration.
+Given a scheme record, when it is queried, then its identity is unique and no duplicate scheme record exists.
+Missing details or ambiguities: The specific scheme details and configuration fields are not specified in source — requires confirmation. The mechanism for enforcing uniqueness (e.g., unique identifier field) is not specified — requires confirmation.
+
+Functional Capability: Scheme Eligibility Rules (SRC-002)
+
+Jira Story Key: SRC-002
+Parent Epic Key: Not specified in source
+Story Summary: Define and store scheme eligibility rules
+Supported actor(s): Pension administrator
+Trigger/precondition: A pension administrator stores or changes eligibility rules; an enrollment is validated.
+Functional requirements:
+SRC-002-FR-01: The system shall store scheme eligibility rules and make them available for enrollment validation.
+SRC-002-FR-02: The system shall reference stored eligibility rules when validating an enrollment.
+SRC-002-FR-03: The system shall record and make traceable any change to eligibility rules when it is saved.
+SRC-002-FR-04: The system shall not silently approve an enrollment attempt when eligibility rules are unavailable.
+Inputs and outputs: Inputs — eligibility rules (specific rule structure not specified in source). Outputs — stored rules, validation reference, change record.
+Explicit business rules and validations: An enrollment attempt must not be silently approved when eligibility rules are unavailable.
+Exceptions/alternate paths: Not specified in source.
+Acceptance criteria:
+Given eligibility rules are stored, when an enrollment is validated, then the validation references the stored rules.
+Given a change to eligibility rules, when it is saved, then the change is recorded and traceable.
+Given an enrollment attempt, when eligibility rules are unavailable, then the attempt is not silently approved.
+Missing details or ambiguities: The structure and format of eligibility rules are not specified in source — requires confirmation. The definition of "silently approved" and the required behavior when rules are unavailable (e.g., rejection, error, or pending state) is not specified — requires confirmation.
+
+Functional Capability: Scheme Status and Effective Dating (SRC-003)
+
+Jira Story Key: SRC-003
+Parent Epic Key: Not specified in source
+Story Summary: Track scheme status and effective dates
+Supported actor(s): Pension administrator
+Trigger/precondition: A scheme status or rule change is recorded with an effective date; a downstream process runs against a scheme; a historical query is requested.
+Functional requirements:
+SRC-003-FR-01: The system shall record a scheme status change together with an effective date and make the status and effective date visible on the scheme record.
+SRC-003-FR-02: The system shall apply the scheme status and rules that are effective for the period against which a downstream process runs.
+SRC-003-FR-03: The system shall retrieve the scheme state as of a requested past effective date for historical queries.
+Inputs and outputs: Inputs — status change with effective date; downstream process run; historical query with past effective date. Outputs — updated scheme record; period-applicable status and rules; historical scheme state.
+Explicit business rules and validations: Downstream processing must use the status and rules effective for the relevant period.
+Exceptions/alternate paths: Not specified in source.
+Acceptance criteria:
+Given a scheme status change, when it is recorded with an effective date, then the status and effective date are visible on the scheme record.
+Given a downstream process, when it runs against a scheme, then it applies the status and rules effective for that period.
+Given a historical query, when it requests a past effective date, then the scheme state at that date is retrievable.
+Missing details or ambiguities: The mechanism for effective dating (e.g., start/end date pairs, versioning) is not specified in source — requires confirmation. The definition of "period" for downstream processing is not specified — requires confirmation.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+
+No complete end-to-end workflow is specified in this batch. The batch supports the following linked steps:
+1. Register and configure a scheme (SRC-001).
+2. Define and store eligibility rules for the scheme (SRC-002).
+3. Record scheme status and effective dates for status and rule changes (SRC-003).
+4. Downstream processes apply period-effective status and rules (SRC-003).
+5. Historical queries retrieve scheme state at a past effective date (SRC-003).
+
+D. RULES, VALIDATIONS, AND DATA
+
+Explicit rules and validations:
+- SRC-001: A scheme record cannot be created without configuration. Scheme identity must be unique.
+- SRC-002: An enrollment attempt must not be silently approved when eligibility rules are unavailable.
+- SRC-003: Downstream processing must apply the status and rules effective for the relevant period.
+
+Business data objects:
+- Scheme record with identifiable details (SRC-001).
+- Scheme configuration record (SRC-001).
+- Eligibility rules (SRC-002).
+- Change record for eligibility rules (SRC-002).
+- Scheme status and effective date (SRC-003).
+- Historical scheme state (SRC-003).
+
+No field constraints, data relationships, or data types are specified in source — requires confirmation.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+
+SRC-001 | Not specified in source | SRC-001-FR-01, SRC-001-FR-02, SRC-001-FR-03 | Covered
+SRC-002 | Not specified in source | SRC-002-FR-01, SRC-002-FR-02, SRC-002-FR-03, SRC-002-FR-04 | Covered
+SRC-003 | Not specified in source | SRC-003-FR-01, SRC-003-FR-02, SRC-003-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+
+- SRC-001: What specific scheme details and configuration fields are required? Not specified in source — requires confirmation.
+- SRC-001: What mechanism enforces scheme identity uniqueness (e.g., unique identifier field)? Not specified in source — requires confirmation.
+- SRC-002: What is the structure and format of eligibility rules? Not specified in source — requires confirmation.
+- SRC-002: What is the required behavior when eligibility rules are unavailable (e.g., rejection, error, or pending state)? Not specified in source — requires confirmation.
+- SRC-003: What is the effective dating mechanism (e.g., start/end date pairs, versioning)? Not specified in source — requires confirmation.
+- SRC-003: How is the "period" defined for downstream processing? Not specified in source — requires confirmation.
+- All stories: Parent epic key is empty in source records. Confirm the correct epic key for SRC-001, SRC-002, and SRC-003.

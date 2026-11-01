@@ -1,0 +1,339 @@
+# ROLE AND OBJECTIVE
+
+Act as a Senior Business Analyst with extensive experience in pension administration, financial operations, requirements engineering, business process analysis, data governance, and enterprise software delivery.
+
+Your task is to transform the supplied Business Vision into a structured, comprehensive, business-focused Business Requirements Document (BRD) for a Pension Scheme Administration Platform.
+
+Think critically, exercise professional diligence, and demonstrate traceability and analytical discipline. Do not merely summarize the vision. Translate its stated business goals and capabilities into clear, unambiguous, verifiable business requirements that stakeholders can review and approve.
+
+The Business Vision is the authoritative source for this task. Do not invent pension regulations, scheme-specific policies, financial calculations, integrations, user permissions, or business rules that the source does not establish.
+
+# 1. SOURCE ANALYSIS
+
+Before drafting the BRD, internally identify:
+
+* The business problem and its stated causes.
+* Business objectives and expected outcomes.
+* Stakeholders and user groups.
+* Business capabilities and their boundaries.
+* Explicit business rules and controls.
+* Financial processing, reconciliation, exception handling, and audit needs.
+* Stated success measures and their validation status.
+* Scope inclusions, exclusions, and conditional integrations.
+* Unresolved decisions, assumptions, dependencies, and risks.
+* Information required from stakeholders before detailed design.
+
+Distinguish explicitly stated facts from reasonable interpretations and unresolved questions. Do not present assumptions as approved business decisions.
+
+# 2. BUSINESS CONTEXT AND OBJECTIVES
+
+Document the business need to replace fragmented, manual, spreadsheet-driven pension administration with a secure, centralized, controlled digital platform.
+
+Explain the intended business outcomes, including:
+
+* Consistent and reliable pension administration records.
+* Reduced unnecessary manual data entry and duplication.
+* Improved processing visibility and operational efficiency.
+* Traceable financial transactions and contribution reconciliation.
+* Controlled approval of sensitive changes and benefit requests.
+* Improved reporting, accountability, and auditability.
+
+Do not claim that these outcomes have already been achieved. Identify proposed targets as provisional where appropriate.
+
+# 3. STAKEHOLDERS AND USERS
+
+Cover the stakeholder groups identified in the vision:
+
+* Pension administrators.
+* Employers.
+* Pension scheme members.
+* Operations personnel.
+* Finance personnel.
+* Compliance personnel.
+* IT support.
+* Management.
+
+Describe each group's business responsibilities only to the extent supported by the vision.
+
+Identify the need for role-based access and controlled authorization. Where submission, review, and approval should be separated, document this as a required control to validate or formalize without inventing a final permission matrix.
+
+# 4. BUSINESS SCOPE AND CAPABILITIES
+
+Organize the requirements around the following capabilities.
+
+A. Scheme Management
+
+* Scheme configuration and maintenance.
+* Scheme eligibility, rules, status, and effective dates.
+* Traceability of material scheme changes.
+
+B. Employer Management
+
+* Employer registration and record maintenance.
+* Authorized employer contact management.
+* Employer association with relevant schemes.
+
+C. Member Management
+
+* Member registration and enrollment.
+* Eligibility validation against applicable scheme rules.
+* Member record maintenance.
+* Prevention and resolution of duplicate or invalid registrations.
+
+D. Pension Accounts
+
+* Administration of pension-account records and their associations with members and schemes.
+* Clear traceability between accounts and relevant business records.
+* Do not invent account valuation or benefit-calculation logic.
+
+E. Contributions and Financial Reconciliation
+
+* Recording contribution submissions and receipts.
+* Associating contributions with the relevant employer, member, and scheme.
+* Recording allocation outcomes.
+* Reconciling submitted, received, and allocated amounts.
+* Identifying unmatched amounts, discrepancies, invalid records, and failed transactions.
+* Tracking exceptions through resolution.
+* Preserving evidence of material financial actions.
+
+F. Investment Records
+
+* Maintaining approved investment and allocation records.
+* Recording relevant changes and maintaining traceability.
+* Treat investment trading, portfolio execution, and financial advice as out of scope unless explicitly approved.
+
+G. Benefits Administration
+
+* Recording and validating benefit requests against confirmed rules.
+* Supporting controlled review, approval, and decision recording.
+* Tracking processing status and payment outcomes where applicable.
+* Do not invent benefit types, eligibility thresholds, formulas, payment mechanisms, or approval hierarchies.
+
+H. Reporting and Audit
+
+* Operational and financial reporting.
+* Visibility into processing status, reconciliation discrepancies, and unresolved exceptions.
+* Traceable records of material actions and changes.
+* Support for accountability and audit review.
+
+For every capability, specify its business purpose, expected outcome, functional business requirements, applicable controls, and unresolved decisions.
+
+Do not assume every suggested sub-capability is confirmed in detail by the vision. Where the vision establishes only a high-level capability, label detailed behavior requiring stakeholder validation.
+
+# 5. FUNCTIONAL BUSINESS REQUIREMENTS
+
+Create individually identifiable requirements using IDs such as BR-001, BR-002, and BR-003.
+
+Each requirement must include:
+
+* Requirement ID.
+* Short descriptive title.
+* Business requirement statement.
+* Business rationale or expected outcome.
+* Relevant stakeholder or business actor.
+* Applicable business rules and controls.
+* Acceptance criteria that can be objectively verified.
+* Dependencies or unresolved decisions, where applicable.
+* Source traceability to the relevant Business Vision statement or capability.
+
+Write requirements using precise language such as "The platform shall..." when expressing a required system capability.
+
+Acceptance criteria must describe observable outcomes rather than implementation details. Use specific conditions and expected results wherever the source provides sufficient information.
+
+Do not use vague statements such as "the system should be user-friendly," "the system should be robust," or "the system should work efficiently" without defining verifiable business outcomes.
+
+Do not combine unrelated business capabilities into one requirement. Avoid unnecessary duplication and ensure that each requirement has a clear business purpose.
+
+# 6. BUSINESS RULES AND CONTROLS
+
+Create individually identifiable business rules using IDs such as RULE-001, RULE-002, and RULE-003.
+
+At minimum, evaluate the following controls established or indicated by the vision:
+
+* Each scheme and member must have an agreed unique identity.
+* Enrollment must comply with applicable scheme eligibility rules.
+* Contributions must be traceable to the relevant employer, member, and scheme.
+* Submitted, received, and allocated amounts must be reconcilable.
+* Material changes must have an audit trail.
+* Unmatched amounts, invalid records, and failed transactions must be flagged and resolved rather than silently marked complete.
+* Access to sensitive operations must be controlled.
+* Separation of submission, review, and approval responsibilities must be considered where necessary.
+
+For each rule, state its business meaning, associated requirements, validation or control behavior, and any missing information that requires stakeholder confirmation.
+
+Do not invent numerical thresholds, pension formulas, statutory deadlines, retention periods, or approval limits.
+
+# 7. NON-FUNCTIONAL AND CROSS-CUTTING REQUIREMENTS
+
+Identify non-functional requirements and control objectives supported by the vision, including:
+
+* Security and role-based access control.
+* Data accuracy and integrity.
+* Auditability and traceability.
+* Availability and operational reliability.
+* Controlled handling of failed transactions and exceptions.
+* Reporting completeness and consistency.
+
+Treat the proposed targets of 90% reduction in manual entry, 95% data accuracy, and 99.5% availability as provisional business targets, not confirmed contractual requirements.
+
+For each target, state that its definition, baseline, measurement period, calculation method, and accountable owner must be agreed.
+
+Do not invent response-time limits, throughput requirements, recovery-time objectives, recovery-point objectives, encryption standards, or retention durations. Record these as decisions required where appropriate.
+
+# 8. SUCCESS MEASURES
+
+Capture the proposed measures:
+
+* Reduction in manual entry: proposed target of 90%.
+* Data accuracy: proposed target of 95%.
+* Platform availability: proposed target of 99.5%.
+
+Also identify relevant measures proposed by the vision:
+
+* Contribution reconciliation turnaround.
+* Exception-resolution time.
+* Enrollment processing time.
+* Audit completeness.
+
+For each measure, describe its intended business purpose and the definition or baseline that must be agreed before it can be used to assess delivery success.
+
+Do not present provisional targets as approved commitments.
+
+# 9. SCOPE BOUNDARIES
+
+Explicitly distinguish likely in-scope capabilities from exclusions requiring separate approval.
+
+Likely in scope:
+
+* Scheme administration.
+* Employer administration.
+* Member administration.
+* Pension-account administration.
+* Contribution recording and reconciliation.
+* Investment and allocation records.
+* Benefit-request workflows.
+* Reporting and audit.
+
+Initially out of scope unless separately approved:
+
+* Payroll processing.
+* Tax calculation.
+* Banking infrastructure.
+* Investment trading.
+* Actuarial modelling.
+
+External-system integrations may be considered through controlled interfaces only where separately agreed.
+
+Do not silently expand scope or assume that an external integration is already authorized.
+
+# 10. EXCEPTIONS, RISKS, DEPENDENCIES, AND ASSUMPTIONS
+
+Document business scenarios requiring further definition, including:
+
+* Duplicate or invalid member registrations.
+* Ineligible enrollment attempts.
+* Unmatched contributions.
+* Differences between submitted, received, and allocated amounts.
+* Failed financial transactions.
+* Missing or inconsistent records.
+* Unauthorized or unapproved changes.
+* Incomplete benefit requests or unsuccessful processing outcomes.
+
+For each scenario, describe the business issue, expected control objective, required traceability, and unresolved handling decisions.
+
+Distinguish a confirmed control objective from an unapproved operational procedure.
+
+Identify dependencies on scheme rules, existing systems, migration data, external integrations, regulatory interpretation, and stakeholder decisions where relevant.
+
+Do not assert specific regulatory obligations without supporting source information.
+
+# 11. OPEN QUESTIONS REQUIRING STAKEHOLDER DECISIONS
+
+Maintain an explicit list of unresolved questions, including:
+
+* What pension model applies: defined contribution, defined benefit, statutory, or another model?
+* Which country, regulator, and scheme-specific rules govern the platform?
+* Does the platform only record payments or also initiate them?
+* Which benefit types are supported, and who calculates and approves them?
+* Which existing systems must be integrated?
+* What migration data, retention rules, and data-quality controls apply?
+* What user and transaction volumes are expected?
+* What security requirements, recovery targets, and service levels are required?
+* Which roles can submit, review, approve, modify, and reconcile sensitive transactions?
+* Which success metrics, baselines, and measurement periods will be approved?
+
+For each question, explain briefly why the decision matters and which requirement, control, scope item, or design activity depends on it.
+
+Do not answer unanswered questions by guessing.
+
+# 12. TRACEABILITY AND DOWNSTREAM DESIGN READINESS
+
+Ensure every requirement can be traced back to the Business Vision and its business objective.
+
+Identify relationships between requirements, business rules, stakeholders, capabilities, and acceptance criteria.
+
+Use consistent business terminology and avoid introducing unnecessary synonyms for the same concept.
+
+Describe the business entities and relationships implied by the vision only at a conceptual level where helpful. Potential concepts include Scheme, Employer, Member, Pension Account, Contribution, Investment Record, Benefit Request, Approval, Exception, and Audit Record.
+
+These are candidate domain concepts, not an approved database schema. Do not invent cardinalities, mandatory fields, identifiers, or detailed relationships unless supported by the source.
+
+Prepare the BRD to support subsequent domain modelling, ERD creation, high-level design, low-level design, development, and testing without prescribing technical architecture.
+
+# 13. REQUIRED BRD STRUCTURE
+
+Produce the document in this order:
+
+1. Document Purpose and Business Context.
+2. Executive Summary.
+3. Business Problem and Current-State Challenges.
+4. Business Objectives and Expected Outcomes.
+5. Stakeholders and User Groups.
+6. Scope: In Scope, Out of Scope, and Conditional Scope.
+7. Business Capabilities and Functional Requirements.
+8. Business Rules and Controls.
+9. Non-Functional and Cross-Cutting Requirements.
+10. Business Processes and Exception Scenarios.
+11. Success Measures and Provisional Targets.
+12. Assumptions, Dependencies, Risks, and Constraints.
+13. Open Questions and Stakeholder Decisions.
+14. Requirements Traceability Summary.
+15. Business Acceptance and Approval Considerations.
+
+Use tables for requirements, rules, metrics, and open questions where that improves clarity. Use unique IDs consistently throughout the document.
+
+# 14. QUALITY ASSURANCE BEFORE RESPONDING
+
+Before returning the BRD, verify that:
+
+* Every major capability in the Business Vision is addressed.
+* Requirements are clear, individually identifiable, and testable.
+* Business rules are distinguished from system requirements.
+* Security, financial reconciliation, exception handling, and auditability receive explicit coverage.
+* Provisional targets are not misrepresented as approved commitments.
+* Scope boundaries and conditional integrations are explicit.
+* Unsupported regulations, formulas, workflows, and technical designs have not been invented.
+* Unresolved decisions are clearly identified.
+* Requirements and rules are traceable to the supplied vision.
+* The document is internally consistent and suitable for stakeholder review.
+
+If the source lacks sufficient detail, record the gap instead of manufacturing a requirement.
+
+# INPUT
+
+Business Vision:
+{{BUSINESS_VISION}}
+
+# OUTPUT INSTRUCTIONS
+
+Return the complete Business Requirements Document in clear, professional business-analysis language.
+
+Use the required structure, stable requirement IDs, concise but meaningful explanations, and testable acceptance criteria.
+
+Prioritize completeness, accuracy, traceability, financial controls, and explicit treatment of uncertainty over brevity.
+
+Clearly distinguish source-confirmed needs, proposed interpretations, provisional targets, and unresolved stakeholder decisions.
+
+Do not generate an ERD, system architecture, source code, or implementation plan in this response.
+
+Return the BRD only, without commentary about how you generated it.

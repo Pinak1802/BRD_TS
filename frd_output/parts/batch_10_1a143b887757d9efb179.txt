@@ -1,0 +1,82 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three capabilities within the Benefits Administration and Reporting and Audit epics: recording and tracing benefit payment outcomes (SRC-028), and generating operational and financial reports (SRC-029, SRC-030). Supported story keys: SRC-028, SRC-029, SRC-030.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Benefit Payment Outcome Recording and Traceability (Epic: Benefits Administration)
+
+Jira Story Key: SRC-028
+Parent Epic Key: Benefits Administration
+Story Summary: Record benefit payment outcomes
+Supported actor(s): pension administrator, finance personnel
+Trigger/precondition: A benefit decision exists.
+Functional requirements:
+SRC-028-FR-01: The system shall record a payment outcome for a benefit request and link it to the associated benefit decision.
+SRC-028-FR-02: The system shall display the associated benefit request and benefit decision when a payment outcome is queried.
+SRC-028-FR-03: The system shall record the actor and timestamp of any update made to a payment outcome.
+Inputs and outputs: Input — benefit decision reference and payment outcome details. Output — recorded payment outcome with decision linkage and audit record.
+Business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a benefit decision, when a payment outcome is recorded, then it is traced to the benefit decision.
+Given a payment outcome, when it is queried, then the associated benefit request and decision are displayed.
+Given a payment outcome, when it is updated, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: The specific fields required to record a payment outcome (e.g., amount, currency, payment method, payment date, status) are not specified. The mechanism for linking to the benefit decision is not specified. The retention and display rules for the audit record are not specified.
+
+Capability 2: Operational Reporting (Epic: Reporting and Audit)
+
+Jira Story Key: SRC-029
+Parent Epic Key: Reporting and Audit
+Story Summary: Generate operational reports
+Supported actor(s): pension administrator, operations personnel, management
+Trigger/precondition: An operational report request is submitted.
+Functional requirements:
+SRC-029-FR-01: The system shall generate an operational report covering key pension administration activities when requested.
+SRC-029-FR-02: The system shall display the content and format of a generated operational report when queried.
+SRC-029-FR-03: The system shall produce consistent results when an operational report is regenerated for the same period.
+Inputs and outputs: Input — operational report request. Output — operational report with defined content and format.
+Business rules and validations: The definition of "key pension administration activities" is not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an operational report request, when it is generated, then it covers key pension administration activities.
+Given an operational report, when it is queried, then its content and format are displayed.
+Given an operational report, when it is regenerated for the same period, then the results are consistent.
+Missing details or ambiguities: The report period selection mechanism, available report types, output formats, and the specific activities included are not specified.
+
+Capability 3: Financial Reporting (Epic: Reporting and Audit)
+
+Jira Story Key: SRC-030
+Parent Epic Key: Reporting and Audit
+Story Summary: Generate financial reports
+Supported actor(s): finance personnel, management
+Trigger/precondition: A financial report request is submitted.
+Functional requirements:
+SRC-030-FR-01: The system shall generate a financial report reflecting submitted, received, allocated, and reconciled contribution amounts for the requested period.
+SRC-030-FR-02: The system shall display the period and content of a generated financial report when queried.
+SRC-030-FR-03: The system shall produce consistent results when a financial report is regenerated for the same period.
+Inputs and outputs: Input — financial report request including period. Output — financial report with contribution status amounts.
+Business rules and validations: The calculation definitions for submitted, received, allocated, and reconciled contribution amounts are not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a financial report, when it is generated, then it reflects submitted, received, allocated, and reconciled contribution amounts.
+Given a financial report, when it is queried, then its period and content are displayed.
+Given a financial report, when it is regenerated for the same period, then the results are consistent.
+Missing details or ambiguities: The report period selection mechanism, available report types, output formats, and the exact definitions of each contribution status are not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. SRC-028 implies a partial flow: benefit decision exists → payment outcome recorded → payment outcome linked to decision → payment outcome queryable with request and decision displayed → payment outcome updates audited with actor and timestamp. SRC-029 and SRC-030 imply a reporting flow: report request submitted → report generated → report queryable with content, format, and period displayed → report regenerated for same period yields consistent results.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules and validations: None specified beyond the traceability and consistency requirements in the acceptance criteria.
+Business data objects referenced: benefit decision, benefit request, payment outcome, operational report, financial report, contribution amounts (submitted, received, allocated, reconciled). Field-level constraints and data relationships are not specified in source — requires confirmation.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-028 | Benefits Administration | SRC-028-FR-01, SRC-028-FR-02, SRC-028-FR-03 | covered
+SRC-029 | Reporting and Audit | SRC-029-FR-01, SRC-029-FR-02, SRC-029-FR-03 | covered
+SRC-030 | Reporting and Audit | SRC-030-FR-01, SRC-030-FR-02, SRC-030-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-028: What specific fields are required to record a payment outcome (amount, currency, payment method, payment date, status, etc.)? What is the mechanism for linking a payment outcome to its benefit decision? What audit retention and display rules apply to payment outcome updates?
+SRC-029: What are the "key pension administration activities" that must be covered? What report types, periods, and output formats are supported?
+SRC-030: What are the exact calculation definitions for submitted, received, allocated, and reconciled contribution amounts? What report types, periods, and output formats are supported?
+All three stories lack explicit business rules and validation rules beyond the acceptance criteria.

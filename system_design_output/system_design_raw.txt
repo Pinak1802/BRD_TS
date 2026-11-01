@@ -1,1034 +1,134 @@
 {
   "systemOverview": {
-    "systemName": "Pension Administration System",
-    "purpose": "Manage pension administration tasks, including scheme management, employer management, member management, and financial reconciliation.",
-    "architectureStyle": "Layered Architecture",
-    "architecturalRationale": "The layered architecture style is chosen to separate concerns and improve maintainability.",
-    "description": "The system is designed to manage pension administration tasks, including scheme management, employer management, member management, and financial reconciliation."
+    "systemName": "",
+    "purpose": "",
+    "architectureStyle": "",
+    "architecturalRationale": "",
+    "description": ""
   },
   "actors": [
     {
-      "name": "Pension Administrator",
-      "responsibility": "Manage pension administration tasks, including scheme management, employer management, member management, and financial reconciliation.",
-      "interactions": [
-        "Create and manage scheme records",
-        "Enroll and manage members",
-        "Process contribution submissions and receipts",
-        "Manage financial reconciliation"
-      ]
+      "name": "",
+      "responsibility": "",
+      "interactions": []
     }
   ],
   "architecture": {
     "components": [
       {
-        "name": "API Gateway",
-        "type": "API Gateway",
-        "responsibility": "Handle incoming API requests and route them to the appropriate service",
-        "whyItExists": "To provide a single entry point for API requests and improve security",
+        "name": "",
+        "type": "",
+        "responsibility": "",
+        "whyItExists": "",
         "dependencies": [],
         "ownedData": [],
-        "operations": [
-          "Handle incoming API requests",
-          "Route requests to the appropriate service"
-        ]
-      },
-      {
-        "name": "Authentication Module",
-        "type": "Authentication Module",
-        "responsibility": "Verify user credentials and authenticate requests",
-        "whyItExists": "To ensure only authorized users can access the system",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Verify user credentials",
-          "Authenticate requests"
-        ]
-      },
-      {
-        "name": "Business/Application Services",
-        "type": "Business/Application Services",
-        "responsibility": "Provide business logic and application services",
-        "whyItExists": "To provide the core functionality of the system",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Process contribution submissions and receipts",
-          "Manage financial reconciliation"
-        ]
-      },
-      {
-        "name": "Repository/Data Access Layer",
-        "type": "Repository/Data Access Layer",
-        "responsibility": "Provide data access and storage",
-        "whyItExists": "To provide a layer of abstraction between the application and the data",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Store and retrieve data",
-          "Provide data access and storage"
-        ]
-      },
-      {
-        "name": "Database",
-        "type": "Database",
-        "responsibility": "Store and manage data",
-        "whyItExists": "To provide a persistent storage for data",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Store and retrieve data",
-          "Provide data access and storage"
-        ]
-      },
-      {
-        "name": "Cache",
-        "type": "Cache",
-        "responsibility": "Provide caching functionality",
-        "whyItExists": "To improve performance by reducing the number of database queries",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Cache frequently accessed data",
-          "Provide caching functionality"
-        ]
-      },
-      {
-        "name": "Message Broker",
-        "type": "Message Broker",
-        "responsibility": "Provide message queuing and routing functionality",
-        "whyItExists": "To provide a mechanism for asynchronous communication between components",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Queue and route messages",
-          "Provide message queuing and routing functionality"
-        ]
-      },
-      {
-        "name": "External Integrations",
-        "type": "External Integrations",
-        "responsibility": "Provide integration with external systems",
-        "whyItExists": "To provide a mechanism for integrating with external systems",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Integrate with external systems",
-          "Provide integration with external systems"
-        ]
-      },
-      {
-        "name": "Notification Service",
-        "type": "Notification Service",
-        "responsibility": "Provide notification functionality",
-        "whyItExists": "To provide a mechanism for notifying users of important events",
-        "dependencies": [],
-        "ownedData": [],
-        "operations": [
-          "Send notifications",
-          "Provide notification functionality"
-        ]
+        "operations": []
       }
     ],
-    "communicationPatterns": [
-      "Request-Response",
-      "Pub-Sub"
-    ]
+    "communicationPatterns": []
   },
   "functionalModules": [
     {
-      "name": "Scheme Management",
-      "purpose": "Manage scheme records and provide scheme-related functionality",
-      "jiraEpics": [
-        "SCRUM-69",
-        "SCRUM-70"
-      ],
-      "jiraStories": [
-        "SCRUM-70",
-        "SCRUM-71"
-      ],
-      "responsibilities": [
-        "Create and manage scheme records",
-        "Enforce unique scheme identity"
-      ],
-      "erdEntities": [
-        "scheme",
-        "scheme_change_audit"
-      ]
-    },
-    {
-      "name": "Employer Management",
-      "purpose": "Manage employer records and provide employer-related functionality",
-      "jiraEpics": [
-        "SCRUM-72",
-        "SCRUM-73"
-      ],
-      "jiraStories": [
-        "SCRUM-73",
-        "SCRUM-74"
-      ],
-      "responsibilities": [
-        "Register and maintain employer records",
-        "Manage authorized employer contacts"
-      ],
-      "erdEntities": [
-        "employer",
-        "employer_contact"
-      ]
-    },
-    {
-      "name": "Member Management",
-      "purpose": "Manage member records and provide member-related functionality",
-      "jiraEpics": [
-        "SCRUM-76",
-        "SCRUM-77"
-      ],
-      "jiraStories": [
-        "SCRUM-77",
-        "SCRUM-78"
-      ],
-      "responsibilities": [
-        "Register and enroll members",
-        "Maintain member records with audit"
-      ],
-      "erdEntities": [
-        "member",
-        "member_change_audit"
-      ]
-    },
-    {
-      "name": "Pension Account Administration",
-      "purpose": "Manage pension account records and provide pension account-related functionality",
-      "jiraEpics": [
-        "SCRUM-80",
-        "SCRUM-81"
-      ],
-      "jiraStories": [
-        "SCRUM-81",
-        "SCRUM-82"
-      ],
-      "responsibilities": [
-        "Create and link pension accounts",
-        "Trace pension accounts to related records"
-      ],
-      "erdEntities": [
-        "pension_account",
-        "contribution_submission",
-        "contribution_receipt"
-      ]
-    },
-    {
-      "name": "Contributions and Financial Reconciliation",
-      "purpose": "Process contribution submissions and receipts, and provide financial reconciliation functionality",
-      "jiraEpics": [
-        "SCRUM-84",
-        "SCRUM-85"
-      ],
-      "jiraStories": [
-        "SCRUM-85",
-        "SCRUM-86"
-      ],
-      "responsibilities": [
-        "Record contribution submissions",
-        "Record contribution receipts"
-      ],
-      "erdEntities": [
-        "contribution_submission",
-        "contribution_receipt",
-        "contribution_allocation"
-      ]
-    },
-    {
-      "name": "Investment Records",
-      "purpose": "Manage investment records and provide investment-related functionality",
-      "jiraEpics": [
-        "SCRUM-91",
-        "SCRUM-92"
-      ],
-      "jiraStories": [
-        "SCRUM-92",
-        "SCRUM-93"
-      ],
-      "responsibilities": [
-        "Create and link investment records",
-        "Audit investment record changes"
-      ],
-      "erdEntities": [
-        "investment_record",
-        "investment_change_audit"
-      ]
-    },
-    {
-      "name": "Benefits Administration",
-      "purpose": "Manage benefit requests and provide benefit-related functionality",
-      "jiraEpics": [
-        "SCRUM-95",
-        "SCRUM-96"
-      ],
-      "jiraStories": [
-        "SCRUM-96",
-        "SCRUM-97"
-      ],
-      "responsibilities": [
-        "Record benefit requests",
-        "Validate benefit requests against scheme rules"
-      ],
-      "erdEntities": [
-        "benefit_request",
-        "benefit_approval"
-      ]
+      "name": "",
+      "purpose": "",
+      "jiraEpics": [],
+      "jiraStories": [],
+      "responsibilities": [],
+      "erdEntities": []
     }
   ],
   "apis": [
     {
-      "method": "POST",
-      "endpoint": "/scheme",
-      "purpose": "Create a new scheme record",
-      "module": "Scheme Management",
-      "request": {
-        "identifier": "",
-        "eligibility_rules": "",
-        "status": "",
-        "created_date": "",
-        "created_by": ""
-      },
-      "response": {
-        "scheme_id": "",
-        "identifier": "",
-        "status": "",
-        "eligibility_rules": "",
-        "created_date": "",
-        "created_by": ""
-      },
-      "authentication": "Basic Auth",
-      "authorization": "Role-Based Access Control",
-      "validation": [],
-      "errors": []
-    },
-    {
-      "method": "GET",
-      "endpoint": "/employer",
-      "purpose": "Retrieve an employer record",
-      "module": "Employer Management",
-      "request": {
-        "employer_id": ""
-      },
-      "response": {
-        "employer_id": "",
-        "identity": "",
-        "status": "",
-        "created_date": "",
-        "created_by": ""
-      },
-      "authentication": "Basic Auth",
-      "authorization": "Role-Based Access Control",
-      "validation": [],
-      "errors": []
-    },
-    {
-      "method": "POST",
-      "endpoint": "/member",
-      "purpose": "Create a new member record",
-      "module": "Member Management",
-      "request": {
-        "identity": "",
-        "status": "",
-        "registration_date": "",
-        "rejected_reason": ""
-      },
-      "response": {
-        "member_id": "",
-        "identity": "",
-        "status": "",
-        "registration_date": "",
-        "rejected_reason": ""
-      },
-      "authentication": "Basic Auth",
-      "authorization": "Role-Based Access Control",
-      "validation": [],
-      "errors": []
-    },
-    {
-      "method": "GET",
-      "endpoint": "/pension_account",
-      "purpose": "Retrieve a pension account record",
-      "module": "Pension Account Administration",
-      "request": {
-        "account_id": ""
-      },
-      "response": {
-        "account_id": "",
-        "member_id": "",
-        "scheme_id": "",
-        "status": "",
-        "created_date": ""
-      },
-      "authentication": "Basic Auth",
-      "authorization": "Role-Based Access Control",
+      "method": "",
+      "endpoint": "",
+      "purpose": "",
+      "module": "",
+      "request": "",
+      "response": "",
+      "authentication": "",
+      "authorization": "",
       "validation": [],
       "errors": []
     }
   ],
   "businessFlows": [
     {
-      "name": "Scheme Management Flow",
-      "actor": "Pension Administrator",
-      "steps": [
-        "Create a new scheme record",
-        "Enforce unique scheme identity",
-        "Store scheme record in database"
-      ],
-      "components": [
-        "API Gateway",
-        "Authentication Module",
-        "Business/Application Services"
-      ],
-      "validations": [
-        "Validate scheme record data",
-        "Check for duplicate scheme identifier"
-      ],
-      "databaseOperations": [
-        "Insert scheme record into database"
-      ],
-      "result": "Scheme record created successfully"
-    },
-    {
-      "name": "Employer Management Flow",
-      "actor": "Pension Administrator",
-      "steps": [
-        "Register a new employer",
-        "Store employer record in database",
-        "Send notification to employer"
-      ],
-      "components": [
-        "API Gateway",
-        "Authentication Module",
-        "Business/Application Services"
-      ],
-      "validations": [
-        "Validate employer record data",
-        "Check for duplicate employer identity"
-      ],
-      "databaseOperations": [
-        "Insert employer record into database"
-      ],
-      "result": "Employer record created successfully"
-    },
-    {
-      "name": "Member Management Flow",
-      "actor": "Pension Administrator",
-      "steps": [
-        "Enroll a new member",
-        "Store member record in database",
-        "Send notification to member"
-      ],
-      "components": [
-        "API Gateway",
-        "Authentication Module",
-        "Business/Application Services"
-      ],
-      "validations": [
-        "Validate member record data",
-        "Check for duplicate member identity"
-      ],
-      "databaseOperations": [
-        "Insert member record into database"
-      ],
-      "result": "Member record created successfully"
-    },
-    {
-      "name": "Pension Account Administration Flow",
-      "actor": "Pension Administrator",
-      "steps": [
-        "Create a new pension account",
-        "Store pension account record in database",
-        "Send notification to member"
-      ],
-      "components": [
-        "API Gateway",
-        "Authentication Module",
-        "Business/Application Services"
-      ],
-      "validations": [
-        "Validate pension account record data",
-        "Check for duplicate pension account identifier"
-      ],
-      "databaseOperations": [
-        "Insert pension account record into database"
-      ],
-      "result": "Pension account record created successfully"
-    },
-    {
-      "name": "Contributions and Financial Reconciliation Flow",
-      "actor": "Pension Administrator",
-      "steps": [
-        "Process contribution submission",
-        "Store contribution submission record in database",
-        "Reconcile contribution submission with pension account"
-      ],
-      "components": [
-        "API Gateway",
-        "Authentication Module",
-        "Business/Application Services"
-      ],
-      "validations": [
-        "Validate contribution submission data",
-        "Check for duplicate contribution submission identifier"
-      ],
-      "databaseOperations": [
-        "Insert contribution submission record into database"
-      ],
-      "result": "Contribution submission reconciled successfully"
-    },
-    {
-      "name": "Investment Records Flow",
-      "actor": "Pension Administrator",
-      "steps": [
-        "Create a new investment record",
-        "Store investment record in database",
-        "Send notification to member"
-      ],
-      "components": [
-        "API Gateway",
-        "Authentication Module",
-        "Business/Application Services"
-      ],
-      "validations": [
-        "Validate investment record data",
-        "Check for duplicate investment record identifier"
-      ],
-      "databaseOperations": [
-        "Insert investment record into database"
-      ],
-      "result": "Investment record created successfully"
-    },
-    {
-      "name": "Benefits Administration Flow",
-      "actor": "Pension Administrator",
-      "steps": [
-        "Process benefit request",
-        "Validate benefit request data",
-        "Store benefit request record in database"
-      ],
-      "components": [
-        "API Gateway",
-        "Authentication Module",
-        "Business/Application Services"
-      ],
-      "validations": [
-        "Validate benefit request data",
-        "Check for duplicate benefit request identifier"
-      ],
-      "databaseOperations": [
-        "Insert benefit request record into database"
-      ],
-      "result": "Benefit request processed successfully"
+      "name": "",
+      "actor": "",
+      "steps": [],
+      "components": [],
+      "validations": [],
+      "databaseOperations": [],
+      "result": ""
     }
   ],
   "dataFlows": [
     {
-      "name": "Scheme Management Data Flow",
-      "steps": [
-        "Retrieve scheme record from database",
-        "Validate scheme record data",
-        "Return scheme record to client"
-      ],
-      "dataEntities": [
-        "scheme"
-      ],
-      "consistency": "Strong consistency"
-    },
-    {
-      "name": "Employer Management Data Flow",
-      "steps": [
-        "Retrieve employer record from database",
-        "Validate employer record data",
-        "Return employer record to client"
-      ],
-      "dataEntities": [
-        "employer"
-      ],
-      "consistency": "Strong consistency"
-    },
-    {
-      "name": "Member Management Data Flow",
-      "steps": [
-        "Retrieve member record from database",
-        "Validate member record data",
-        "Return member record to client"
-      ],
-      "dataEntities": [
-        "member"
-      ],
-      "consistency": "Strong consistency"
-    },
-    {
-      "name": "Pension Account Administration Data Flow",
-      "steps": [
-        "Retrieve pension account record from database",
-        "Validate pension account record data",
-        "Return pension account record to client"
-      ],
-      "dataEntities": [
-        "pension_account"
-      ],
-      "consistency": "Strong consistency"
-    },
-    {
-      "name": "Contributions and Financial Reconciliation Data Flow",
-      "steps": [
-        "Retrieve contribution submission record from database",
-        "Validate contribution submission data",
-        "Return contribution submission record to client"
-      ],
-      "dataEntities": [
-        "contribution_submission",
-        "contribution_receipt"
-      ],
-      "consistency": "Strong consistency"
-    },
-    {
-      "name": "Investment Records Data Flow",
-      "steps": [
-        "Retrieve investment record from database",
-        "Validate investment record data",
-        "Return investment record to client"
-      ],
-      "dataEntities": [
-        "investment_record"
-      ],
-      "consistency": "Strong consistency"
-    },
-    {
-      "name": "Benefits Administration Data Flow",
-      "steps": [
-        "Retrieve benefit request record from database",
-        "Validate benefit request data",
-        "Return benefit request record to client"
-      ],
-      "dataEntities": [
-        "benefit_request",
-        "benefit_approval"
-      ],
-      "consistency": "Strong consistency"
+      "name": "",
+      "steps": [],
+      "dataEntities": [],
+      "consistency": ""
     }
   ],
   "databaseDesign": {
     "entities": [
       {
-        "name": "scheme",
-        "purpose": "Store scheme records",
-        "keyAttributes": [
-          "scheme_id"
-        ],
-        "owningModule": "Scheme Management"
-      },
-      {
-        "name": "employer",
-        "purpose": "Store employer records",
-        "keyAttributes": [
-          "employer_id"
-        ],
-        "owningModule": "Employer Management"
-      },
-      {
-        "name": "member",
-        "purpose": "Store member records",
-        "keyAttributes": [
-          "member_id"
-        ],
-        "owningModule": "Member Management"
-      },
-      {
-        "name": "pension_account",
-        "purpose": "Store pension account records",
-        "keyAttributes": [
-          "account_id"
-        ],
-        "owningModule": "Pension Account Administration"
-      },
-      {
-        "name": "contribution_submission",
-        "purpose": "Store contribution submission records",
-        "keyAttributes": [
-          "submission_id"
-        ],
-        "owningModule": "Contributions and Financial Reconciliation"
-      },
-      {
-        "name": "contribution_receipt",
-        "purpose": "Store contribution receipt records",
-        "keyAttributes": [
-          "receipt_id"
-        ],
-        "owningModule": "Contributions and Financial Reconciliation"
-      },
-      {
-        "name": "contribution_allocation",
-        "purpose": "Store contribution allocation records",
-        "keyAttributes": [
-          "allocation_id"
-        ],
-        "owningModule": "Contributions and Financial Reconciliation"
-      },
-      {
-        "name": "financial_exception",
-        "purpose": "Store financial exception records",
-        "keyAttributes": [
-          "exception_id"
-        ],
-        "owningModule": "Contributions and Financial Reconciliation"
-      },
-      {
-        "name": "benefit_request",
-        "purpose": "Store benefit request records",
-        "keyAttributes": [
-          "request_id"
-        ],
-        "owningModule": "Benefits Administration"
-      },
-      {
-        "name": "benefit_approval",
-        "purpose": "Store benefit approval records",
-        "keyAttributes": [
-          "approval_id"
-        ],
-        "owningModule": "Benefits Administration"
-      },
-      {
-        "name": "investment_record",
-        "purpose": "Store investment record records",
-        "keyAttributes": [
-          "investment_id"
-        ],
-        "owningModule": "Investment Records"
+        "name": "",
+        "purpose": "",
+        "keyAttributes": [],
+        "owningModule": ""
       }
     ],
-    "relationships": [
-      {
-        "from": "scheme",
-        "to": "scheme_change_audit",
-        "type": "one-to-many"
-      },
-      {
-        "from": "employer",
-        "to": "employer_contact",
-        "type": "one-to-many"
-      },
-      {
-        "from": "employer",
-        "to": "employer_scheme_association",
-        "type": "one-to-many"
-      },
-      {
-        "from": "employer",
-        "to": "contribution_submission",
-        "type": "one-to-many"
-      },
-      {
-        "from": "employer",
-        "to": "contribution_receipt",
-        "type": "one-to-many"
-      },
-      {
-        "from": "scheme",
-        "to": "employer_scheme_association",
-        "type": "one-to-many"
-      },
-      {
-        "from": "scheme",
-        "to": "member",
-        "type": "one-to-many"
-      },
-      {
-        "from": "scheme",
-        "to": "pension_account",
-        "type": "one-to-many"
-      },
-      {
-        "from": "member",
-        "to": "member_change_audit",
-        "type": "one-to-many"
-      },
-      {
-        "from": "member",
-        "to": "pension_account",
-        "type": "one-to-many"
-      },
-      {
-        "from": "member",
-        "to": "benefit_request",
-        "type": "one-to-many"
-      },
-      {
-        "from": "employer",
-        "to": "contribution_allocation",
-        "type": "one-to-many"
-      },
-      {
-        "from": "member",
-        "to": "contribution_allocation",
-        "type": "one-to-many"
-      },
-      {
-        "from": "scheme",
-        "to": "contribution_allocation",
-        "type": "one-to-many"
-      },
-      {
-        "from": "contribution_submission",
-        "to": "contribution_receipt",
-        "type": "one-to-many"
-      },
-      {
-        "from": "contribution_receipt",
-        "to": "contribution_allocation",
-        "type": "one-to-many"
-      },
-      {
-        "from": "contribution_submission",
-        "to": "contribution_allocation",
-        "type": "one-to-many"
-      },
-      {
-        "from": "pension_account",
-        "to": "contribution_allocation",
-        "type": "one-to-many"
-      },
-      {
-        "from": "financial_exception",
-        "to": "contribution_receipt",
-        "type": "many-to-one"
-      },
-      {
-        "from": "financial_exception",
-        "to": "contribution_submission",
-        "type": "many-to-one"
-      },
-      {
-        "from": "financial_exception",
-        "to": "contribution_allocation",
-        "type": "many-to-one"
-      },
-      {
-        "from": "financial_exception",
-        "to": "benefit_request",
-        "type": "many-to-one"
-      },
-      {
-        "from": "financial_exception",
-        "to": "benefit_approval",
-        "type": "many-to-one"
-      },
-      {
-        "from": "pension_account",
-        "to": "investment_record",
-        "type": "one-to-many"
-      },
-      {
-        "from": "benefit_request",
-        "to": "benefit_approval",
-        "type": "one-to-many"
-      },
-      {
-        "from": "benefit_request",
-        "to": "benefit_payment",
-        "type": "one-to-many"
-      },
-      {
-        "from": "role",
-        "to": "user",
-        "type": "one-to-many"
-      },
-      {
-        "from": "user",
-        "to": "audit_log",
-        "type": "one-to-many"
-      }
-    ],
+    "relationships": [],
     "transactions": [],
     "integrityConstraints": [],
     "indexes": []
   },
   "security": {
-    "authentication": "Basic Auth",
-    "authorization": "Role-Based Access Control",
-    "roles": [
-      "Administrator",
-      "Pension Administrator"
-    ],
-    "credentialProtection": "Password Hashing",
-    "tokenManagement": "JSON Web Tokens",
-    "apiSecurity": [
-      "API Gateway"
-    ],
-    "dataProtection": [
-      "Data Encryption"
-    ]
+    "authentication": "",
+    "authorization": "",
+    "roles": [],
+    "credentialProtection": "",
+    "tokenManagement": "",
+    "apiSecurity": [],
+    "dataProtection": []
   },
   "errorHandling": [
     {
-      "failure": "Invalid credentials",
-      "detection": "Authentication failure",
-      "response": "Unauthorized",
-      "recovery": "Redirect to login page"
-    },
-    {
-      "failure": "Resource not found",
-      "detection": "Database query failure",
-      "response": "NotFound",
-      "recovery": "Return error message"
-    },
-    {
-      "failure": "Validation failure",
-      "detection": "Validation error",
-      "response": "BadRequest",
-      "recovery": "Return error message"
+      "failure": "",
+      "detection": "",
+      "response": "",
+      "recovery": ""
     }
   ],
   "nonFunctionalArchitecture": {
-    "performance": [
-      "Optimize database queries",
-      "Use caching"
-    ],
-    "scalability": [
-      "Use load balancing",
-      "Implement horizontal scaling"
-    ],
-    "availability": [
-      "Implement high availability",
-      "Use redundancy"
-    ],
-    "reliability": [
-      "Implement failover",
-      "Use redundancy"
-    ],
-    "maintainability": [
-      "Use modular design",
-      "Implement logging and monitoring"
-    ],
-    "observability": [
-      "Implement logging and monitoring",
-      "Use dashboards"
-    ]
+    "performance": [],
+    "scalability": [],
+    "availability": [],
+    "reliability": [],
+    "maintainability": [],
+    "observability": []
   },
   "deploymentArchitecture": {
-    "components": [
-      "API Gateway",
-      "Authentication Module",
-      "Business/Application Services",
-      "Repository/Data Access Layer",
-      "Database",
-      "Cache",
-      "Message Broker",
-      "External Integrations",
-      "Notification Service"
-    ],
-    "environments": [
-      "Development",
-      "Testing",
-      "Production"
-    ],
-    "communication": [
-      "API Gateway",
-      "Message Broker"
-    ]
+    "components": [],
+    "environments": [],
+    "communication": []
   },
   "traceability": [
     {
-      "jiraEpic": "SCRUM-69",
-      "jiraStory": "SCRUM-70",
-      "module": "Scheme Management",
-      "api": "POST /scheme",
-      "erdEntities": [
-        "scheme"
-      ]
-    },
-    {
-      "jiraEpic": "SCRUM-72",
-      "jiraStory": "SCRUM-73",
-      "module": "Employer Management",
-      "api": "POST /employer",
-      "erdEntities": [
-        "employer"
-      ]
-    },
-    {
-      "jiraEpic": "SCRUM-76",
-      "jiraStory": "SCRUM-77",
-      "module": "Member Management",
-      "api": "POST /member",
-      "erdEntities": [
-        "member"
-      ]
-    },
-    {
-      "jiraEpic": "SCRUM-80",
-      "jiraStory": "SCRUM-81",
-      "module": "Pension Account Administration",
-      "api": "POST /pension_account",
-      "erdEntities": [
-        "pension_account"
-      ]
-    },
-    {
-      "jiraEpic": "SCRUM-84",
-      "jiraStory": "SCRUM-85",
-      "module": "Contributions and Financial Reconciliation",
-      "api": "POST /contribution_submission",
-      "erdEntities": [
-        "contribution_submission"
-      ]
-    },
-    {
-      "jiraEpic": "SCRUM-91",
-      "jiraStory": "SCRUM-92",
-      "module": "Investment Records",
-      "api": "POST /investment_record",
-      "erdEntities": [
-        "investment_record"
-      ]
-    },
-    {
-      "jiraEpic": "SCRUM-95",
-      "jiraStory": "SCRUM-96",
-      "module": "Benefits Administration",
-      "api": "POST /benefit_request",
-      "erdEntities": [
-        "benefit_request"
-      ]
+      "jiraEpic": "",
+      "jiraStory": "",
+      "module": "",
+      "api": "",
+      "erdEntities": []
     }
   ],
   "architecturalDecisions": [
     {
-      "decision": "Use a layered architecture",
-      "rationale": "To separate concerns and improve maintainability",
-      "consequence": "Improved maintainability and scalability"
-    },
-    {
-      "decision": "Use REST APIs",
-      "rationale": "To provide a simple and widely adopted API standard",
-      "consequence": "Improved API compatibility and scalability"
-    },
-    {
-      "decision": "Use Basic Auth for authentication",
-      "rationale": "To provide a simple and widely adopted authentication mechanism",
-      "consequence": "Improved authentication security"
-    },
-    {
-      "decision": "Use Role-Based Access Control for authorization",
-      "rationale": "To provide a simple and widely adopted authorization mechanism",
-      "consequence": "Improved authorization security"
+      "decision": "",
+      "rationale": "",
+      "consequence": ""
     }
   ],
-  "implementationSequence": [
-    "Database schema",
-    "Authentication and authorization",
-    "Core domain modules",
-    "Repository/data access",
-    "REST APIs",
-    "Business workflows",
-    "External integrations",
-    "Error handling",
-    "Observability"
-  ]
+  "implementationSequence": []
 }

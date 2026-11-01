@@ -1,0 +1,488 @@
+# Business Requirements Document (BRD)
+## Pension Scheme Administration Platform
+
+| Document Control | Details |
+|---|---|
+| **Document ID** | BRD-PSAP-001 |
+| **Title** | Pension Scheme Administration Platform — Business Requirements Document |
+| **Source Authority** | Compact Business Vision — My Understanding (supplied Business Vision) |
+| **Prepared By** | Senior Business Analyst |
+| **Status** | For Stakeholder Review and Approval |
+| **Version** | 0.1 (Provisional — awaiting confirmed metric baselines, pension model, and regulatory scope) |
+
+---
+
+## 1. Document Purpose and Business Context
+
+This Business Requirements Document (BRD) translates the supplied Compact Business Vision into a structured, verifiable set of business requirements for the **Pension Scheme Administration Platform** (the "Platform"). The Platform is intended to replace a fragmented, manual, spreadsheet-driven pension administration environment with a secure, centralized, controlled digital platform.
+
+**Authority statement.** The supplied Business Vision is the authoritative source. It establishes the business problem, high-level capabilities, core controls, provisional success targets, scope boundaries, and decisions to confirm. Where the Vision states only a high-level capability or a proposed target, this document labels that as requiring stakeholder validation or measurement agreement. This document does **not** invent pension regulations, scheme-specific policies, financial calculations, benefit formulas, statutory deadlines, retention periods, technical architectures, or approved permission matrices.
+
+**Scope of this document.** This BRD covers business requirements, business rules, controls, cross-cutting non-functional requirements, exception scenarios, success measures, scope boundaries, risks, dependencies, assumptions, open questions, traceability, and business acceptance considerations. It does **not** cover domain model detail, ERDs, high-level/low-level design, technical architecture, source code, or implementation plans.
+
+**Downstream linkage.** As stated in the source vision, the intended downstream progression is: *Business Vision → BRD → Domain Model → ERD → HLD → LLD → Development & Testing*. The BRD prepares these activities by capturing business concepts and relationships at a conceptual level without prescribing identifiers, cardinalities, mandatory fields, or a database schema.
+
+---
+
+## 2. Executive Summary
+
+The business currently administers pensions through manual, spreadsheet-driven processes with limited centralized reporting and auditability. This approach introduces risks of duplicate data entry, inconsistent records, slow reconciliation, limited operational visibility, and difficulty proving who changed or approved a transaction.
+
+The proposed solution is a **secure, centralized digital Platform** providing controlled workflows across nine capability areas: Scheme Management; Employer Management; Member Management; Pension Accounts; Contributions and Financial Reconciliation; Investment Records; Benefits Administration; and Reporting and Audit.
+
+**Provisional success targets** in the source vision are a 90% reduction in manual entry, 95% data accuracy, and 99.5% availability. These are treated as **provisional business targets**. Each requires an agreed definition, current baseline, measurement period, calculation method, and accountable owner before it can be used to assess delivery success.
+
+**Key open decisions before design** include the applicable pension model (defined contribution, defined benefit, statutory, or other), the governing country/regulator and applicable scheme rules, whether the Platform records or initiates payments, supported benefit types and approvers, existing systems and integrations, migration data and retention rules, expected volumes, and security/service-level requirements.
+
+This BRD converts the Vision's stated goals into individually identifiable, testable business requirements and rules, explicitly distinguishing confirmed needs, proposed interpretations, provisional targets, and unresolved stakeholder decisions.
+
+---
+
+## 3. Business Problem and Current-State Challenges
+
+### 3.1 Stated Business Problem
+
+The current pension administration process is described as **manual and spreadsheet-driven**, with **limited centralized reporting and auditability**.
+
+**Note on validation.** The Vision states that these characteristics *can cause* specific problems. These problem statements should be validated against the real current-state process before the BRD's efficiency requirements are finalized as baseline-dependent measures.
+
+### 3.2 Identified Current-State Challenges
+
+| # | Challenge | Source | Classification |
+|---|---|---|---|
+| CP-01 | Duplicate data entry | Vision (Section 1) | Confirmed problem statement |
+| CP-02 | Inconsistent records | Vision (Section 1) | Confirmed problem statement |
+| CP-03 | Slow reconciliation | Vision (Section 1) | Confirmed problem statement |
+| CP-04 | Limited visibility (processing status and outcomes) | Vision (Section 1) | Confirmed problem statement |
+| CP-05 | Difficulty proving who changed or approved a transaction | Vision (Section 1) | Confirmed problem statement |
+| CP-06 | Fragmented processes | Vision (one-sentence summary) | Confirmed problem statement |
+| CP-07 | Limited centralized reporting | Vision (Section 1) | Confirmed problem statement |
+
+**Assumption requiring confirmation.** These challenges are attributed to the manual/spreadsheet approach, but the specific frequency, volume, and cost impact are not quantified in the Vision. Baseline measurement (Section 11) is required to validate the magnitude of each challenge.
+
+---
+
+## 4. Business Objectives and Expected Outcomes
+
+The stated purpose is to replace fragmented, manual pension administration with a **secure, centralized, controlled digital platform** with controlled workflows.
+
+**Intended business outcomes.** The Vision proposes the following outcomes. Where the source implies a target but does not quantify it, the outcome is documented as intended rather than as a measured target.
+
+| # | Objective / Expected Outcome | Source | Status |
+|---|---|---|---|
+| O-01 | Consistent and reliable pension administration records | Vision (Sections 2, 4) | Confirmed intent |
+| O-02 | Reduced unnecessary manual data entry and duplication | Vision (Sections 1, 5) | Confirmed intent; 90% reduction is a provisional target |
+| O-03 | Improved processing visibility and operational efficiency | Vision (Section 1) | Confirmed intent |
+| O-04 | Traceable financial transactions and contribution reconciliation | Vision (Sections 2, 4) | Confirmed intent |
+| O-05 | Controlled approval of sensitive changes and benefit requests | Vision (Sections 2, 4) | Confirmed intent |
+| O-06 | Improved reporting, accountability, and auditability | Vision (Sections 1, 4) | Confirmed intent |
+
+**Provisional targets.** The Vision proposes:
+
+| Target ID | Proposed Metric | Provisional Value | Source | Required Agreement Before Use |
+|---|---|---|---|---|
+| T-01 | Reduction in manual entry | 90% | Vision (Section 5) | Definition of "manual entry," baseline, measurement period, calculation method, accountable owner |
+| T-02 | Data accuracy | 95% | Vision (Section 5) | Definition of "data accuracy," baseline, measurement period, calculation method, accountable owner |
+| T-03 | Platform availability | 99.5% | Vision (Section 5) | Definition of "availability," measurement period, calculation method, accountable owner |
+
+These are **not confirmed contractual requirements** as of this BRD.
+
+---
+
+## 5. Stakeholders and User Groups
+
+The Vision identifies eight stakeholder groups. Responsibilities are described only to the extent supported by the Vision.
+
+| # | Stakeholder / User Group | Business Responsibilities as Supported by Vision | Access / Control Implication |
+|---|---|---|---|
+| S-01 | **Pension administrators** | Primary users; configured to manage schemes, members, contributions, accounts, benefits, reporting | Role-based access; may submit, review, or approve depending on agreed responsibilities |
+| S-02 | **Employers** | Primary users; register, maintain authorized contacts, associate with schemes, submit contributions | Employer identity and authorized-contact controls required |
+| S-03 | **Pension scheme members** | Primary users; enrollment, record maintenance | Member identity and record-integrity controls required |
+| S-04 | **Operations personnel** | Supporting users; day-to-day processing and exception handling | Operational workflow and exception-tracking access |
+| S-05 | **Finance personnel** | Supporting users; receipt of contributions, reconciliation, financial reporting | Sensitive financial transaction controls |
+| S-06 | **Compliance personnel** | Supporting users; regulatory and scheme-rule adherence | Review and audit-oriented access |
+| S-07 | **IT support** | Supporting users; platform and integration support | Technical support access, distinct from business approval authority |
+| S-08 | **Management** | Supporting users; oversight, reporting, decision-making | Management reporting and exception visibility |
+
+### 5.1 Role-Based Access and Separation of Duties
+
+The Vision requires **role-based access** and states that **submitting, reviewing, and approving sensitive financial or benefit actions may need to be separated**.
+
+**Requirement: role-based access and controlled authorization must be provided.** The specific permission matrix — which roles may submit, review, approve, modify, and reconcile sensitive transactions — is an **unresolved decision** (Section 13, Question Q-09). Until agreed, the Platform shall support configurable role definitions with the capability to separate submission, review, and approval functions.
+
+**Control objective (proposed):** where submission, review, and approval responsibilities are separated, the Platform shall not permit a single actor to complete a sensitive financial or benefit action end-to-end. **This control objective requires confirmation that separation is mandated for each sensitive action class** (business rule RULE-009 requires stakeholder confirmation of the affected action classes).
+
+---
+
+## 6. Scope: In Scope, Out of Scope, and Conditional Scope
+
+### 6.1 Likely In Scope
+
+| ID | Capability | Source | Notes |
+|---|---|---|---|
+| SC-01 | Scheme administration | Vision (Section 2, Capability A) | Configuration, eligibility, rules, status, effective dates, change traceability |
+| SC-02 | Employer administration | Vision (Section 2, Capability B) | Registration, authorized contacts, scheme association |
+| SC-03 | Member administration | Vision (Section 2, Capability C) | Enrollment, eligibility validation, record maintenance, duplicate/invalid prevention |
+| SC-04 | Pension-account administration | Vision (Section 2, Capability D) | Account records, associations with members and schemes, traceability |
+| SC-05 | Contribution recording and reconciliation | Vision (Section 2, Capability E) | Submissions, receipts, allocations, reconciliation, exception tracking |
+| SC-06 | Investment and allocation records | Vision (Section 2, Capability F) | Approved investment and allocation records; change traceability |
+| SC-07 | Benefit-request workflows | Vision (Section 2, Capability G) | Validation, controlled review/approval, decision and payment-outcome recording |
+| SC-08 | Reporting and audit | Vision (Section 2, Capability H) | Operational/financial reports; traceable material-action records |
+
+### 6.2 Initially Out of Scope (Requires Separate Approval)
+
+| ID | Excluded Capability | Source | Rationale |
+|---|---|---|---|
+| SO-01 | Payroll processing | Vision (Section 6) | Explicitly initially out of scope |
+| SO-02 | Tax calculation | Vision (Section 6) | Explicitly initially out of scope |
+| SO-03 | Banking infrastructure | Vision (Section 6) | Explicitly initially out of scope |
+| SO-04 | Investment trading | Vision (Section 2, Capability F & Section 6) | Explicitly treated as potentially outside scope |
+| SO-05 | Actuarial modelling | Vision (Section 6) | Explicitly initially out of scope |
+
+**Important boundary:** "Investment records" is in scope **only** for maintaining approved investment and allocation records with traceability. Investment trading, portfolio execution, and financial advice are **out of scope unless explicitly approved**.
+
+### 6.3 Conditional Scope: External-System Integrations
+
+External systems may be integrated **through controlled interfaces only where separately agreed**. This BRD does **not** assume any external integration is authorized, nor does it prescribe integration technology or interfaces. Specific integrations must be confirmed against Question Q-05 (Section 13).
+
+---
+
+## 7. Business Capabilities and Functional Requirements
+
+### 7.1 Capability A: Scheme Management
+
+**Business purpose:** Establish and maintain the governing configuration for each pension scheme so that enrollment, contributions, and benefits are applied against consistent, effective rules.
+
+**Expected outcome:** Consistent and reliable scheme records with traceability of material scheme changes.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-001 | Scheme registration and configuration | The Platform shall allow authorized actors to register a scheme and configure its details, including eligibility rules, status, and effective dates. | S-01 (Pension administrators) | RULE-001 (unique identity) | A new scheme can be created with identifiable details; no scheme record exists without a configuration. | Q-01 (pension model), Q-02 (regulator/rules) |
+| BR-002 | Scheme eligibility and rule definition | The Platform shall store scheme eligibility rules and make them available for validation of member enrollment. | S-01, S-04 | RULE-002 (enrollment compliance) | Enrollment validation can reference stored scheme rules; changes to rules are recordable. | Q-02; Q-04 (benefit types) |
+| BR-003 | Scheme status and effective dating | The Platform shall track scheme status (e.g., active/inactive) together with effective dates for status and rule changes. | S-01 | — | Status and effective dates are visible on the scheme record and affect downstream processing appropriately. | Validation of actual status values needed |
+| BR-004 | Traceability of material scheme changes | The Platform shall record who made material scheme changes, when, and what changed. | S-01, S-06, S-08 | RULE-005 (audit trail) | A material scheme change produces an audit record with actor, timestamp, and change content. | Definition of "material scheme change" needed |
+
+**Unresolved decisions for Capability A:** The specific eligibility rule structure (Q-01, Q-02) and the definition of which scheme changes are "material" require stakeholder confirmation.
+
+### 7.2 Capability B: Employer Management
+
+**Business purpose:** Maintain authoritative employer identities, authorized contacts, and their association with pension schemes so contributions can be attributed correctly.
+
+**Expected outcome:** Reliable employer records with controlled contact management and scheme association.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-005 | Employer registration and record maintenance | The Platform shall allow registration and maintenance of employer records. | S-01, S-02 | RULE-001 (unique identity) | An employer can be registered with identifiable details; duplicate registrations are flagged. | Employer identifier source (Q-05) |
+| BR-006 | Authorized employer contact management | The Platform shall maintain a set of authorized contacts for each employer. | S-02 | RULE-008 (controlled access) | Only authorized contacts can act on behalf of an employer; contact changes are recordable. | Definition of "authorized contact" actions needed |
+| BR-007 | Employer-to-scheme association | The Platform shall associate employers with the schemes relevant to them. | S-01, S-02 | RULE-003 (contribution traceability) | Contributions submitted by an employer can be traced to the associated scheme(s). | Association cardinality to be modeled later |
+
+### 7.3 Capability C: Member Management
+
+**Business purpose:** Enroll eligible members, maintain their records, and prevent duplicate or invalid registrations.
+
+**Expected outcome:** Eligible members only; no duplicate or invalid registrations.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-008 | Member enrollment | The Platform shall allow enrollment of members through a controlled workflow. | S-01, S-02, S-03 | RULE-002 (enrollment compliance), RULE-001 (unique identity) | Enrollment can be submitted, validated against scheme rules, and recorded. | Q-01 (pension model), Q-04 (benefit types) |
+| BR-009 | Eligibility validation | The Platform shall validate enrollment against applicable scheme eligibility rules before recording. | S-01, S-04 | RULE-002 (enrollment compliance) | Ineligible enrollment attempts are prevented or routed to an exception, not silently approved. | Eligibility rule semantics (Q-02) |
+| BR-010 | Member record maintenance | The Platform shall allow maintenance of member records by authorized actors. | S-01, S-03 | RULE-005 (audit trail) | Changes to member records are recorded with actor and timestamp. | — |
+| BR-011 | Duplicate and invalid registration prevention | The Platform shall detect and prevent duplicate or invalid member registrations. | S-01, S-04 | RULE-001 (unique identity) | Potential duplicates are flagged; invalid registrations cannot be completed silently. | Definition of "duplicate" matching rules needed |
+
+### 7.4 Capability D: Pension Accounts
+
+**Business purpose:** Administer pension-account records and their associations with members and schemes, with clear traceability to relevant business records.
+
+**Expected outcome:** Account records that can be traced to the correct member, scheme, contribution, and investment record.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-012 | Pension-account record administration | The Platform shall create and maintain pension-account records. | S-01 | RULE-003 (contribution traceability) | Each pension account has an identifiable record and a defined association to a member and scheme. | Account identifier source (Q-05) |
+| BR-013 | Account-to-member and account-to-scheme association | The Platform shall link each pension account to its member and scheme. | S-01 | RULE-003 (contribution traceability) | Contributions and investments can be traced from an account to the relevant member and scheme. | Cardinality to be modeled later |
+| BR-014 | Traceability of account activity | The Platform shall maintain traceability between accounts and relevant business records. | S-01, S-06, S-08 | RULE-005 (audit trail) | Account activity can be traced to submission, receipt, allocation, and investment records. | Definition of "account activity" scope |
+| **BR-015** | **Valuation and benefit-calculation logic** | **The Platform shall not implement account valuation or benefit-calculation logic until explicitly approved.** | S-01, S-08 | RULE-006 (out of scope) | No valuation or benefit-calculation calculations are performed by the Platform. | **Out of scope unless approved; decision required** |
+
+**BR-015 is an explicit exclusionary requirement** to prevent scope creep into valuation and benefit-calculation logic, which the Vision does not establish.
+
+### 7.5 Capability E: Contributions and Financial Reconciliation
+
+**Business purpose:** Record contribution submissions, receipts, and allocations; reconcile differences; and track exceptions to resolution.
+
+**Expected outcome:** Traceable financial transactions and reconcilable submitted, received, and allocated amounts, with unmatched amounts and failures handled explicitly.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-016 | Recording contribution submissions | The Platform shall record contribution submissions. | S-02, S-01 | RULE-003 (traceability) | A submission can be recorded with identifiable employer, member, and scheme associations. | — |
+| BR-017 | Recording contribution receipts | The Platform shall record contribution receipts. | S-05 | RULE-003 (traceability) | Receipts can be recorded and distinguished from submissions. | Definition of "receipt" source/format |
+| BR-018 | Recording allocations | The Platform shall record contribution allocations to pension accounts. | S-05 | RULE-003 (traceability) | Allocations can be recorded with associations to contributions, members, schemes, and accounts. | — |
+| BR-019 | Association of contributions | The Platform shall associate each contribution with the relevant employer, member, and scheme. | S-05 | RULE-003 (traceability) | Contributions cannot be recorded without the required associations, or associations must be flagged for resolution. | — |
+| **BR-020** | **Reconciliation of submitted, received, and allocated amounts** | **The Platform shall reconcile submitted, received, and allocated amounts and identify differences.** | S-05 | RULE-004 (reconcilability) | A reconciliation can be run that reports submitted, received, and allocated totals with any differences. | Reconciliation method and frequency (Q-07) |
+| BR-021 | Flagging of unmatched and failed items | The Platform shall flag unmatched amounts, invalid records, and failed transactions for resolution. | S-05, S-04 | RULE-007 (explicit handling) | Unmatched, invalid, and failed items are flagged and are not silently marked complete. | Definition of each flag type |
+| BR-022 | Exception tracking through resolution | The Platform shall track identified exceptions through to resolution. | S-04, S-05 | RULE-007 (explicit handling) | Each exception has a status and resolution record; unresolved exceptions remain visible. | Resolution workflow to be defined (Q-07) |
+| BR-023 | Preservation of financial action evidence | The Platform shall preserve evidence of material financial actions. | S-06, S-08 | RULE-005 (audit trail) | Material financial actions are preserved in a traceable audit record. | Definition of "material financial action" |
+
+**BR-020 is provisional in reconciliation method and frequency.** The Vision states amounts "must be reconcilable" but does not specify method, timing, or frequency.
+
+### 7.6 Capability F: Investment Records
+
+**Business purpose:** Maintain approved investment and allocation records with traceability of changes.
+
+**Expected outcome:** Reliable investment records; trading and advice remain out of scope.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-024 | Investment and allocation record maintenance | The Platform shall maintain approved investment and allocation records. | S-01 | — | Approved investment and allocation records can be created and maintained. | Definition of "approved investment record" |
+| BR-025 | Investment record traceability | The Platform shall record changes to investment records and maintain traceability. | S-01, S-06 | RULE-005 (audit trail) | Investment record changes are recorded with actor, timestamp, and content. | — |
+| **BR-026** | **Investment trading and advice — out of scope** | **The Platform shall not perform investment trading, portfolio execution, or provide financial advice unless explicitly approved.** | S-01 | RULE-006 (out of scope) | No trading, execution, or advice functionality is present in the Platform. | Decision required to expand scope |
+
+### 7.7 Capability G: Benefits Administration
+
+**Business purpose:** Record and validate benefit requests, route them for controlled review and approval, and record decisions and payment outcomes.
+
+**Expected outcome:** Benefit requests are validated, approved through controlled workflows, and decisions/payments are recorded.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-027 | Benefit request recording and validation | The Platform shall record benefit requests and validate them against confirmed rules. | S-03, S-01 | RULE-002 (eligibility) | Benefit requests can be submitted and validated against stored rules. | Q-04 (benefit types), Q-02 (rules) |
+| **BR-028** | **Benefit request approval workflow** | **The Platform shall support controlled review and approval of benefit requests and record decisions.** | S-01, S-05 | RULE-009 (separation of duties) | Benefit requests can be routed through review and approval steps with decisions recorded. | Approval hierarchy and benefit types (Q-04, Q-09) |
+| BR-029 | Benefit processing status tracking | The Platform shall track the processing status of benefit requests. | S-01, S-04 | — | The current status of each benefit request is visible. | Status set to be defined |
+| **BR-030** | **Payment outcomes for benefits** | **The Platform shall record payment outcomes for benefit requests where applicable.** | S-01, S-05 | RULE-005 (audit trail) | Payment outcomes can be recorded and traced to the benefit decision. | **Payment initiation is an open question (Q-03); recording vs. initiating must be decided** |
+
+**BR-030 is conditional.** The Vision states the Platform "records ... payment outcomes." Whether it also *initiates* payments is explicitly an open decision. **The Platform must not initiate payments until Q-03 is resolved.**
+
+### 7.8 Capability H: Reporting and Audit
+
+**Business purpose:** Provide operational and financial reporting with visibility into processing status, reconciliation discrepancies, and unresolved exceptions, supported by traceable records.
+
+**Expected outcome:** Improved reporting, accountability, and auditability.
+
+| ID | Title | Business Requirement | Stakeholder | Control | Acceptance Criteria | Unresolved / Depends On |
+|---|---|---|---|---|---|---|
+| BR-031 | Operational reporting | The Platform shall provide operational reports on pension administration activity. | S-01, S-04, S-08 | — | Operational reports on key activities can be generated. | Report content and formats (Q-07) |
+| BR-032 | Financial reporting | The Platform shall provide financial reports including contribution and reconciliation status. | S-05, S-08 | RULE-004 (reconcilability) | Financial reports reflect submitted, received, allocated, and reconciled contribution amounts. | Report content and formats (Q-07) |
+| BR-033 | Exception and discrepancy visibility | The Platform shall provide visibility into processing status, reconciliation discrepancies, and unresolved exceptions. | S-04, S-05, S-08 | RULE-007 (explicit handling) | Discrepancies and unresolved exceptions are visible in reporting or dashboards. | — |
+| **BR-034** | **Audit record of material actions and changes** | **The Platform shall provide traceable records of material actions and changes for audit and accountability review.** | S-06, S-08 | RULE-005 (audit trail) | A user can retrieve an audit record showing who did what, when, and to which business record. | Definition of "material action" scope |
+| BR-035 | Reporting completeness and consistency | The Platform shall ensure reports are complete and consistent with underlying records. | S-06, S-08 | RULE-005 (audit trail) | Reported totals agree with underlying records for the same reporting period. | Reporting period definition (Q-07) |
+
+---
+
+## 8. Business Rules and Controls
+
+Business rules express binding business constraints. System requirements (BR-*) implement the capability to enforce them.
+
+| ID | Rule | Business Meaning | Associated Requirements | Validation / Control Behavior | Missing Information Requiring Confirmation |
+|---|---|---|---|---|---|
+| RULE-001 | **Unique scheme and member identity** | Each scheme and each member must have an agreed unique identity. | BR-001, BR-005, BR-008, BR-009, BR-010, BR-011 | Duplicate or invalid identities must be detected and prevented. | Identifier source and format (Q-05); "duplicate" matching semantics |
+| RULE-002 | **Enrollment compliance** | Enrollment must comply with applicable scheme eligibility rules. | BR-008, BR-009, BR-011, BR-027 | Ineligible enrollment attempts must be prevented or routed to an exception; not silently approved. | Q-02 (regulator/rules); rule semantics |
+| RULE-003 | **Contribution traceability** | Contributions must be traceable to the relevant employer, member, and scheme. | BR-016, BR-017, BR-018, BR-019, BR-020, BR-024 | Contributions require valid employer, member, and scheme associations; associations must be auditable. | — |
+| RULE-004 | **Reconcilability** | Submitted, received, and allocated amounts must be reconcilable. | BR-020 | A reconciliation between submitted, received, and allocated amounts must be producible and any difference identifiable. | Method, frequency, tolerance (Q-07) |
+| RULE-005 | **Audit trail for material changes** | Material changes must have an audit trail. | BR-004, BR-010, BR-014, BR-025, BR-030, BR-034 | Material changes produce a record of actor, timestamp, and content. | Definition of "material" for schemes, accounts, investments, payments |
+| RULE-006 | **Scope exclusion of valuation/trading/advice** | No account valuation, benefit-calculation, investment trading, or financial advice unless approved. | BR-015, BR-026 | No such functionality exists in the Platform. | Decision to expand scope (Section 6) |
+| RULE-007 | **Explicit handling of exceptions** | Unmatched amounts, invalid records, and failed transactions must be flagged and resolved rather than silently marked complete. | BR-011, BR-021, BR-022, BR-028 | Flagged items remain visible until resolution; completion requires explicit handling. | Resolution workflow and escalation |
+| RULE-008 | **Controlled access to sensitive operations** | Access to sensitive operations must be controlled. | BR-006, BR-010 | Sensitive operations are accessible only to authorized roles. | Sensitive operation inventory; role matrix (Q-09) |
+| **RULE-009** | **Separation of submission, review, and approval (proposed)** | Separation of submission, review, and approval responsibilities must be considered where necessary. | BR-028 | For sensitive financial and benefit actions where mandated, no single actor completes all three stages. | **Which action classes require separation (Q-09)** — currently a control objective pending confirmation |
+
+---
+
+## 9. Non-Functional and Cross-Cutting Requirements
+
+The Vision does not specify numeric targets beyond the three provisional success metrics (Section 4). Items below are control objectives derived from the Vision's language (security, accuracy, auditability, reliability, exception handling, reporting consistency).
+
+| ID | Area | Control Objective | Source | Decision Required |
+|---|---|---|---|---|
+| NFR-001 | Security and role-based access control | Role-based access shall be enforced; sensitive operations shall be restricted to authorized roles. | Vision (Sections 3, 4) | Role definitions, sensitive-operation inventory (Q-09) |
+| NFR-002 | Data accuracy and integrity | Data shall be recorded accurately and maintained without unauthorized alteration; unique identities shall be enforced. | Vision (Sections 1, 4) | Data-quality validation rules (Q-07) |
+| NFR-003 | Auditability and traceability | Material actions and changes shall be preserved and retrievable for audit review. | Vision (Sections 1, 4) | Definition of "material action" (Section 8) |
+| NFR-004 | Availability and operational reliability | The Platform shall be available for business use. | Vision (Section 5 target) | **99.5% is a provisional target** — definition, measurement period, owner required (Q-08) |
+| NFR-005 | Controlled handling of failed transactions and exceptions | Failed transactions and exceptions shall be flagged and resolved explicitly. | Vision (Section 4) | Resolution workflow (Q-07) |
+| NFR-006 | Reporting completeness and consistency | Reports shall be complete and consistent with underlying records. | Vision (Section 2) | Reporting period and content definition (Q-07) |
+
+**Provisional target governance.** For T-01 (90% manual-entry reduction), T-02 (95% data accuracy), and T-03 (99.5% availability):
+
+> **Each metric requires an agreed definition, current baseline, measurement period, calculation method, and accountable owner before it can be used to assess delivery success.** These are provisional business targets, not confirmed contractual requirements.
+
+**Recorded as decisions required (not invented):**
+
+| Area | Decision Required |
+|---|---|
+| Response-time limits | None prescribed in this BRD |
+| Throughput requirements | None prescribed in this BRD |
+| Recovery-time objective (RTO) / recovery-point objective (RPO) | None prescribed in this BRD |
+| Encryption standards | None prescribed in this BRD |
+| Data retention duration | None prescribed in this BRD — see Q-06 |
+| Service levels (beyond provisional availability) | None prescribed in this BRD — see Q-08 |
+
+---
+
+## 10. Business Processes and Exception Scenarios
+
+### 10.1 Core Business Processes
+
+| # | Process | Capabilities Involved | Control Objective |
+|---|---|---|---|
+| P-01 | Scheme configuration and change | A | RULE-005; BR-001–BR-004 |
+| P-02 | Employer registration and contact maintenance | B | RULE-001; RULE-008; BR-005–BR-007 |
+| P-03 | Member enrollment | C | RULE-001; RULE-002; RULE-007; BR-008–BR-011 |
+| P-04 | Pension-account creation and association | D | RULE-003; RULE-005; BR-012–BR-014 |
+| P-05 | Contribution submission, receipt, allocation, reconciliation | E | RULE-003; RULE-004; RULE-007; BR-016–BR-023 |
+| P-06 | Investment record maintenance | F | RULE-005; BR-024–BR-025 |
+| P-07 | Benefit request, validation, approval, decision | G | RULE-002; RULE-009; RULE-005; BR-027–BR-030 |
+| P-08 | Reporting and audit retrieval | H | RULE-005; RULE-007; BR-031–BR-035 |
+
+### 10.2 Exception Scenarios Requiring Definition
+
+| ID | Scenario | Business Issue | Expected Control Objective | Required Traceability | Unresolved Handling Decision |
+|---|---|---|---|---|---|
+| EX-01 | Duplicate or invalid member registration | A member record may already exist or be invalid. | RULE-001; RULE-007 | Identity match attempt recorded; decision on block vs. merge | Whether duplicates are blocked, merged, or escalated; merge rules |
+| EX-02 | Ineligible enrollment attempt | A member fails scheme eligibility rules. | RULE-002; RULE-007 | Rejected enrollment recorded with reason | Whether rejection blocks enrollment or routes to manual review |
+| EX-03 | Unmatched contribution | A submitted contribution has no matching receipt or allocation. | RULE-004; RULE-007 | Unmatched amount flagged with source records | Escalation path and resolution ownership |
+| EX-04 | Discrepancy between submitted, received, and allocated amounts | Reconciliation reveals differences. | RULE-004; RULE-007 | Reconciliation report with difference details | Tolerance, review frequency, resolution workflow |
+| EX-05 | Failed financial transaction | A financial action fails to complete. | RULE-007 | Failure recorded with reason and affected record | Retry policy; rollback or manual recovery |
+| EX-06 | Missing or inconsistent records | Required associations (employer/member/scheme) are missing or inconsistent. | RULE-003; RULE-007 | Incomplete record flagged with missing fields | Hold vs. reject behavior |
+| EX-07 | Unauthorized or unapproved changes | A change occurs without proper authorization or approval. | RULE-005; RULE-008; RULE-009 | Audit record captures actor and timestamp | Detection and remediation process |
+| EX-08 | Incomplete benefit request or unsuccessful outcome | A benefit request is incomplete or is rejected. | RULE-002; RULE-007; RULE-009 | Request, validation result, and decision recorded | Feedback mechanism to the member |
+
+**Distinction:** The "Expected Control Objective" columns state **confirmed control objectives** derived from the Vision (flag and resolve, do not silently complete). The "Unresolved Handling Decision" columns record **unapproved operational procedures** that require stakeholder confirmation before design.
+
+---
+
+## 11. Success Measures and Provisional Targets
+
+### 11.1 Provisional Business Targets (from Section 5 of the Vision)
+
+| Measure ID | Proposed Metric | Provisional Target | Source | Agreement Required Before Use |
+|---|---|---|---|---|
+| M-01 | Reduction in manual entry | 90% | Vision Section 5 | Definition of "manual entry"; baseline; measurement period; calculation method; owner |
+| M-02 | Data accuracy | 95% | Vision Section 5 | Definition of "data accuracy"; baseline; measurement period; calculation method; owner |
+| M-03 | Platform availability | 99.5% | Vision Section 5 | Definition of "availability"; measurement period; calculation method; owner |
+
+### 11.2 Additional Measures Proposed by the Vision
+
+| Measure ID | Proposed Measure | Intended Business Purpose | Definition/Baseline Required |
+|---|---|---|---|
+| M-04 | Contribution reconciliation turnaround | Faster identification and resolution of financial differences | Definition of "turnaround" (start/end points); baseline; measurement period |
+| M-05 | Exception-resolution time | Faster closure of flagged financial and enrollment exceptions | Definition of "exception" and "resolution"; baseline; measurement period |
+| M-06 | Enrollment processing time | Faster, more consistent member onboarding | Definition of "processing" boundaries; baseline; measurement period |
+| M-07 | Audit completeness | Assurance that material actions are fully recorded | Definition of "complete"; scope of audit records; measurement period |
+
+**Statement:** None of M-01 through M-07 shall be treated as an approved delivery commitment until the business defines, baselines, and owns each measure.
+
+---
+
+## 12. Assumptions, Dependencies, Risks, and Constraints
+
+### 12.1 Assumptions (proposed, not confirmed)
+
+| ID | Assumption | Source Basis | Impact if Incorrect |
+|---|---|---|---|
+| ASM-01 | The Vision's stated problem statements reflect the real current-state process. | Vision Section 1 ("can cause") | Baseline measures may be misdirected |
+| ASM-02 | The nine capability areas listed as "likely in scope" are approved for delivery. | Vision Section 6 | Scope may need to contract or expand |
+| ASM-03 | The three provisional targets are directionally correct and will be refined, not discarded. | Vision Section 5 | Success measurement approach changes |
+| ASM-04 | Role-based access is feasible and appropriate for all eight stakeholder groups. | Vision Section 3 | Access model may need adaptation |
+| ASM-05 | The Platform will not initiate payments unless separately approved. | Vision Section 7, Q-03; BR-030 | Payment initiation may become in scope |
+
+### 12.2 Dependencies
+
+| ID | Dependency | Category | Requirement(s) Affected |
+|---|---|---|---|
+| DEP-01 | Agreed pension model (defined contribution, defined benefit, statutory, or other) | Regulatory/policy | BR-001, BR-002, BR-008, BR-009, Q-01 |
+| DEP-02 | Governing country, regulator, and applicable scheme rules | Regulatory | BR-002, BR-027, Q-02 |
+| DEP-03 | Definition of payment responsibility (record vs. initiate) | Operational | BR-030, Q-03 |
+| DEP-04 | Approved benefit types, and who calculates and approves them | Policy | BR-027, BR-028, Q-04 |
+| DEP-05 | Existing systems, migration data, integrations, and data-retention rules | Technical/data | BR-005, BR-008, BR-012, Q-05, Q-06 |
+| DEP-06 | Expected user/transaction volumes | Capacity | NFR-004; volume-based SLA decisions, Q-08 |
+| DEP-07 | Agreed role/permission matrix and separation of duties | Governance | RULE-008, RULE-009, BR-028, Q-09 |
+| DEP-08 | Agreed success metrics, baselines, and measurement periods | Measurement | M-01 through M-07, Q-10 |
+
+### 12.3 Risks
+
+| ID | Risk | Impact | Mitigation / Required Action |
+|---|---|---|---|
+| RSK-01 | Unresolved pension model and regulatory scope leads to rework of eligibility and benefit rules | High | Prioritize Q-01 and Q-02 decisions before detailed design |
+| RSK-02 | Provisional targets not converted to agreed definitions produce unverifiable success claims | Medium | Complete M-01 to M-07 agreement gates before UAT |
+| RSK-03 | Scope creep into valuation, trading, tax, or payroll without approval | High | Enforce RULE-006; require explicit approval per Section 6 |
+| RSK-04 | Silent completion of unmatched or failed financial items violates the explicit handling control | High | Implement RULE-007 before financial Go-Live |
+| RSK-05 | Audit records are incomplete for material actions, weakening accountability | Medium | Validate BR-034 and RULE-005 in audit testing |
+| RSK-06 | External integrations assumed but not authorized | Medium | Treat all integrations as conditional (Section 6.3) |
+
+### 12.4 Constraints
+
+| ID | Constraint | Source |
+|---|---|---|
+| CNT-01 | No invention of pension regulations, scheme policies, financial calculations, or formulas | Instructions / Vision |
+| CNT-02 | No ERD, architecture, source code, or implementation plan in this response | Instructions |
+| CNT-03 | Provisional targets must not be misrepresented as approved commitments | Instructions / Vision |
+| CNT-04 | Requirements must be individually identifiable and testable | Instructions |
+
+---
+
+## 13. Open Questions and Stakeholder Decisions
+
+The following questions must be resolved before detailed design. Unanswered questions are intentionally left unanswered.
+
+| Q# | Open Question | Why the Decision Matters | Depends On / Affects |
+|---|---|---|---|
+| **Q-01** | What pension model applies: defined contribution, defined benefit, statutory, or another model? | Determines eligibility rules, account behavior, and benefit logic. | BR-001, BR-002, BR-008, BR-009 |
+| **Q-02** | Which country, regulator, and scheme-specific rules govern the platform? | Determines compliance obligations and rule structure. | BR-002, BR-027, RULE-002 |
+| **Q-03** | Does the platform only record payments, or also initiate them? | Determines whether payment initiation is in scope and whether banking integrations are needed. | BR-030, NFR-001, SO-03 |
+| **Q-04** | Which benefit types are supported, and who calculates and approves them? | Determines benefit-workflow configuration and approval separation. | BR-027, BR-028, RULE-009 |
+| **Q-05** | Which existing systems must be integrated, and what is the source of unique identifiers (employer, member, account)? | Determines integration scope, migration data, and RULE-001 identity enforcement. | BR-005, BR-008, BR-012, RULE-001 |
+| **Q-06** | What migration data, retention rules, and data-quality controls apply? | Determines migration scope, audit retention, and data-integrity controls. | NFR-002, NFR-003, DEP-05 |
+| **Q-07** | What are the expected user/transaction volumes, reconciliation method/frequency, resolution workflows, and report formats/periods? | Determines capacity, reconciliation configuration, and reporting completeness. | NFR-004, BR-020, BR-035, M-04 to M-06 |
+| **Q-08** | What security requirements, recovery targets, and service levels (beyond the provisional 99.5% availability) are required? | Determines NFR-001 through NFR-006 specifics and any contractual SLAs. | NFR-001 to NFR-006 |
+| **Q-09** | Which roles can submit, review, approve, modify, and reconcile sensitive transactions, and which sensitive actions require separation of duties? | Determines the permission matrix and RULE-008/RULE-009 enforcement. | RULE-008, RULE-009, BR-028 |
+| **Q-10** | Which success metrics, baselines, and measurement periods will be approved? | Determines whether M-01 to M-07 can validate delivery success. | M-01 to M-07 |
+
+---
+
+## 14. Requirements Traceability Summary
+
+| Business Vision Element | Traceable Requirements | Traceable Rules | Traceable Measures |
+|---|---|---|---|
+| 1. Business problem (manual, spreadsheet-driven; duplicate entry, inconsistent records, slow reconciliation, limited visibility, audit difficulty) | BR-011, BR-021, BR-022, BR-033, BR-034, NFR-003 | RULE-005, RULE-007 | M-04 to M-07 |
+| 2. Scheme management capability | BR-001, BR-002, BR-003, BR-004 | RULE-001, RULE-005 | — |
+| 3. Employer management capability | BR-005, BR-006, BR-007 | RULE-001, RULE-008 | — |
+| 4. Member management capability | BR-008, BR-009, BR-010, BR-011 | RULE-001, RULE-002, RULE-007 | M-06 |
+| 5. Contributions and accounts capability | BR-012, BR-013, BR-014, BR-016, BR-017, BR-018, BR-019, BR-020, BR-021, BR-022, BR-023 | RULE-003, RULE-004, RULE-005, RULE-007 | M-04 |
+| 6. Investment records capability | BR-024, BR-025, BR-026 | RULE-005, RULE-006 | — |
+| 7. Benefits administration capability | BR-027, BR-028, BR-029, BR-030 | RULE-002, RULE-005, RULE-009 | M-06 |
+| 8. Reporting and audit capability | BR-031, BR-032, BR-033, BR-034, BR-035 | RULE-005, RULE-007 | M-07 |
+| 3. User groups and role-based access | NFR-001 | RULE-008, RULE-009 | Q-09 |
+| 4. Core business controls | RULE-001 to RULE-009 | (all) | — |
+| 5. Success targets (90% / 95% / 99.5%) | M-01, M-02, M-03 | — | M-01 to M-03 |
+| 6. Scope boundaries | SC-01 to SC-08; SO-01 to SO-05 | RULE-006 | — |
+| 7. Decisions to confirm | Q-01 to Q-10 | — | — |
+
+**Conceptual domain concepts (candidate only — not an approved schema):** Scheme, Employer, Member, Pension Account, Contribution, Investment Record, Benefit Request, Approval, Exception, Audit Record. No cardinalities, mandatory fields, or identifiers are prescribed in this BRD; these are reserved for the Domain Model and ERD phases.
+
+---
+
+## 15. Business Acceptance and Approval Considerations
+
+The Platform shall not proceed to detailed design or development of a capability until the corresponding decisions are confirmed:
+
+| Gate | Required Approval / Decision | Triggered By |
+|---|---|---|
+| G-01 | Pension model and governing regulator/rules confirmed | Q-01, Q-02 |
+| G-02 | Payment record-vs-initiate decision confirmed | Q-03 |
+| G-03 | Supported benefit types and approval structure confirmed | Q-04 |
+| G-04 | Integration scope and unique-identifier sources confirmed | Q-05 |
+| G-05 | Migration, retention, and data-quality rules confirmed | Q-06 |
+| G-06 | Volumes, reconciliation configuration, and reporting specifications confirmed | Q-07 |
+| G-07 | Security requirements, recovery targets, and service levels confirmed | Q-08 |
+| G-08 | Role/permission matrix and separation-of-duties mandate confirmed | Q-09 |
+| G-09 | Success metrics, baselines, and measurement periods confirmed | Q-10 |
+
+**Business acceptance test readiness.** Each BR- requirement includes acceptance criteria describing observable outcomes. Prior to User Acceptance Testing, the following must be confirmed:
+
+1. The definitions and baselines for M-01 through M-07 (Gate G-09).
+2. The definition of "material" changes and actions for RULE-005 (Section 8).
+3. The list of sensitive operations for RULE-008 (Section 8).
+4. The action classes requiring separation of duties for RULE-009 (Section 8).
+5. Any change to Scope Exclusions SO-04 (investment trading) or SO-03 (banking infrastructure) — requiring separate approval.
+
+**Sign-off acknowledgment.** Stakeholder sign-off on this BRD confirms that the stated capabilities, rules, and controls are agreed as business requirements, while explicitly deferring the unresolved decisions in Section 13 to the designated decision-makers.
+
+---
+
+*End of Business Requirements Document.*

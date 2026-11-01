@@ -1,0 +1,147 @@
+A. BATCH FUNCTIONAL SCOPE
+
+This batch covers three Jira stories (SRC-001, SRC-002, SRC-003) under two epics: Scheme Management (SRC-001, SRC-002) and Employer Management (SRC-003). Supported business capabilities: creation and maintenance of scheme configuration (eligibility rules, status, effective dates, audit trail, unique scheme identity); enforcement of unique scheme identity; and registration and maintenance of employer records (identity, status, authorized contacts) with change recording.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Scheme Configuration Management (SRC-001, SRC-002)
+
+Jira Story Key: SRC-001
+Parent Epic Key: Scheme Management
+Story Summary: Create and maintain scheme configuration
+Supported actor(s): Pension administrator
+Trigger/precondition: Administrator initiates creation or update of a scheme record.
+
+SRC-001-FR-01: The system shall allow a pension administrator to create a scheme record containing a scheme identifier, eligibility rules, rules, status, and effective date.
+Inputs: scheme identifier, eligibility rules, rules, status, effective date.
+Outputs: stored scheme record.
+
+SRC-001-FR-02: The system shall prevent duplicate storage of a scheme record for the same scheme identifier.
+Business rule/validation: A scheme identifier must be unique within the system.
+Exception/alternate path: If a duplicate scheme identity is submitted, the system shall prevent creation or explicitly flag it for review.
+
+SRC-001-FR-03: The system shall record material scheme changes with the changing user, timestamp, and old and new values, and make this record retrievable for audit.
+Inputs: material scheme change details.
+Outputs: audit record containing user, timestamp, old values, new values.
+
+SRC-001-FR-04: The system shall allow a pension administrator to update an existing scheme record.
+Inputs: updated eligibility rules, rules, status, or effective date.
+Outputs: updated scheme record.
+
+Acceptance criteria (SRC-001):
+- Given a new scheme record, when it is created with a scheme identifier, eligibility rules, rules, status, and effective date, then it is stored and cannot be duplicated for the same scheme.
+- Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are recorded and retrievable for audit.
+- Given an attempt to create a duplicate scheme identity, when it is submitted, then it is prevented or explicitly flagged for review.
+
+Missing details or ambiguities (SRC-001):
+- The term "rules" appears twice ("eligibility rules, rules") without definition. What is the distinction between eligibility rules and rules? Not specified in source — requires confirmation.
+- What constitutes a "material" scheme change that triggers audit recording? Not specified in source — requires confirmation.
+- What is the exact mechanism for "flagged for review" (e.g., workflow state, notification)? Not specified in source — requires confirmation.
+- Which fields are mandatory for scheme creation? Not specified in source — requires confirmation.
+
+Jira Story Key: SRC-002
+Parent Epic Key: Scheme Management
+Story Summary: Enforce unique scheme identity
+Supported actor(s): Pension administrator (system-enforced)
+Trigger/precondition: A scheme creation or update attempt involving a scheme identifier.
+
+SRC-002-FR-01: The system shall perform a scheme identity check when a scheme record is created or updated.
+Inputs: scheme identifier.
+Outputs: pass/fail result of the uniqueness check.
+
+SRC-002-FR-02: The system shall block creation of a scheme record when a duplicate identifier is detected, or flag it for manual review.
+Business rule/validation: No two scheme records may share the same identifier.
+Exception/alternate path: If blocked, the system shall not store the record; if flagged, the record shall be held pending manual review.
+
+SRC-002-FR-03: The system shall return a clear uniqueness violation message when a new scheme with an existing identifier is attempted.
+Outputs: uniqueness violation message displayed to the user.
+
+Acceptance criteria (SRC-002):
+- Given a scheme identity check, when a duplicate identifier is detected, then creation is blocked or flagged for manual review.
+- Given an existing scheme, when a new scheme with the same identifier is attempted, then the system returns a clear uniqueness violation message.
+
+Missing details or ambiguities (SRC-002):
+- Is blocking the default behavior with flagging as an alternative, or vice versa? Not specified in source — requires confirmation.
+- What is the exact content/format of the "clear uniqueness violation message"? Not specified in source — requires confirmation.
+- Does the uniqueness check apply to updates as well as creation? The source implies both; confirmation requested.
+
+Capability: Employer Registration and Maintenance (SRC-003)
+
+Jira Story Key: SRC-003
+Parent Epic Key: Employer Management
+Story Summary: Register and maintain employer records
+Supported actor(s): Pension administrator
+Trigger/precondition: Administrator submits an employer registration or update.
+
+SRC-003-FR-01: The system shall allow a pension administrator to register an employer record containing employer identity, status, and authorized contact details.
+Inputs: employer identity, status, authorized contact details.
+Outputs: stored employer record.
+
+SRC-003-FR-02: The system shall ensure each employer record is uniquely identifiable and stored.
+Business rule/validation: Employer identity must be unique within the system.
+Exception/alternate path: Not specified in source — requires confirmation.
+
+SRC-003-FR-03: The system shall allow a pension administrator to update an existing employer's status or details.
+Inputs: updated status or contact details.
+Outputs: updated employer record.
+
+SRC-003-FR-04: The system shall record employer status or detail updates with an effective date.
+Inputs: update action, new status or details.
+Outputs: change record with effective date.
+
+Acceptance criteria (SRC-003):
+- Given an employer registration, when it is submitted with identity, status, and contact details, then the employer is uniquely identifiable and stored.
+- Given an existing employer, when its status or details are updated, then the change is recorded with an effective date.
+
+Missing details or ambiguities (SRC-003):
+- What fields constitute "employer identity" (e.g., tax ID, registration number, name)? Not specified in source — requires confirmation.
+- What fields constitute "authorized contact details" (e.g., name, email, phone)? Not specified in source — requires confirmation.
+- What is the default or valid set of employer statuses? Not specified in source — requires confirmation.
+- Is there a uniqueness check for employer identity analogous to SRC-002? The source implies uniqueness but does not specify the mechanism. Not specified in source — requires confirmation.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+
+No complete end-to-end workflow is specified in this batch. The following partial flows are supported:
+- Scheme creation flow: administrator creates a scheme record (SRC-001-FR-01) → system enforces unique scheme identity (SRC-002-FR-01, SRC-002-FR-02) → on material change, audit record is created (SRC-001-FR-03).
+- Employer registration flow: administrator submits employer registration (SRC-003-FR-01) → system stores uniquely identifiable record (SRC-003-FR-02) → on update, change is recorded with effective date (SRC-003-FR-04).
+
+D. RULES, VALIDATIONS, AND DATA
+
+Explicit rules and validations:
+- Scheme identifier must be unique; duplicate creation is blocked or flagged for review (SRC-001-FR-02, SRC-002-FR-01, SRC-002-FR-02).
+- Employer identity must be unique; employer records must be uniquely identifiable (SRC-003-FR-02).
+- Material scheme changes must be audited with user, timestamp, and old/new values (SRC-001-FR-03).
+- Employer status or detail updates must be recorded with an effective date (SRC-003-FR-04).
+
+Business data objects:
+- Scheme record: scheme identifier, eligibility rules, rules, status, effective date, audit trail (user, timestamp, old/new values) (SRC-001).
+- Employer record: employer identity, status, authorized contact details, effective date of changes (SRC-003).
+
+No field-level constraints, data relationships, or integration rules are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+
+SRC-001 | Scheme Management | SRC-001-FR-01, SRC-001-FR-02, SRC-001-FR-03, SRC-001-FR-04 | covered
+SRC-002 | Scheme Management | SRC-002-FR-01, SRC-002-FR-02, SRC-002-FR-03 | covered
+SRC-003 | Employer Management | SRC-003-FR-01, SRC-003-FR-02, SRC-003-FR-03, SRC-003-FR-04 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+
+SRC-001:
+- What is the distinction between "eligibility rules" and "rules"?
+- What defines a "material" scheme change requiring audit recording?
+- What is the exact mechanism for "flagged for review"?
+- Which scheme fields are mandatory at creation?
+
+SRC-002:
+- Is blocking the default behavior with flagging as an alternative, or vice versa?
+- What is the exact content/format of the uniqueness violation message?
+- Does the uniqueness check apply to updates as well as creation?
+
+SRC-003:
+- What fields constitute "employer identity"?
+- What fields constitute "authorized contact details"?
+- What is the valid set of employer statuses?
+- What is the mechanism for enforcing employer identity uniqueness?
+
+All three stories have acceptance criteria; however, several criteria reference behaviors (e.g., "flagged for review," "clear uniqueness violation message") that require further specification before testable validation can be fully defined.

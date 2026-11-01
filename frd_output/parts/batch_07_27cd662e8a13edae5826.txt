@@ -1,0 +1,81 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers two capabilities within the pension administration platform: (1) Investment Records — auditability of investment and allocation record changes and explicit exclusion of investment trading, portfolio execution, and financial advice; and (2) Benefits Administration — recording of member benefit requests with required details and supporting documentation. Supported epic keys: Investment Records (SRC-019, SRC-020) and Benefits Administration (SRC-021). Exact story keys in this batch: SRC-019, SRC-020, SRC-021.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Investment Records — Audit Trail
+
+Jira Story Key: SRC-019
+Parent Epic Key: Investment Records
+Story Summary: Audit investment record changes
+Supported actor(s): Pension administrator
+Trigger/precondition: A change is made to an investment or allocation record.
+Functional requirements:
+SRC-019-FR-01: The system shall capture, for every change to an investment or allocation record, the identity of the user who made the change, the timestamp of the change, and the changed values.
+SRC-019-FR-02: The system shall return the audit trail of an investment record when its change history is queried.
+Inputs and outputs: Input — a change to an investment or allocation record; a query for an investment record's change history. Output — captured audit entry (user, timestamp, changed values); returned audit trail.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: None specified in source.
+Acceptance criteria:
+Given a change to an investment or allocation record, when it is made, then the user, timestamp, and changed values are captured.
+Given an investment record, when its change history is queried, then the audit trail is returned.
+Missing details or ambiguities: The source does not specify the audit entry fields beyond user, timestamp, and changed values (for example, whether old and new values are both stored, whether the change type or reason is recorded, or whether the audit trail is immutable). The source does not specify the query interface, filters, or pagination for retrieving the audit trail. Requires confirmation.
+
+Capability: Investment Records — Scope Exclusion
+
+Jira Story Key: SRC-020
+Parent Epic Key: Investment Records
+Story Summary: Exclude investment trading functionality
+Supported actor(s): System administrator (as the actor expressing the requirement); the denial applies to all actors attempting the excluded functions.
+Trigger/precondition: An attempt is made to access investment trading, portfolio execution, or financial advice; or the investment module is reviewed.
+Functional requirements:
+SRC-020-FR-01: The system shall deny access to investment trading, portfolio execution, and financial advice unless the functionality has been separately approved.
+SRC-020-FR-02: The system shall not expose any trading or execution functions within the investment module without explicit approval.
+Inputs and outputs: Input — an attempt to access investment trading, portfolio execution, or financial advice; a review of the investment module. Output — access denied; no trading or execution functions exposed.
+Explicit business rules and validations: Investment trading, portfolio execution, and financial advice are out of scope unless explicitly approved.
+Exceptions/alternate paths: Access is permitted only when the functionality is separately approved; the approval mechanism and approval authority are not specified in source.
+Acceptance criteria:
+Given an attempt to access investment trading, portfolio execution, or financial advice, when it is made, then it is denied unless separately approved.
+Given the investment module, when it is reviewed, then no trading or execution functions are exposed without explicit approval.
+Missing details or ambiguities: The source does not define what "separately approved" means operationally (for example, whether approval is a configuration flag, a feature flag, a documented change-control decision, or a role-based entitlement), nor who may grant approval. The source does not specify the denial behavior (for example, error message, HTTP status, or UI behavior). Requires confirmation.
+
+Capability: Benefits Administration — Record Benefit Requests
+
+Jira Story Key: SRC-021
+Parent Epic Key: Benefits Administration
+Story Summary: Record benefit requests
+Supported actor(s): Pension scheme member
+Trigger/precondition: A member submits a benefit request.
+Functional requirements:
+SRC-021-FR-01: The system shall capture all required supporting details for a benefit request when it is recorded.
+SRC-021-FR-02: The system shall attribute each recorded benefit request to a member and to a scheme.
+SRC-021-FR-03: The system shall reject or hold an incomplete benefit request at submission until it is complete, and record the missing elements.
+Inputs and outputs: Input — a benefit request submission including required details and supporting documentation. Output — a recorded benefit request attributable to a member and scheme; for incomplete requests, a rejection or hold with the missing elements recorded.
+Explicit business rules and validations: A benefit request must include all required supporting details and supporting documentation to be accepted. Incomplete requests are rejected or held until complete, with the missing elements recorded.
+Exceptions/alternate paths: Incomplete requests are rejected or held until complete. The source does not specify whether rejection and hold are mutually exclusive behaviors, whether a held request can be resubmitted, or the exact mechanism of rejection versus hold.
+Acceptance criteria:
+Given a benefit request, when it is recorded, then all required supporting details are captured and it is attributable to a member and scheme.
+Given an incomplete benefit request, when it is submitted, then it is rejected or held until complete with the missing elements recorded.
+Missing details or ambiguities: The source does not enumerate the required supporting details or the required supporting documentation fields for a benefit request. The source does not specify the benefit request data model, status values, or how attribution to member and scheme is enforced. The source does not specify whether a request can be partially saved as a draft. Requires confirmation.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. SRC-019 supports a change-capture and audit-trail-read workflow: a pension administrator makes a change to an investment or allocation record, the system captures user, timestamp, and changed values, and the audit trail can be queried and returned. SRC-020 defines a scope boundary rather than a workflow: attempts to access investment trading, portfolio execution, or financial advice are denied unless separately approved. SRC-021 supports a benefit-request submission workflow: a pension scheme member submits a benefit request with required details and supporting documentation; the system captures required details, attributes the request to a member and scheme, and rejects or holds incomplete requests while recording the missing elements. No workflow is specified for benefit request review, approval, decision, or payment outcomes.
+
+D. RULES, VALIDATIONS, AND DATA
+- Investment and allocation record changes must be recorded with traceability of the user, timestamp, and changed values (SRC-019).
+- Investment trading, portfolio execution, and financial advice are out of scope unless explicitly approved; such functionality must not be exposed without explicit approval (SRC-020).
+- Benefit requests must include all required supporting details and supporting documentation (SRC-021).
+- Benefit requests must be attributable to a member and a scheme (SRC-021).
+- Incomplete benefit requests are rejected or held until complete, with the missing elements recorded (SRC-021).
+- Data objects referenced: investment records, allocation records, audit trail entries (user, timestamp, changed values), benefit requests (with required supporting details and supporting documentation), member attribution, scheme attribution. No field constraints, data relationships, or enumeration values are specified in source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-019 | Investment Records | SRC-019-FR-01, SRC-019-FR-02 | Covered
+SRC-020 | Investment Records | SRC-020-FR-01, SRC-020-FR-02 | Covered
+SRC-021 | Benefits Administration | SRC-021-FR-01, SRC-021-FR-02, SRC-021-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-019: What fields beyond user, timestamp, and changed values must the audit entry contain (for example, old value, new value, change type, reason)? What is the query interface, filters, and pagination for retrieving an investment record's audit trail? Is the audit trail immutable?
+SRC-020: What does "separately approved" mean operationally (configuration flag, feature flag, documented change-control decision, or role-based entitlement), and who may grant approval? What is the denial behavior (error message, status code, UI response)?
+SRC-021: What are the required supporting details and required supporting documentation fields for a benefit request? What is the benefit request data model and status lifecycle? Is a request allowed to be saved as a draft, and how do rejection and hold differ operationally?
+SRC-021: No acceptance criteria are missing; both acceptance criteria are present but require the clarifications above to be testable.

@@ -1,0 +1,75 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within two epics: SRC-010 and SRC-011 under the Pension Account Administration epic, and SRC-012 under the Contributions and Financial Reconciliation epic. Supported capabilities are: (1) traceability of pension accounts to related contribution, investment, and benefit records; (2) audit recording of pension account changes; and (3) recording of employer contribution submissions with amount and submission date.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Pension Account Traceability and Audit (SRC-010, SRC-011)
+
+Jira Story Key: SRC-010
+Parent Epic Key: Pension Account Administration
+Story Summary: Trace pension accounts to related records
+Supported actor(s): Pension administrator
+Trigger/precondition: A pension account exists with related contribution, investment, or benefit records.
+Functional requirements:
+SRC-010-FR-01: The system shall, when a pension account is queried, retrieve and return the associated contribution, investment, and benefit records linked to that account.
+SRC-010-FR-02: The system shall, when a contribution, investment, or benefit record is queried, identify and return the linked pension account.
+Inputs and outputs: Input — pension account identifier or contribution/investment/benefit record identifier. Output — list of related records (SRC-010-FR-01) or linked pension account details (SRC-010-FR-02).
+Acceptance criteria:
+Given a pension account, when related records are queried, then the associated contribution, investment, and benefit records are retrievable.
+Given a contribution, investment, or benefit record, when it is queried, then the linked pension account is identifiable.
+Missing details or ambiguities: The source does not specify the query interface (UI, API, report), the exact set of fields returned, or whether partial matches are allowed. Not specified in source — requires confirmation.
+
+Jira Story Key: SRC-011
+Parent Epic Key: Pension Account Administration
+Story Summary: Audit pension account changes
+Supported actor(s): Pension administrator
+Trigger/precondition: A change is made to a pension-account record.
+Functional requirements:
+SRC-011-FR-01: The system shall, upon a change to a pension-account record, record the user who made the change, the timestamp of the change, and the changed values.
+SRC-011-FR-02: The system shall record pension-account changes in an audit trail without altering any calculation or valuation logic.
+Inputs and outputs: Input — pension-account record change. Output — audit record containing user, timestamp, and changed values.
+Acceptance criteria:
+Given a change to a pension account, when it is made, then the user, timestamp, and changed values are recorded.
+Given a pension account change, when it is audited, then no calculation or valuation logic is altered.
+Missing details or ambiguities: The source does not specify the retention period, access controls for the audit trail, or whether the audit trail is immutable. Not specified in source — requires confirmation.
+
+Capability 2: Contribution Submission Recording (SRC-012)
+
+Jira Story Key: SRC-012
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution submissions
+Supported actor(s): Employer
+Trigger/precondition: An employer submits a contribution.
+Functional requirements:
+SRC-012-FR-01: The system shall, when a contribution submission is recorded, capture the submitted amount and the submission date.
+SRC-012-FR-02: The system shall associate each recorded contribution submission with a specific employer, member, and scheme.
+SRC-012-FR-03: The system shall, when a contribution submission is queried, return the submission details and the associated employer, member, and scheme entities.
+Inputs and outputs: Input — contribution submission including amount, submission date, employer, member, and scheme. Output — recorded submission record and query results containing submission details and associated entities.
+Acceptance criteria:
+Given a contribution submission, when it is recorded, then the submitted amount and submission date are captured and associated with a specific employer, member, and scheme.
+Given a contribution submission, when it is queried, then the submission details and associated entities are returned.
+Missing details or ambiguities: The source does not specify the submission channel, required validation of the employer/member/scheme linkage, or the format of the submission date. Not specified in source — requires confirmation.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports the following linked steps:
+- Pension account traceability: query pension account → retrieve related contribution, investment, and benefit records (SRC-010-FR-01); query contribution/investment/benefit record → identify linked pension account (SRC-010-FR-02).
+- Pension account change audit: pension account change occurs → system records user, timestamp, and changed values (SRC-011-FR-01).
+- Contribution submission: employer submits contribution → system records amount, submission date, and associates employer, member, and scheme (SRC-012-FR-01, SRC-012-FR-02); query submission → return details and associated entities (SRC-012-FR-03).
+
+D. RULES, VALIDATIONS, AND DATA
+- Pension account changes must be recorded with user, timestamp, and changed values (SRC-011-FR-01).
+- Pension account changes must not alter calculation or valuation logic (SRC-011-FR-02).
+- Contribution submissions must capture submitted amount and submission date (SRC-012-FR-01).
+- Contribution submissions must be associated with a specific employer, member, and scheme (SRC-012-FR-02).
+- No explicit field-level validations, data constraints, or business rules are specified in the source. Not specified in source — requires confirmation.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-010 | Pension Account Administration | SRC-010-FR-01, SRC-010-FR-02 | covered
+SRC-011 | Pension Account Administration | SRC-011-FR-01, SRC-011-FR-02 | covered
+SRC-012 | Contributions and Financial Reconciliation | SRC-012-FR-01, SRC-012-FR-02, SRC-012-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-010: What query interface is expected (UI, API, report), and what exact fields should be returned for related records and linked pension accounts?
+- SRC-011: What is the required audit trail retention period, who may access it, and must it be immutable?
+- SRC-012: What submission channel is supported, what validations apply to the employer/member/scheme linkage, and what submission date format is required?
+- All stories: No explicit business rules, validations, or data constraints are specified in the source; these require confirmation.

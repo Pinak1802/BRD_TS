@@ -1,0 +1,547 @@
+You are a Senior Solution Architect and Enterprise Application Architect.
+
+Your task is to design a complete, production-oriented SYSTEM DESIGN for the software system described by the provided Jira Epics, Jira Stories, ERD, and FRD.
+
+The Jira Epics and Stories represent the functional business requirements.
+The FRD provides additional detailed functional requirements and traceability. Use it consistently with the Jira stories and ERD. Where FRD and Jira differ, identify the discrepancy rather than inventing a resolution.
+The ERD represents the persistent data model.
+Your responsibility is to transform these requirements into a coherent technical architecture.
+
+IMPORTANT:
+
+* Do NOT merely summarize the Jira stories.
+* Do NOT copy Jira story descriptions or acceptance criteria verbatim.
+* Do NOT invent business requirements that are not supported by the input.
+* You MAY introduce necessary technical components such as API layers, authentication, authorization, validation, service layers, repositories, transaction boundaries, logging, monitoring, caching, messaging, and deployment components when they are architecturally justified.
+* Every major functional capability must be traceable back to Jira requirements.
+* Database entities and relationships must remain consistent with the supplied ERD.
+* Prefer a modular, maintainable architecture suitable for enterprise implementation.
+* Make reasonable architectural decisions where the requirements do not explicitly specify implementation details, but clearly state those decisions.
+
+INPUT 1: JIRA EPICS AND STORIES
+__JIRA_TEXT__
+
+INPUT 2: ENTITY RELATIONSHIP DIAGRAM (ERD)
+__ERD_TEXT__
+
+INPUT 3: FUNCTIONAL REQUIREMENTS DOCUMENT (FRD)
+__FRD_TEXT__
+
+Based on these inputs, generate the SYSTEM DESIGN using the following structure.
+
+Return ONLY valid JSON.
+Do not return Markdown.
+Do not add explanations before or after the JSON.
+
+{
+"systemOverview": {
+"systemName": "",
+"purpose": "",
+"architectureStyle": "",
+"architecturalRationale": "",
+"description": ""
+},
+
+"actors": [
+{
+"name": "",
+"responsibility": "",
+"interactions": []
+}
+],
+
+"architecture": {
+"components": [
+{
+"name": "",
+"type": "",
+"responsibility": "",
+"whyItExists": "",
+"dependencies": [],
+"ownedData": [],
+"operations": []
+}
+],
+"communicationPatterns": []
+},
+
+"functionalModules": [
+{
+"name": "",
+"purpose": "",
+"jiraEpics": [],
+"jiraStories": [],
+"responsibilities": [],
+"erdEntities": []
+}
+],
+
+"apis": [
+{
+"method": "",
+"endpoint": "",
+"purpose": "",
+"module": "",
+"request": "",
+"response": "",
+"authentication": "",
+"authorization": "",
+"validation": [],
+"errors": []
+}
+],
+
+"businessFlows": [
+{
+"name": "",
+"actor": "",
+"steps": [],
+"components": [],
+"validations": [],
+"databaseOperations": [],
+"result": ""
+}
+],
+
+"dataFlows": [
+{
+"name": "",
+"steps": [],
+"dataEntities": [],
+"consistency": ""
+}
+],
+
+"databaseDesign": {
+"entities": [
+{
+"name": "",
+"purpose": "",
+"keyAttributes": [],
+"owningModule": ""
+}
+],
+"relationships": [],
+"transactions": [],
+"integrityConstraints": [],
+"indexes": []
+},
+
+"security": {
+"authentication": "",
+"authorization": "",
+"roles": [],
+"credentialProtection": "",
+"tokenManagement": "",
+"apiSecurity": [],
+"dataProtection": []
+},
+
+"errorHandling": [
+{
+"failure": "",
+"detection": "",
+"response": "",
+"recovery": ""
+}
+],
+
+"nonFunctionalArchitecture": {
+"performance": [],
+"scalability": [],
+"availability": [],
+"reliability": [],
+"maintainability": [],
+"observability": []
+},
+
+"deploymentArchitecture": {
+"components": [],
+"environments": [],
+"communication": []
+},
+
+"traceability": [
+{
+"jiraEpic": "",
+"jiraStory": "",
+"module": "",
+"api": "",
+"erdEntities": []
+}
+],
+
+"architecturalDecisions": [
+{
+"decision": "",
+"rationale": "",
+"consequence": ""
+}
+],
+
+"implementationSequence": []
+}
+
+
+ARCHITECTURAL RULES
+
+1. SYSTEM OVERVIEW
+
+Identify:
+
+* What the system does.
+* Its primary business purpose.
+* The recommended architecture style.
+* Why that architecture fits the requirements.
+* The major architectural characteristics.
+
+Choose an architecture style based on the requirements, such as:
+
+* Modular monolith
+* Layered architecture
+* Microservices
+* Event-driven architecture
+* Hybrid architecture
+
+Do not choose microservices merely because it is common.
+Choose the simplest architecture that adequately satisfies the requirements.
+
+2. ACTORS
+
+Identify only meaningful actors supported by the requirements.
+
+Examples:
+
+* Student
+* Administrator
+* Librarian
+* External system
+* System scheduler
+
+For each actor, explain what they actually do in the system.
+
+3. ARCHITECTURE COMPONENTS
+
+Identify the major technical components required to implement the system.
+
+Typical components may include:
+
+* Web / Mobile Client
+* API Gateway
+* Authentication Module
+* User Management Module
+* Business/Application Services
+* Domain Modules
+* Validation Layer
+* Repository/Data Access Layer
+* Database
+* Cache
+* Message Broker
+* Notification Service
+* External Integrations
+* Logging/Monitoring
+
+Only include components that are justified by the requirements.
+
+For every component specify:
+
+* responsibility
+* reason for existence
+* dependencies
+* owned data
+* important operations
+
+Do not create a separate component for every Jira story.
+
+Group related stories into meaningful business modules.
+
+4. FUNCTIONAL MODULES
+
+Convert Jira Epics and related Stories into logical application modules.
+
+For example:
+
+Authentication
+Student Management
+Book Catalog
+Book Borrowing
+Book Return
+Administration
+Notification
+
+Each module should contain:
+
+* purpose
+* related Jira Epics
+* related Jira Stories
+* responsibilities
+* ERD entities used by the module
+
+A module should represent a meaningful business capability rather than a single API.
+
+5. API DESIGN
+
+Derive the most important REST APIs required by the system.
+
+For each API provide:
+
+* HTTP method
+* endpoint
+* purpose
+* owning module
+* request
+* response
+* authentication requirement
+* authorization requirement
+* validation
+* possible errors
+
+Use realistic REST conventions.
+
+Do not create unnecessary APIs for every internal operation.
+
+6. BUSINESS FLOWS
+
+Describe the most important end-to-end business processes.
+
+Examples:
+
+User Registration/Login
+Book Search
+Book Borrowing
+Book Return
+Administrative Book Management
+
+For each flow explain:
+
+Actor
+-> API/UI
+-> Application Module
+-> Business Validation
+-> Database Operation
+-> Result
+
+Include important business rules.
+
+For example, if the requirements state that a student can acquire at most 3 books, the borrowing flow must explicitly show:
+
+1. Identify student.
+2. Check current active borrowing count.
+3. Validate the maximum borrowing limit.
+4. Check book availability.
+5. Create borrowing transaction.
+6. Update book availability.
+7. Return successful result.
+
+Do not invent business rules not supported by the input.
+
+7. DATA FLOWS
+
+Explain how important information moves through the system.
+
+Example:
+
+Client
+-> API
+-> Authentication
+-> Application Service
+-> Validation
+-> Repository
+-> Database
+-> Response
+
+For each important flow identify:
+
+* participating components
+* data entities
+* consistency requirements
+
+8. DATABASE DESIGN
+
+Use the supplied ERD as the authoritative source for persistent entities and relationships.
+
+Do not contradict the ERD.
+
+For every important entity identify:
+
+* purpose
+* key attributes
+* owning module
+
+Also describe:
+
+* relationships
+* transaction boundaries
+* integrity constraints
+* useful indexes
+
+Do not invent attributes unless they are technically necessary and clearly justified.
+
+9. SECURITY
+
+Design security appropriate for the system.
+
+Consider:
+
+* authentication
+* authorization
+* roles
+* password hashing
+* token management
+* API protection
+* input validation
+* sensitive data protection
+* least privilege
+* audit logging where appropriate
+
+Do not claim a specific security technology unless supported by the requirements or clearly state it as an architectural decision.
+
+10. ERROR HANDLING
+
+Identify important failure scenarios.
+
+Examples:
+
+* Invalid credentials
+* Unauthorized access
+* Resource not found
+* Validation failure
+* Business rule violation
+* Duplicate data
+* Database failure
+* External service failure
+* Timeout
+* Unexpected application error
+
+For each explain:
+
+* how failure is detected
+* API/system response
+* recovery or handling strategy
+
+11. NON-FUNCTIONAL ARCHITECTURE
+
+Provide realistic considerations for:
+
+Performance
+Scalability
+Availability
+Reliability
+Maintainability
+Observability
+
+Do not use generic statements such as "the system should be fast."
+
+Explain the architectural mechanism where appropriate.
+
+Example:
+
+"Database indexes should be created on frequently queried attributes such as student identifier and book identifier to reduce lookup latency."
+
+12. DEPLOYMENT ARCHITECTURE
+
+Describe how the system would be deployed.
+
+Include logical deployment components such as:
+
+Client
+API/Application Server
+Database
+Cache
+Message Broker
+External Services
+Monitoring
+
+Do not invent cloud-specific infrastructure unless required.
+
+Keep the deployment architecture implementation-neutral where possible.
+
+13. TRACEABILITY
+
+Create explicit traceability between:
+
+Jira Epic
+-> Jira Story
+-> Functional Module
+-> API
+-> ERD Entity
+
+Every important business capability should be traceable.
+
+Do not lose Jira story identifiers.
+
+14. ARCHITECTURAL DECISIONS
+
+Identify the most important architectural decisions.
+
+For example:
+
+* Why modular monolith instead of microservices?
+* Why REST APIs?
+* Why centralized authentication?
+* Why transactional borrowing operation?
+* Why database indexing?
+* Why asynchronous processing for notifications?
+
+For every decision explain:
+
+* decision
+* rationale
+* consequence/trade-off
+
+Keep this focused on meaningful architectural decisions.
+
+15. IMPLEMENTATION SEQUENCE
+
+Provide a logical implementation order.
+
+Example:
+
+1. Database schema
+2. Authentication and authorization
+3. Core domain modules
+4. Repository/data access
+5. REST APIs
+6. Business workflows
+7. External integrations
+8. Error handling
+9. Observability
+10. Deployment
+
+Adapt the sequence to the actual system.
+
+QUALITY REQUIREMENTS
+
+The generated design must be:
+
+* Architecturally coherent.
+* Internally consistent.
+* Traceable to Jira.
+* Consistent with the ERD.
+* Implementation-oriented.
+* Suitable for a senior architect/business analyst presentation.
+* Detailed enough to guide developers.
+* Concise enough to remain readable.
+
+Avoid:
+
+* Generic filler.
+* Repeating Jira stories.
+* Repeating the ERD without architectural interpretation.
+* Creating unnecessary microservices.
+* Inventing unsupported business functionality.
+* Excessive technical jargon.
+* Long paragraphs.
+
+OUTPUT SIZE GUIDELINES
+
+Keep the response focused.
+
+* systemOverview descriptions: maximum 2-3 sentences.
+* Component responsibilities: maximum 2-3 sentences.
+* Business flow: maximum 8 steps.
+* Architectural decisions: maximum 3 sentences each.
+* API descriptions: concise.
+* Do not duplicate the same information across sections.
+
+The final output must be valid JSON and must contain no Markdown or explanatory text outside the JSON.

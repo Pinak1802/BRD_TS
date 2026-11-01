@@ -1,246 +1,1315 @@
 FUNCTIONAL REQUIREMENTS DOCUMENT (FRD)
 Compiled from Jira Epics and Stories using batched LLM generation.
 Source: src/epics_and_stories.json
-Epics: 9 | Unique stories: 1 | Generated sections: 1
+Epics: 9 | Unique stories: 36 | Generated sections: 12
 Requirement IDs in generated sections are batch-local; use Jira keys for cross-section traceability.
 
 SOURCE STORY INVENTORY
-SRC-001 | Epic: Not specified | Create and maintain scheme configuration
+SRC-001 | Epic: Not specified | Register and configure pension schemes
+SRC-002 | Epic: Not specified | Define and store scheme eligibility rules
+SRC-003 | Epic: Not specified | Track scheme status and effective dates
+SRC-004 | Epic: Not specified | Audit material scheme changes
+SRC-005 | Epic: Not specified | Register and maintain employer records
+SRC-006 | Epic: Not specified | Manage authorized employer contacts
+SRC-007 | Epic: Not specified | Associate employers with schemes
+SRC-008 | Epic: Not specified | Enroll members through a controlled workflow
+SRC-009 | Epic: Not specified | Validate enrollment against eligibility rules
+SRC-010 | Epic: Not specified | Maintain member records
+SRC-011 | Epic: Not specified | Prevent duplicate and invalid member registrations
+SRC-012 | Epic: Not specified | Create and maintain pension-account records
+SRC-013 | Epic: Not specified | Link accounts to members and schemes
+SRC-014 | Epic: Not specified | Trace account activity to business records
+SRC-015 | Epic: Not specified | Record contribution submissions
+SRC-016 | Epic: Not specified | Record contribution receipts
+SRC-017 | Epic: Not specified | Record contribution allocations
+SRC-018 | Epic: Not specified | Associate contributions with required entities
+SRC-019 | Epic: Not specified | Reconcile submitted, received, and allocated amounts
+SRC-020 | Epic: Not specified | Flag unmatched and failed items
+SRC-021 | Epic: Not specified | Track exceptions through resolution
+SRC-022 | Epic: Not specified | Preserve evidence of material financial actions
+SRC-023 | Epic: Not specified | Maintain approved investment and allocation records
+SRC-024 | Epic: Not specified | Audit investment record changes
+SRC-025 | Epic: Not specified | Record and validate benefit requests
+SRC-026 | Epic: Not specified | Route benefit requests through controlled review and approval
+SRC-027 | Epic: Not specified | Track benefit request processing status
+SRC-028 | Epic: Not specified | Record benefit payment outcomes
+SRC-029 | Epic: Not specified | Generate operational reports
+SRC-030 | Epic: Not specified | Generate financial reports
+SRC-031 | Epic: Not specified | Provide visibility into discrepancies and exceptions
+SRC-032 | Epic: Not specified | Retrieve audit records of material actions
+SRC-033 | Epic: Not specified | Ensure reporting completeness and consistency
+SRC-034 | Epic: Not specified | Enforce role-based access control
+SRC-035 | Epic: Not specified | Configure roles and permissions
+SRC-036 | Epic: Not specified | Control access to sensitive operations
 
 EPICS WITHOUT ASSOCIATED STORIES
 None
 
 FRD FUNCTIONAL SECTIONS
-PART 1 OF 1 | JIRA STORIES: SRC-001
+PART 1 OF 12 | JIRA STORIES: SRC-001, SRC-002, SRC-003
 ===========================================================================
-FUNCTIONAL REQUIREMENTS DOCUMENT (FRD)
+A. BATCH FUNCTIONAL SCOPE
 
-1. DOCUMENT OVERVIEW
+This batch covers the Scheme Management epic. It defines the capability to register and configure pension schemes, define and store scheme eligibility rules, and track scheme status and effective dates for historical and period-based processing.
 
-1.1 Purpose
-This document defines the functional requirements for the pension administration system based on the supplied Jira source records. It specifies what the system shall do, who shall use each capability, when behavior shall occur, which rules apply, and how successful behavior shall be verified. It is intended for stakeholder review, functional validation, and test design.
+Story keys in this batch: SRC-001, SRC-002, SRC-003.
+Parent epic key: Not specified in source (epicKey is empty in all records). Epic summary: Scheme Management.
 
-1.2 System or product overview
-The system is a pension administration platform that manages pension schemes, employers, members, pension accounts, contributions, investments, benefits, reporting, audit, and security. This FRD batch covers the Scheme Management capability only.
+B. DETAILED FUNCTIONAL REQUIREMENTS
 
-1.3 Scope of the FRD
-This batch covers the Scheme Management epic and its single story SRC-001. It defines requirements for creating, configuring, maintaining, and auditing scheme records, including eligibility rules, status, effective dates, and scheme identity uniqueness.
+Functional Capability: Scheme Registration and Configuration (SRC-001)
 
-1.4 Source artifacts and coverage
-- Epics supplied: 9 (Scheme Management, Employer Management, Member Management, Pension Account Administration, Contributions and Financial Reconciliation, Investment Records, Benefits Administration, Reporting and Audit, Security, Access Control, and Exception Handling). Epic keys are not provided in the source.
-- Stories supplied in this batch: 1 (SRC-001).
-- Coverage: SRC-001 is fully mapped to requirements FR-001 through FR-004. The remaining eight epics have no stories in this batch and are therefore not covered by requirements in this batch.
+Jira Story Key: SRC-001
+Parent Epic Key: Not specified in source
+Story Summary: Register and configure pension schemes
+Supported actor(s): Authorized pension administrator
+Trigger/precondition: An authorized pension administrator initiates scheme creation.
+Functional requirements:
+SRC-001-FR-01: The system shall allow an authorized pension administrator to create a new scheme record with identifiable details and a configuration record.
+SRC-001-FR-02: The system shall prevent creation of a scheme record when no configuration exists.
+SRC-001-FR-03: The system shall ensure that each scheme record has a unique identity and shall prevent the creation of duplicate scheme records.
+Inputs and outputs: Inputs — scheme details and configuration (specific fields not specified in source). Outputs — scheme record and configuration record.
+Explicit business rules and validations: A scheme record cannot be created without configuration. Scheme identity must be unique.
+Exceptions/alternate paths: Not specified in source.
+Acceptance criteria:
+Given an authorized pension administrator, when a new scheme is created, then the scheme has identifiable details and a configuration record exists.
+Given a scheme registration attempt, when no configuration exists, then the scheme record cannot be created without configuration.
+Given a scheme record, when it is queried, then its identity is unique and no duplicate scheme record exists.
+Missing details or ambiguities: The specific scheme details and configuration fields are not specified in source — requires confirmation. The mechanism for enforcing uniqueness (e.g., unique identifier field) is not specified — requires confirmation.
 
-1.5 Terminology and definitions
-- Scheme: A pension scheme with a unique identifier, eligibility rules, status, and effective dates.
-- Scheme identifier: The unique value used to identify a scheme.
-- Material scheme change: A change to scheme configuration that is significant enough to require audit recording.
-- Eligibility rules: Rules that determine whether a person or entity qualifies for a scheme.
-- Audit record: A record of a material change capturing the changing user, timestamp, and old/new values.
-- Duplicate scheme identity: A scheme record whose scheme identifier matches an existing scheme record.
+Functional Capability: Scheme Eligibility Rules (SRC-002)
 
-2. BUSINESS CONTEXT AND FUNCTIONAL SCOPE
+Jira Story Key: SRC-002
+Parent Epic Key: Not specified in source
+Story Summary: Define and store scheme eligibility rules
+Supported actor(s): Pension administrator
+Trigger/precondition: A pension administrator stores or changes eligibility rules; an enrollment is validated.
+Functional requirements:
+SRC-002-FR-01: The system shall store scheme eligibility rules and make them available for enrollment validation.
+SRC-002-FR-02: The system shall reference stored eligibility rules when validating an enrollment.
+SRC-002-FR-03: The system shall record and make traceable any change to eligibility rules when it is saved.
+SRC-002-FR-04: The system shall not silently approve an enrollment attempt when eligibility rules are unavailable.
+Inputs and outputs: Inputs — eligibility rules (specific rule structure not specified in source). Outputs — stored rules, validation reference, change record.
+Explicit business rules and validations: An enrollment attempt must not be silently approved when eligibility rules are unavailable.
+Exceptions/alternate paths: Not specified in source.
+Acceptance criteria:
+Given eligibility rules are stored, when an enrollment is validated, then the validation references the stored rules.
+Given a change to eligibility rules, when it is saved, then the change is recorded and traceable.
+Given an enrollment attempt, when eligibility rules are unavailable, then the attempt is not silently approved.
+Missing details or ambiguities: The structure and format of eligibility rules are not specified in source — requires confirmation. The definition of "silently approved" and the required behavior when rules are unavailable (e.g., rejection, error, or pending state) is not specified — requires confirmation.
 
-2.1 Business objectives evidenced by the Jira stories
-- Establish and maintain a definitive configuration for each pension scheme.
-- Ensure scheme configuration is consistent and auditable.
-- Enforce unique scheme identity to prevent duplicate or conflicting scheme records.
+Functional Capability: Scheme Status and Effective Dating (SRC-003)
 
-2.2 In-scope functional capabilities
-- Create and maintain scheme configuration, including eligibility rules, status, and effective dates.
-- Prevent or flag duplicate scheme identities.
-- Record and retrieve audit information for material scheme changes.
+Jira Story Key: SRC-003
+Parent Epic Key: Not specified in source
+Story Summary: Track scheme status and effective dates
+Supported actor(s): Pension administrator
+Trigger/precondition: A scheme status or rule change is recorded with an effective date; a downstream process runs against a scheme; a historical query is requested.
+Functional requirements:
+SRC-003-FR-01: The system shall record a scheme status change together with an effective date and make the status and effective date visible on the scheme record.
+SRC-003-FR-02: The system shall apply the scheme status and rules that are effective for the period against which a downstream process runs.
+SRC-003-FR-03: The system shall retrieve the scheme state as of a requested past effective date for historical queries.
+Inputs and outputs: Inputs — status change with effective date; downstream process run; historical query with past effective date. Outputs — updated scheme record; period-applicable status and rules; historical scheme state.
+Explicit business rules and validations: Downstream processing must use the status and rules effective for the relevant period.
+Exceptions/alternate paths: Not specified in source.
+Acceptance criteria:
+Given a scheme status change, when it is recorded with an effective date, then the status and effective date are visible on the scheme record.
+Given a downstream process, when it runs against a scheme, then it applies the status and rules effective for that period.
+Given a historical query, when it requests a past effective date, then the scheme state at that date is retrievable.
+Missing details or ambiguities: The mechanism for effective dating (e.g., start/end date pairs, versioning) is not specified in source — requires confirmation. The definition of "period" for downstream processing is not specified — requires confirmation.
 
-2.3 Out-of-scope items
-Not specified in source. The source does not explicitly exclude any functionality.
+C. SUPPORTED BUSINESS WORKFLOWS
 
-2.4 Dependencies and known constraints
-- SRC-001 requires a scheme identifier to create a scheme record.
-- SRC-001 requires eligibility rules, rules, status, and effective dates to be captured at creation.
-- Not specified in source — requires confirmation: the exact set of fields constituting "scheme details," the definition of "material scheme change," and the behavior when a duplicate is flagged for review.
+No complete end-to-end workflow is specified in this batch. The batch supports the following linked steps:
+1. Register and configure a scheme (SRC-001).
+2. Define and store eligibility rules for the scheme (SRC-002).
+3. Record scheme status and effective dates for status and rule changes (SRC-003).
+4. Downstream processes apply period-effective status and rules (SRC-003).
+5. Historical queries retrieve scheme state at a past effective date (SRC-003).
 
-3. ACTORS AND ROLES
+D. RULES, VALIDATIONS, AND DATA
 
-3.1 Pension administrator
-- Role: The user who creates, configures, and maintains scheme details.
-- Responsibilities: Create scheme records, capture material scheme changes, and maintain scheme configuration.
-- Relevant capabilities: Scheme creation, scheme maintenance, audit record retrieval.
-- Jira story keys: SRC-001.
-- Authorization detail: Not specified in source — requires confirmation. The source mentions "the changing user" for audit purposes but does not define role-based permissions for scheme creation or maintenance.
-
-4. FUNCTIONAL MODULES AND DETAILED REQUIREMENTS
-
-Module ID: MOD-001
-Module name: Scheme Management
-Purpose and scope: Establish and maintain the definitive configuration for each pension scheme, including eligibility rules, status, effective dates, and a chronological audit trail of material changes, while enforcing unique scheme identity.
-Related epic keys: Not provided in source.
-Related story keys: SRC-001.
-Actors: Pension administrator.
-
-FR-001: Create scheme record
-Title: Create and store a new scheme record
-Requirement statement: The system shall allow a pension administrator to create a scheme record by providing a scheme identifier, eligibility rules, rules, status, and effective date.
-Triggering event: Pension administrator initiates scheme creation.
-Expected observable behavior: The system stores the scheme record with the provided scheme identifier, eligibility rules, rules, status, and effective date.
-Input data: Scheme identifier, eligibility rules, rules, status, effective date.
-Output/result: A stored scheme record.
-Validations and business rules: None specified beyond the requirement to provide the listed fields.
-Exception/alternate behavior: Not specified in source — requires confirmation.
-Source Jira keys: SRC-001.
-Verifiable acceptance criteria: Given a new scheme record, when it is created with a scheme identifier, eligibility rules, rules, status, and effective date, then it is stored.
-
-FR-002: Prevent duplicate scheme identity
-Title: Prevent or flag duplicate scheme identity
-Requirement statement: The system shall prevent or explicitly flag for review an attempt to create a scheme record with a scheme identifier that matches an existing scheme record.
-Triggering event: Pension administrator submits a scheme creation with a scheme identifier that matches an existing scheme.
-Expected observable behavior: The system either prevents the creation or explicitly flags it for review.
-Input data: Scheme identifier.
-Output/result: Creation prevented or flagged for review.
-Validations and business rules: Scheme identifier uniqueness against existing scheme records.
-Exception/alternate behavior: Not specified in source — requires confirmation.
-Source Jira keys: SRC-001.
-Verifiable acceptance criteria: Given an attempt to create a duplicate scheme identity, when it is submitted, then it is prevented or explicitly flagged for review.
-
-FR-003: Record material scheme change audit
-Title: Record audit information for material scheme changes
-Requirement statement: The system shall record, for each material scheme change, the changing user, timestamp, and old and new values.
-Triggering event: A material scheme change is captured.
-Expected observable behavior: The system records the changing user, timestamp, and old/new values.
-Input data: Changing user, timestamp, old values, new values.
-Output/result: An audit record.
-Validations and business rules: None specified beyond the requirement to capture the listed fields.
-Exception/alternate behavior: Not specified in source — requires confirmation.
-Source Jira keys: SRC-001.
-Verifiable acceptance criteria: Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are recorded.
-
-FR-004: Retrieve audit information
-Title: Retrieve audit information for material scheme changes
-Requirement statement: The system shall make the recorded audit information for material scheme changes retrievable for audit purposes.
-Triggering event: A request for audit information is made.
-Expected observable behavior: The system returns the recorded changing user, timestamp, and old/new values for the requested material scheme change.
-Input data: Request identifying the material scheme change.
-Output/result: The recorded audit information.
-Validations and business rules: None specified.
-Exception/alternate behavior: Not specified in source — requires confirmation.
-Source Jira keys: SRC-001.
-Verifiable acceptance criteria: Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are retrievable for audit.
-
-Postconditions: Scheme records are stored with unique scheme identifiers, and material scheme changes are recorded and retrievable for audit.
-Dependencies: SRC-001.
-
-5. END-TO-END FUNCTIONAL WORKFLOWS
-
-Workflow 1: Create a new scheme
-- Actor: Pension administrator.
-- Trigger: Pension administrator initiates scheme creation.
-- Preconditions: None specified in source.
-- Main success flow:
-  1. Pension administrator provides a scheme identifier, eligibility rules, rules, status, and effective date.
-  2. The system validates the scheme identifier against existing scheme records.
-  3. The system stores the scheme record.
-- Alternate/exception flows:
-  - If the scheme identifier matches an existing scheme record, the system prevents creation or flags it for review.
-- Result: A stored scheme record, or a prevented/flagged duplicate.
-- Jira references: SRC-001.
-
-Workflow 2: Capture a material scheme change
-- Actor: Pension administrator.
-- Trigger: A material scheme change is captured.
-- Preconditions: An existing scheme record.
-- Main success flow:
-  1. The system captures the material scheme change.
-  2. The system records the changing user, timestamp, and old/new values.
-- Alternate/exception flows: Not specified in source.
-- Result: An audit record for the material scheme change.
-- Jira references: SRC-001.
-
-Workflow 3: Retrieve audit information
-- Actor: Pension administrator.
-- Trigger: A request for audit information is made.
-- Preconditions: At least one material scheme change has been captured.
-- Main success flow:
-  1. The system retrieves the recorded audit information for the requested material scheme change.
-- Alternate/exception flows: Not specified in source.
-- Result: The recorded audit information.
-- Jira references: SRC-001.
-
-6. BUSINESS RULES AND VALIDATIONS
-
-BRULE-001: Unique scheme identity
-- Exact meaning: A scheme identifier must be unique across scheme records. An attempt to create a scheme with a duplicate scheme identifier shall be prevented or explicitly flagged for review.
-- Affected functional requirements: FR-002.
-- Jira sources: SRC-001.
-
-BRULE-002: Material scheme change audit
-- Exact meaning: For each material scheme change, the system shall record the changing user, timestamp, and old/new values.
-- Affected functional requirements: FR-003, FR-004.
-- Jira sources: SRC-001.
-
-VAL-001: Scheme creation field completeness
-- Exact meaning: A scheme record shall be created with a scheme identifier, eligibility rules, rules, status, and effective date.
-- Affected functional requirements: FR-001.
-- Jira sources: SRC-001.
-
-7. DATA REQUIREMENTS (FUNCTIONAL VIEW)
+Explicit rules and validations:
+- SRC-001: A scheme record cannot be created without configuration. Scheme identity must be unique.
+- SRC-002: An enrollment attempt must not be silently approved when eligibility rules are unavailable.
+- SRC-003: Downstream processing must apply the status and rules effective for the relevant period.
 
 Business data objects:
-- Scheme record: Contains scheme identifier, eligibility rules, rules, status, and effective date.
-- Audit record: Contains changing user, timestamp, and old/new values.
+- Scheme record with identifiable details (SRC-001).
+- Scheme configuration record (SRC-001).
+- Eligibility rules (SRC-002).
+- Change record for eligibility rules (SRC-002).
+- Scheme status and effective date (SRC-003).
+- Historical scheme state (SRC-003).
 
-User-visible fields:
-- Scheme identifier: Required for scheme creation and uniqueness validation.
-- Eligibility rules: Required for scheme creation.
-- Rules: Required for scheme creation.
-- Status: Required for scheme creation.
-- Effective date: Required for scheme creation.
-- Changing user: Recorded for audit.
-- Timestamp: Recorded for audit.
-- Old values: Recorded for audit.
-- New values: Recorded for audit.
+No field constraints, data relationships, or data types are specified in source — requires confirmation.
 
-Data relationships:
-- Audit records are associated with scheme records through material scheme changes.
+E. STORY-TO-REQUIREMENT TRACEABILITY
 
-Unspecified fields: Not specified in source — requires confirmation. The exact set of fields constituting "scheme details" is not defined.
+SRC-001 | Not specified in source | SRC-001-FR-01, SRC-001-FR-02, SRC-001-FR-03 | Covered
+SRC-002 | Not specified in source | SRC-002-FR-01, SRC-002-FR-02, SRC-002-FR-03, SRC-002-FR-04 | Covered
+SRC-003 | Not specified in source | SRC-003-FR-01, SRC-003-FR-02, SRC-003-FR-03 | Covered
 
-8. EXCEPTION AND ERROR SCENARIOS
+F. OPEN QUESTIONS AND COVERAGE GAPS
 
-Scenario 1: Duplicate scheme identity
-- Trigger: Pension administrator submits a scheme creation with a scheme identifier that matches an existing scheme record.
-- User-visible expected result: Creation prevented or flagged for review.
-- Affected FR IDs: FR-002.
-- Jira source: SRC-001.
+- SRC-001: What specific scheme details and configuration fields are required? Not specified in source — requires confirmation.
+- SRC-001: What mechanism enforces scheme identity uniqueness (e.g., unique identifier field)? Not specified in source — requires confirmation.
+- SRC-002: What is the structure and format of eligibility rules? Not specified in source — requires confirmation.
+- SRC-002: What is the required behavior when eligibility rules are unavailable (e.g., rejection, error, or pending state)? Not specified in source — requires confirmation.
+- SRC-003: What is the effective dating mechanism (e.g., start/end date pairs, versioning)? Not specified in source — requires confirmation.
+- SRC-003: How is the "period" defined for downstream processing? Not specified in source — requires confirmation.
+- All stories: Parent epic key is empty in source records. Confirm the correct epic key for SRC-001, SRC-002, and SRC-003.
 
-Scenario 2: Unspecified error handling
-- Trigger: Not specified in source.
-- User-visible expected result: Not specified in source — requires confirmation.
-- Affected FR IDs: None.
-- Jira source: None.
+===========================================================================
 
-9. ACCEPTANCE CRITERIA AND TESTABILITY
+PART 2 OF 12 | JIRA STORIES: SRC-004, SRC-005, SRC-006
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three user stories within the Scheme Management and Employer Management epics. Supported business capabilities: auditability of material scheme configuration changes; registration and maintenance of employer records with duplicate detection; and management of authorized employer contacts with authorization enforcement. Story keys in this batch: SRC-004, SRC-005, SRC-006. Epic keys are not provided in the source records; epic summaries are "Scheme Management" (SRC-004) and "Employer Management" (SRC-005, SRC-006).
 
-FR-001 -> Given a new scheme record, when it is created with a scheme identifier, eligibility rules, rules, status, and effective date, then it is stored. -> SRC-001.
-FR-002 -> Given an attempt to create a duplicate scheme identity, when it is submitted, then it is prevented or explicitly flagged for review. -> SRC-001.
-FR-003 -> Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are recorded. -> SRC-001.
-FR-004 -> Given a material scheme change, when it is captured, then the changing user, timestamp, and old/new values are retrievable for audit. -> SRC-001.
+B. DETAILED FUNCTIONAL REQUIREMENTS
 
-10. REQUIREMENTS TRACEABILITY MATRIX
+Capability 1: Scheme Change Auditability
 
-Epic Key | Story Key | Module | FR IDs | Acceptance-Criteria Coverage
-Not provided | SRC-001 | MOD-001 Scheme Management | FR-001, FR-002, FR-003, FR-004 | All acceptance criteria covered.
+Jira Story Key: SRC-004
+Parent Epic Key: Not specified in source
+Story Summary: Audit material scheme changes
+Supported actor(s): Compliance or management reviewer (consumer of audit records); actor performing the change (not specified)
+Trigger/precondition: A material scheme change is made
+Functional requirements:
+SRC-004-FR-01: The system shall record a material scheme change with the actor who made the change, the timestamp of the change, and the content of the change.
+SRC-004-FR-02: The system shall return all material scheme changes within a specified scheme and date range when an audit query is filtered by scheme and date range.
+SRC-004-FR-03: The system shall prevent alteration of a retrieved audit record without creating a new audit entry.
+Inputs and outputs: Input — scheme identifier and date range for query; output — list of material scheme changes with actor, timestamp, and change content.
+Explicit business rules and validations: Not specified in source — requires confirmation. Question: What defines a "material" scheme change, and is there a threshold or classification rule?
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a material scheme change, when it is made, then an audit record is produced with actor, timestamp, and change content.
+Given an audit query, when it filters by scheme and date range, then all material changes in that range are returned.
+Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities: The actor performing the change is not defined; the definition of "material" is not specified; the mechanism for preventing alteration (e.g., immutability, append-only log) is not specified.
 
-11. OPEN QUESTIONS, AMBIGUITIES AND COVERAGE GAPS
+Capability 2: Employer Registration and Maintenance
 
-- What is the exact set of fields constituting "scheme details"? Not specified in source — requires confirmation.
-- What defines a "material scheme change"? Not specified in source — requires confirmation.
-- What is the behavior when a duplicate scheme identity is flagged for review? Not specified in source — requires confirmation.
-- What are the authorization rules for scheme creation and maintenance? Not specified in source — requires confirmation.
-- What is the error handling for unspecified failure scenarios? Not specified in source — requires confirmation.
-- The remaining eight epics (Employer Management, Member Management, Pension Account Administration, Contributions and Financial Reconciliation, Investment Records, Benefits Administration, Reporting and Audit, Security, Access Control, and Exception Handling) have no stories in this batch and are therefore not covered by requirements in this batch.
+Jira Story Key: SRC-005
+Parent Epic Key: Not specified in source
+Story Summary: Register and maintain employer records
+Supported actor(s): Pension administrator or employer
+Trigger/precondition: Employer registration is submitted; an existing employer record exists; an authorized actor updates an employer record
+Functional requirements:
+SRC-005-FR-01: The system shall record an employer registration with identifiable details when the registration is submitted.
+SRC-005-FR-02: The system shall flag a registration attempt as a duplicate when the employer already exists.
+SRC-005-FR-03: The system shall record an update to an employer record with the actor and timestamp when the update is performed by an authorized actor.
+Inputs and outputs: Input — employer registration details; output — recorded employer record with identifiable details.
+Explicit business rules and validations: Not specified in source — requires confirmation. Question: What constitutes "identifiable details" for an employer, and what matching logic determines a duplicate?
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an employer registration, when it is submitted, then the employer is recorded with identifiable details.
+Given a registration attempt for an existing employer, when it is processed, then the duplicate is flagged.
+Given an employer record, when it is updated by an authorized actor, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: The set of identifiable details is not specified; duplicate detection logic is not specified; the authorization mechanism for updates is not specified.
 
-12. SUMMARY AND READINESS
+Capability 3: Authorized Employer Contacts
 
-This batch documents the Scheme Management capability with four functional requirements (FR-001 through FR-004) derived from SRC-001. All acceptance criteria from SRC-001 are mapped to requirements. Unresolved gaps include the definition of "scheme details," "material scheme change," duplicate-flag behavior, authorization rules, and unspecified error handling. Stakeholders need to confirm these items before implementation. The remaining eight epics are not covered in this batch due to the absence of stories.
+Jira Story Key: SRC-006
+Parent Epic Key: Not specified in source
+Story Summary: Manage authorized employer contacts
+Supported actor(s): Employer; authorized requester
+Trigger/precondition: An employer record exists; a contact is added or changed; an action is attempted on behalf of an employer; a request to view authorized contacts is made
+Functional requirements:
+SRC-006-FR-01: The system shall record and make traceable any addition or change to an authorized contact for an employer record.
+SRC-006-FR-02: The system shall reject an action on behalf of an employer when the actor is not an authorized contact.
+SRC-006-FR-03: The system shall display the authorized contact list when the requester is authorized.
+Inputs and outputs: Input — contact details; output — authorized contact list.
+Explicit business rules and validations: Not specified in source — requires confirmation. Question: What authorization determines whether a requester may view the contact list, and what defines an authorized contact?
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an employer record, when a contact is added or changed, then the change is recorded and traceable.
+Given an action on behalf of an employer, when the actor is not an authorized contact, then the action is rejected.
+Given a request to view authorized contacts, when the requester is authorized, then the contact list is displayed.
+Missing details or ambiguities: The mechanism for recording and tracing contact changes is not specified; the authorization criteria for viewing contacts is not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. Partial workflow fragments supported:
+- Material scheme change: change made → audit record produced with actor, timestamp, and content (SRC-004-FR-01).
+- Employer registration: registration submitted → employer recorded with identifiable details; duplicate attempt → flagged (SRC-005-FR-01, SRC-005-FR-02).
+- Employer record update: authorized actor updates → change recorded with actor and timestamp (SRC-005-FR-03).
+- Contact management: contact added or changed → change recorded and traceable; unauthorized action → rejected; authorized request → contact list displayed (SRC-006-FR-01, SRC-006-FR-02, SRC-006-FR-03).
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules, validations, and data objects for this batch:
+- Audit record data object: actor, timestamp, change content (SRC-004-FR-01).
+- Employer record data object: identifiable details (SRC-005-FR-01).
+- Duplicate detection rule: registration attempt for an existing employer is flagged (SRC-005-FR-02).
+- Update audit rule: employer record updates by authorized actors are recorded with actor and timestamp (SRC-005-FR-03).
+- Contact change audit rule: contact additions or changes are recorded and traceable (SRC-006-FR-01).
+- Authorization rule: actions on behalf of an employer are rejected when the actor is not an authorized contact (SRC-006-FR-02).
+- Access rule: authorized requesters may view the authorized contact list (SRC-006-FR-03).
+No field constraints, data relationships, or additional validations are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-004 | Epic not specified | SRC-004-FR-01, SRC-004-FR-02, SRC-004-FR-03 | Covered
+SRC-005 | Epic not specified | SRC-005-FR-01, SRC-005-FR-02, SRC-005-FR-03 | Covered
+SRC-006 | Epic not specified | SRC-006-FR-01, SRC-006-FR-02, SRC-006-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-004: What defines a "material" scheme change? (business rule missing)
+- SRC-004: What mechanism enforces immutability of audit records without creating a new entry? (implementation detail missing)
+- SRC-004: Who is the actor performing the change, and how is it captured? (actor definition missing)
+- SRC-005: What are the "identifiable details" required for an employer record? (data definition missing)
+- SRC-005: What matching logic determines a duplicate employer registration? (validation rule missing)
+- SRC-005: How is an "authorized actor" defined for employer record updates? (authorization rule missing)
+- SRC-006: What authorization determines whether a requester may view the authorized contact list? (access rule missing)
+- SRC-006: What defines an "authorized contact" for acting on behalf of an employer? (definition missing)
+- All stories: Epic keys are not provided in the source records; please confirm the correct epic key for each story.
+
+===========================================================================
+
+PART 3 OF 12 | JIRA STORIES: SRC-007, SRC-008, SRC-009
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within the Employer Management and Member Management epics. Supported capabilities: employer-scheme association and contribution traceability (SRC-007); controlled member enrollment with status visibility (SRC-008); and eligibility validation of enrollments with rejection handling (SRC-009). Story keys in this batch: SRC-007, SRC-008, SRC-009.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Employer-Scheme Association and Contribution Traceability
+Jira Story Key: SRC-007
+Parent Epic Key: Employer Management
+Story Summary: Associate employers with schemes so contributions can be traced to the correct scheme.
+Supported actor(s): pension administrator, employer.
+Trigger/precondition: An employer-scheme association exists or is being created.
+
+SRC-007-FR-01: The system shall associate an employer with one or more relevant schemes upon request by a pension administrator or employer.
+Inputs and outputs: Input — employer identity and scheme identity. Output — a stored employer-scheme association record.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which fields uniquely identify an employer and a scheme? Is an association effective-dated? Can an employer be associated with multiple schemes simultaneously, and are some associations inactive?
+
+SRC-007-FR-02: The system shall return all active employer-scheme associations when an employer's associations are queried.
+Inputs and outputs: Input — employer identity. Output — list of active associations.
+Missing details or ambiguities: Not specified in source — requires confirmation. How is "active" defined — by status flag, effective dates, or both? Are inactive or historical associations retrievable through a separate query or filter?
+
+SRC-007-FR-03: The system shall trace a submitted contribution to the scheme associated with the contributing employer.
+Inputs and outputs: Input — contribution record containing employer identity. Output — the associated scheme identity used for tracing.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which contribution field carries the employer identity? Is tracing performed at submission, receipt, or allocation time?
+
+SRC-007-FR-04: The system shall flag a contribution for resolution when its employer-scheme association is missing, rather than completing it silently.
+Inputs and outputs: Input — contribution record lacking a valid employer-scheme association. Output — a flagged contribution in an exception or resolution state.
+Missing details or ambiguities: Not specified in source — requires confirmation. What state or status represents "flagged for resolution"? Which actors can resolve the flag, and what resolution actions are permitted?
+
+Acceptance criteria coverage:
+- Given an employer-scheme association, when a contribution is submitted by that employer, then it can be traced to the associated scheme. — Covered by SRC-007-FR-03.
+- Given an employer, when its scheme associations are queried, then all active associations are returned. — Covered by SRC-007-FR-02.
+- Given a contribution, when its employer-scheme association is missing, then it is flagged for resolution rather than silently completed. — Covered by SRC-007-FR-04.
+
+Capability: Controlled Member Enrollment and Status Visibility
+Jira Story Key: SRC-008
+Parent Epic Key: Member Management
+Story Summary: Enroll members through a controlled workflow so enrollments are validated against scheme rules before being recorded.
+Supported actor(s): pension administrator, member.
+Trigger/precondition: An enrollment submission is made.
+
+SRC-008-FR-01: The system shall accept an enrollment submission and process it through a controlled workflow.
+Inputs and outputs: Input — enrollment submission data. Output — an enrollment record in a workflow state.
+Missing details or ambiguities: Not specified in source — requires confirmation. What workflow states exist (for example, submitted, validated, recorded, rejected)? What transitions are permitted between states?
+
+SRC-008-FR-02: The system shall validate an enrollment against applicable scheme rules before recording it.
+Inputs and outputs: Input — enrollment data and the scheme's eligibility rules. Output — validation result (pass or fail).
+Missing details or ambiguities: Not specified in source — requires confirmation. Which scheme rules apply to enrollment validation? Are eligibility rules maintained separately and referenced by scheme?
+
+SRC-008-FR-03: The system shall record an enrollment only after it has been submitted, validated against scheme rules, and approved for recording.
+Inputs and outputs: Input — validated enrollment. Output — a recorded enrollment.
+Missing details or ambiguities: Not specified in source — requires confirmation. Does "recorded" mean a final, immutable member record, or a provisional record subject to later change?
+
+SRC-008-FR-04: The system shall assign a unique identity to each enrollment when it is created.
+Inputs and outputs: Input — enrollment submission. Output — a unique enrollment identifier.
+Missing details or ambiguities: Not specified in source — requires confirmation. Is the unique identity generated by the system, or supplied by the submitter?
+
+SRC-008-FR-05: The system shall link each enrollment to its scheme at creation.
+Inputs and outputs: Input — enrollment and scheme identity. Output — an enrollment record associated with the scheme.
+Missing details or ambiguities: Not specified in source — requires confirmation. Is the scheme identity derived from the enrollment data, selected by the actor, or looked up from the employer?
+
+SRC-008-FR-06: The system shall make the status of an in-progress enrollment visible to authorized users.
+Inputs and outputs: Input — enrollment identifier and user authorization. Output — current workflow status.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which users are "authorized" — all pension administrators, only the submitting administrator, or scheme-specific roles? Is status visibility restricted by scheme or employer?
+
+Acceptance criteria coverage:
+- Given an enrollment submission, when it is processed, then it can be submitted, validated against scheme rules, and recorded. — Covered by SRC-008-FR-01, SRC-008-FR-02, SRC-008-FR-03.
+- Given an enrollment, when it is created, then it has a unique identity and is linked to its scheme. — Covered by SRC-008-FR-04, SRC-008-FR-05.
+- Given an enrollment workflow, when it is in progress, then its status is visible to authorized users. — Covered by SRC-008-FR-06.
+
+Capability: Eligibility Validation and Rejection Handling
+Jira Story Key: SRC-009
+Parent Epic Key: Member Management
+Story Summary: Validate enrollment against applicable scheme eligibility rules before recording, so ineligible enrollments are prevented or routed to an exception.
+Supported actor(s): pension administrator, operations personnel.
+Trigger/precondition: An enrollment attempt is submitted for validation.
+
+SRC-009-FR-01: The system shall validate an enrollment attempt against applicable scheme eligibility rules before recording it.
+Inputs and outputs: Input — enrollment data and scheme eligibility rules. Output — validation outcome.
+Missing details or ambiguities: Not specified in source — requires confirmation. What data elements are evaluated against eligibility rules?
+
+SRC-009-FR-02: The system shall prevent or route an enrollment to an exception when it fails eligibility rules, rather than approving it silently.
+Inputs and outputs: Input — enrollment failing eligibility rules. Output — prevented enrollment or enrollment in an exception state.
+Missing details or ambiguities: Not specified in source — requires confirmation. When is an enrollment prevented versus routed to an exception? What determines which path is taken?
+
+SRC-009-FR-03: The system shall record the rejection reason when a rejected enrollment is reviewed.
+Inputs and outputs: Input — rejected enrollment and reviewer. Output — recorded rejection reason.
+Missing details or ambiguities: Not specified in source — requires confirmation. Is the rejection reason entered by the reviewer, generated automatically, or both? Is the reason stored on the enrollment record or in a separate audit log?
+
+SRC-009-FR-04: The system shall proceed to enrollment record creation when an enrollment passes eligibility validation.
+Inputs and outputs: Input — validated eligible enrollment. Output — enrollment record creation.
+Missing details or ambiguities: Not specified in source — requires confirmation. Does passing validation automatically create the record, or does it require a separate recording action by an authorized actor?
+
+Acceptance criteria coverage:
+- Given an enrollment attempt, when it fails eligibility rules, then it is prevented or routed to an exception rather than silently approved. — Covered by SRC-009-FR-02.
+- Given a rejected enrollment, when it is reviewed, then the rejection reason is recorded. — Covered by SRC-009-FR-03.
+- Given an eligible enrollment, when it passes validation, then it proceeds to record creation. — Covered by SRC-009-FR-04.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is fully specified in this batch. The following partial workflows are supported by the stories:
+
+Employer-scheme association and contribution tracing (SRC-007):
+1. A pension administrator or employer creates an employer-scheme association. SRC-007-FR-01.
+2. The system returns all active associations for an employer on query. SRC-007-FR-02.
+3. A contribution is submitted by the employer and traced to the associated scheme. SRC-007-FR-03.
+4. If the employer-scheme association is missing, the contribution is flagged for resolution instead of being completed. SRC-007-FR-04.
+
+Member enrollment workflow (SRC-008, SRC-009):
+1. A pension administrator or member submits an enrollment. SRC-008-FR-01.
+2. The system validates the enrollment against scheme eligibility rules. SRC-008-FR-02, SRC-009-FR-01.
+3. If the enrollment passes, it proceeds to record creation. SRC-008-FR-03, SRC-009-FR-04.
+4. If the enrollment fails, it is prevented or routed to an exception. SRC-009-FR-02.
+5. A rejected enrollment is reviewed and the rejection reason is recorded. SRC-009-FR-03.
+6. At creation, the enrollment receives a unique identity and is linked to its scheme. SRC-008-FR-04, SRC-008-FR-05.
+7. While in progress, the enrollment status is visible to authorized users. SRC-008-FR-06.
+
+D. RULES, VALIDATIONS, AND DATA
+- Employer-scheme associations must exist for contributions to be traced to a scheme. SRC-007-FR-03.
+- Querying an employer's scheme associations returns only active associations. SRC-007-FR-02.
+- Contributions lacking an employer-scheme association must be flagged for resolution and must not be completed silently. SRC-007-FR-04.
+- Enrollments must be validated against scheme eligibility rules before recording. SRC-008-FR-02, SRC-009-FR-01.
+- Enrollments failing eligibility rules must be prevented or routed to an exception, not silently approved. SRC-009-FR-02.
+- Rejected enrollments must have their rejection reason recorded upon review. SRC-009-FR-03.
+- Eligible enrollments must proceed to record creation after passing validation. SRC-009-FR-04.
+- Each enrollment must have a unique identity and be linked to its scheme at creation. SRC-008-FR-04, SRC-008-FR-05.
+- Enrollment workflow status must be visible to authorized users while in progress. SRC-008-FR-06.
+- No explicit field constraints, data types, or data relationships are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-007 | Employer Management | SRC-007-FR-01, SRC-007-FR-02, SRC-007-FR-03, SRC-007-FR-04 | Covered
+SRC-008 | Member Management | SRC-008-FR-01, SRC-008-FR-02, SRC-008-FR-03, SRC-008-FR-04, SRC-008-FR-05, SRC-008-FR-06 | Covered
+SRC-009 | Member Management | SRC-009-FR-01, SRC-009-FR-02, SRC-009-FR-03, SRC-009-FR-04 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-007:
+- What fields uniquely identify an employer and a scheme, and what fields constitute an association record?
+- Can an employer be associated with multiple schemes, and can associations be inactive or historical?
+- How is "active" defined for employer-scheme associations, and are inactive associations retrievable?
+- Which contribution field carries the employer identity, and at what point is tracing performed?
+- What state represents "flagged for resolution," who can resolve it, and what actions are permitted?
+
+SRC-008:
+- What workflow states and transitions exist for enrollment?
+- Which scheme rules apply to enrollment validation, and are eligibility rules maintained separately per scheme?
+- Does "recorded" mean a final immutable record or a provisional one?
+- Is the unique enrollment identity system-generated or supplied by the submitter?
+- How is the scheme identity determined at enrollment creation?
+- Which users are authorized to view in-progress enrollment status, and is visibility restricted by scheme or employer?
+
+SRC-009:
+- Which enrollment data elements are evaluated against eligibility rules?
+- What determines whether a failed enrollment is prevented versus routed to an exception?
+- Is the rejection reason entered by a reviewer, generated automatically, or both, and where is it stored?
+- Does passing validation automatically create the enrollment record, or is a separate recording action required?
+
+All three stories have acceptance criteria; however, several acceptance criteria depend on details not specified in the source and are flagged above for confirmation.
+
+===========================================================================
+
+PART 4 OF 12 | JIRA STORIES: SRC-010, SRC-011, SRC-012
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within two epics: Member Management (SRC-010, SRC-011) and Pension Accounts (SRC-012). Supported capabilities are: maintenance of member records with auditability and historical state retrieval; detection and prevention of duplicate or invalid member registrations with recorded outcomes; and creation and maintenance of pension-account records linked to members and schemes with auditability and association display. Epic keys are not provided in the source records.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Member Record Maintenance (SRC-010)
+Jira Story Key: SRC-010
+Parent Epic Key: Not specified in source — requires confirmation
+Story Summary: Maintain member records
+Supported actor(s): Pension administrator or member
+Trigger/precondition: A member record change is initiated by an authorized actor
+Functional requirements:
+SRC-010-FR-01: The system shall record a member record change with the identity of the actor who made it and the timestamp of the change when the change is made by an authorized actor.
+SRC-010-FR-02: The system shall display the current information of a member record when the record is queried.
+SRC-010-FR-03: The system shall retrieve and display the member state as it existed at a requested past date when a historical query is made.
+Inputs and outputs: Input — member record change initiated by an authorized actor; query for current information; historical query with a requested past date. Output — recorded change with actor and timestamp; current member information; member state at the requested past date.
+Explicit business rules and validations: Not specified in source — requires confirmation. Authorization rules for "authorized actor" are not defined.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a member record change, when it is made by an authorized actor, then the change is recorded with actor and timestamp.
+Given a member record, when it is queried, then its current information is displayed.
+Given a historical query, when it requests a past member state, then the state at that date is retrievable.
+Missing details or ambiguities: The source does not define how authorization is determined, what constitutes a member record change, the format or precision of the timestamp, the mechanism for storing historical states, or how a historical query date is validated.
+
+Capability: Duplicate and Invalid Registration Prevention (SRC-011)
+Jira Story Key: SRC-011
+Parent Epic Key: Not specified in source — requires confirmation
+Story Summary: Prevent duplicate and invalid member registrations
+Supported actor(s): Pension administrator or operations personnel
+Trigger/precondition: A registration attempt is processed or submitted
+Functional requirements:
+SRC-011-FR-01: The system shall flag a potential duplicate when a registration attempt is processed for a potential duplicate.
+SRC-011-FR-02: The system shall not complete an invalid registration silently when it is submitted.
+SRC-011-FR-03: The system shall record the outcome of a duplicate detection as one of block, merge, or escalate when duplicate detection occurs.
+Inputs and outputs: Input — registration attempt for a potential duplicate; invalid registration submission; duplicate detection event. Output — flag on the potential duplicate; non-completion of the invalid registration with an observable indication; recorded outcome of block, merge, or escalate.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the duplicate detection criteria, the definition of an invalid registration, the conditions under which block, merge, or escalate is selected, or the observable indication shown when an invalid registration is not completed.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a registration attempt for a potential duplicate, when it is processed, then the potential duplicate is flagged.
+Given an invalid registration, when it is submitted, then it cannot be completed silently.
+Given a duplicate detection, when it occurs, then the outcome (block, merge, or escalate) is recorded.
+Missing details or ambiguities: The source does not specify how duplicates are detected, what makes a registration invalid, how the outcome is recorded, or what the user observes when a registration is blocked.
+
+Capability: Pension Account Record Maintenance (SRC-012)
+Jira Story Key: SRC-012
+Parent Epic Key: Not specified in source — requires confirmation
+Story Summary: Create and maintain pension-account records
+Supported actor(s): Pension administrator
+Trigger/precondition: An account creation is initiated or an account record is updated
+Functional requirements:
+SRC-012-FR-01: The system shall create an identifiable pension-account record and link it to a member and a scheme when an account creation is completed.
+SRC-012-FR-02: The system shall record an account record update with the identity of the actor who made it and the timestamp of the change when the record is updated.
+SRC-012-FR-03: The system shall display the associations of an account when the account is queried.
+Inputs and outputs: Input — account creation request; account record update; account query. Output — identifiable account record linked to a member and scheme; recorded update with actor and timestamp; account associations.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define what makes an account identifiable, which member and scheme associations are required, or how associations are displayed.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an account creation, when it is completed, then the account has an identifiable record and is linked to a member and scheme.
+Given an account record, when it is updated, then the change is recorded with actor and timestamp.
+Given an account, when it is queried, then its associations are displayed.
+Missing details or ambiguities: The source does not define the account identifier, the validation of member and scheme associations, the format of the timestamp, or the display format of associations.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The stories support discrete operations: member record maintenance and historical state retrieval (SRC-010), registration attempt processing with duplicate flagging and outcome recording (SRC-011), and pension-account creation, update, and association display (SRC-012). Each operation is linked to its story key as noted above.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules, validations, and data objects are limited to what the acceptance criteria state. Member records are subject to change recording with actor and timestamp and historical state retrieval (SRC-010). Registration attempts are subject to duplicate flagging, non-completion of invalid registrations, and outcome recording (SRC-011). Pension-account records are subject to identifiable record creation, member and scheme linking, update recording with actor and timestamp, and association display (SRC-012). No field constraints, data relationships, or additional validation rules are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-010 | Not specified | SRC-010-FR-01, SRC-010-FR-02, SRC-010-FR-03 | Covered
+SRC-011 | Not specified | SRC-011-FR-01, SRC-011-FR-02, SRC-011-FR-03 | Covered
+SRC-012 | Not specified | SRC-012-FR-01, SRC-012-FR-02, SRC-012-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-010: What defines an authorized actor, and how is authorization enforced? What is the timestamp format and precision? How are historical member states stored and how is the query date validated?
+SRC-011: What criteria are used to detect duplicates? What defines an invalid registration? What conditions determine whether the outcome is block, merge, or escalate? What observable indication is shown when an invalid registration is not completed?
+SRC-012: What makes an account identifiable? Which member and scheme associations are required at creation? How are associations displayed?
+All three stories lack explicit business rules and exception handling in the source. All three stories have acceptance criteria, but several criteria reference undefined terms that require confirmation.
+
+===========================================================================
+
+PART 5 OF 12 | JIRA STORIES: SRC-013, SRC-014, SRC-015
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within two epics: Pension Accounts (SRC-013, SRC-014) and Contributions and Financial Reconciliation (SRC-015). Supported capabilities are account-to-member/scheme linkage, traceability of account activity to business records, and recording of contribution submissions with associations and change audit.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Pension Account Linkage and Traceability
+
+Jira Story Key: SRC-013
+Parent Epic Key: Pension Accounts
+Story Summary: Link accounts to members and schemes
+Supported actor(s): Pension administrator
+Trigger/precondition: An account exists and its member and scheme links are queried.
+Functional requirements:
+SRC-013-FR-01: The system shall return the member and scheme links associated with a queried account.
+SRC-013-FR-02: The system shall enable tracing of a contribution or investment that references an account to the relevant member and scheme.
+SRC-013-FR-03: The system shall flag an account for resolution when its member or scheme links are missing or inconsistent.
+Inputs and outputs: Input is an account identifier; output is the account's member and scheme linkage, traceability results, and a flag indicating missing or inconsistent links.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: Accounts with missing or inconsistent links are flagged for resolution.
+Acceptance criteria:
+Given an account, when its member and scheme links are queried, then they are returned.
+Given a contribution or investment, when it references an account, then it can be traced to the relevant member and scheme.
+Given an account, when its links are missing or inconsistent, then it is flagged for resolution.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which fields constitute a missing or inconsistent link? What is the resolution workflow and who resolves flagged accounts? What defines the traceability path for contributions and investments?
+
+Jira Story Key: SRC-014
+Parent Epic Key: Pension Accounts
+Story Summary: Trace account activity to business records
+Supported actor(s): Compliance reviewer, management reviewer
+Trigger/precondition: An account activity record exists and is queried, or an audit query is run on an account.
+Functional requirements:
+SRC-014-FR-01: The system shall link a queried account activity record to the relevant submission, receipt, allocation, and investment records.
+SRC-014-FR-02: The system shall return all linked business records within the period specified by an audit query on an account.
+SRC-014-FR-03: The system shall prevent alteration of a retrieved account activity without creating a new audit entry.
+Inputs and outputs: Input is an account activity record or an account with a period; output is the set of linked business records and audit entries.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: Any change to an account activity record must generate a new audit entry rather than modify the original.
+Acceptance criteria:
+Given an account activity record, when it is queried, then it links to the relevant submission, receipt, allocation, and investment records.
+Given an audit query on an account, when it is run, then all linked business records within the period are returned.
+Given an account activity, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities: Not specified in source — requires confirmation. What constitutes a period for audit queries? What information must a new audit entry contain? What actions count as alteration?
+
+Capability: Contribution Submission Recording
+
+Jira Story Key: SRC-015
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution submissions
+Supported actor(s): Employer, pension administrator
+Trigger/precondition: A contribution submission is to be recorded, modified, or queried.
+Functional requirements:
+SRC-015-FR-01: The system shall record a contribution submission with identifiable employer, member, and scheme associations.
+SRC-015-FR-02: The system shall display the status and associations of a queried submission.
+SRC-015-FR-03: The system shall record any modification to a submission with the actor and timestamp.
+Inputs and outputs: Input is a contribution submission with employer, member, and scheme associations; output is the recorded submission, its status and associations, and a modification record containing actor and timestamp.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: Modifications are recorded rather than silently overwritten.
+Acceptance criteria:
+Given a contribution submission, when it is recorded, then it has identifiable employer, member, and scheme associations.
+Given a submission, when it is queried, then its status and associations are displayed.
+Given a submission, when it is modified, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: Not specified in source — requires confirmation. What fields identify the employer, member, and scheme? What submission statuses exist? What is the modification workflow and who may modify submissions?
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports the following linked steps:
+- Account linkage: a pension administrator links an account to a member and scheme (SRC-013).
+- Contribution submission: an employer or pension administrator records a submission with employer, member, and scheme associations (SRC-015).
+- Activity traceability: a compliance or management reviewer queries account activity and links it to submission, receipt, allocation, and investment records (SRC-014).
+- Change audit: modifications to submissions and account activities are recorded with actor and timestamp and new audit entries (SRC-015, SRC-014).
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules, validations, and data objects for this batch are limited to the following, with story keys:
+- Account linkage data: account, member, and scheme associations (SRC-013).
+- Account activity data: links to submission, receipt, allocation, and investment records (SRC-014).
+- Submission data: employer, member, and scheme associations, status, and modification records with actor and timestamp (SRC-015).
+- Auditability: account activities cannot be altered without a new audit entry (SRC-014); submission modifications are recorded with actor and timestamp (SRC-015).
+No field constraints, data relationships, or status enumerations are specified in source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-013 | Pension Accounts | SRC-013-FR-01, SRC-013-FR-02, SRC-013-FR-03 | Covered
+SRC-014 | Pension Accounts | SRC-014-FR-01, SRC-014-FR-02, SRC-014-FR-03 | Covered
+SRC-015 | Contributions and Financial Reconciliation | SRC-015-FR-01, SRC-015-FR-02, SRC-015-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-013: What fields define a missing or inconsistent account link, and what is the resolution workflow and responsible actor? What is the exact traceability path from contributions and investments to member and scheme?
+SRC-014: What defines the period for audit queries, and what must a new audit entry contain? Which actions count as alteration of an account activity?
+SRC-015: What fields identify the employer, member, and scheme on a submission? What submission statuses exist, and who may modify submissions?
+All three stories have acceptance criteria; however, business rules, field constraints, and workflow details are not specified in source and require confirmation.
+
+===========================================================================
+
+PART 6 OF 12 | JIRA STORIES: SRC-016, SRC-017, SRC-018
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Contributions and Financial Reconciliation epic. It supports recording contribution receipts, recording contribution allocations to pension accounts, and enforcing required associations (employer, member, scheme) on contributions. Story keys in this batch: SRC-016, SRC-017, SRC-018.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Contribution Receipt Recording (SRC-016)
+Jira Story Key: SRC-016
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution receipts
+Supported actor(s): Finance personnel
+Trigger/precondition: A contribution receipt exists and is to be recorded.
+Functional requirements:
+SRC-016-FR-01: The system shall record a contribution receipt and distinguish it from contribution submissions.
+SRC-016-FR-02: The system shall link a recorded receipt to the relevant contribution submission.
+SRC-016-FR-03: The system shall display the source and format of a receipt when it is queried.
+SRC-016-FR-04: The system shall record the actor and timestamp of any update to a receipt.
+Inputs and outputs: Input — contribution receipt data. Output — a recorded receipt record, its linkage to a submission, and query-visible source and format.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define which receipt fields are mandatory, how the receipt is linked to a submission, or what constitutes the receipt's source and format.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a contribution receipt, when it is recorded, then it is distinguished from submissions and linked to the relevant submission.
+Given a receipt, when it is queried, then its source and format are visible.
+Given a receipt, when it is updated, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: Not specified in source — requires confirmation. The linkage mechanism between receipt and submission, the definition of "source" and "format", and the update-change record structure are not defined.
+
+Capability: Contribution Allocation Recording (SRC-017)
+Jira Story Key: SRC-017
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution allocations
+Supported actor(s): Finance personnel
+Trigger/precondition: An allocation is to be recorded against a contribution, member, scheme, and pension account.
+Functional requirements:
+SRC-017-FR-01: The system shall record a contribution allocation and associate it with the relevant contribution, member, scheme, and pension account.
+SRC-017-FR-02: The system shall display all associations of an allocation when it is queried.
+SRC-017-FR-03: The system shall record the actor and timestamp of any modification to an allocation.
+Inputs and outputs: Input — allocation data including contribution, member, scheme, and account references. Output — a recorded allocation record with query-visible associations.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define which allocation fields are mandatory, how associations are validated, or the allocation-change record structure.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an allocation, when it is recorded, then it is associated with the relevant contribution, member, scheme, and account.
+Given an allocation, when it is queried, then all associations are displayed.
+Given an allocation, when it is modified, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: Not specified in source — requires confirmation. The association validation rules, the definition of "all associations", and the modification-change record structure are not defined.
+
+Capability: Contribution Association Enforcement (SRC-018)
+Jira Story Key: SRC-018
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Associate contributions with required entities
+Supported actor(s): Finance personnel
+Trigger/precondition: A contribution is being recorded or queried.
+Functional requirements:
+SRC-018-FR-01: The system shall associate each contribution with the relevant employer, member, and scheme.
+SRC-018-FR-02: The system shall flag a contribution for resolution when it is recorded without required associations, rather than completing it silently.
+SRC-018-FR-03: The system shall mark a contribution as fully associated when its required associations are complete.
+SRC-018-FR-04: The system shall display the missing associations when an incomplete contribution is queried.
+Inputs and outputs: Input — contribution data and association data (employer, member, scheme). Output — a contribution record with association status and, when incomplete, a list of missing associations.
+Explicit business rules and validations: The required associations for a contribution are employer, member, and scheme. A contribution without these required associations must be flagged for resolution rather than silently completed. A contribution is fully associated only when all required associations are present.
+Exceptions/alternate paths: Not specified in source — requires confirmation. The source does not define the resolution workflow, who resolves flagged contributions, or what happens after resolution.
+Acceptance criteria:
+Given a contribution, when it is recorded without required associations, then it is flagged for resolution rather than silently completed.
+Given a contribution, when its associations are complete, then it is marked as fully associated.
+Given an incomplete contribution, when it is queried, then the missing associations are displayed.
+Missing details or ambiguities: Not specified in source — requires confirmation. The source does not define the exact association status values, the resolution workflow, or whether associations can be added after initial recording.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports three discrete capabilities: (1) recording a receipt and linking it to a submission (SRC-016); (2) recording an allocation and associating it with contribution, member, scheme, and account (SRC-017); and (3) recording a contribution with required employer, member, and scheme associations, flagging incomplete contributions for resolution, and displaying missing associations (SRC-018). The linkage between receipt and submission, and between allocation and contribution, is required but the mechanism is not specified.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules and validations:
+- SRC-018: A contribution must be associated with employer, member, and scheme. Missing required associations must be flagged for resolution rather than silently completed. A contribution is marked fully associated when all required associations are complete.
+- SRC-016: A receipt must be distinguished from submissions and linked to the relevant submission. Receipt source and format must be query-visible. Receipt updates must record actor and timestamp.
+- SRC-017: An allocation must be associated with contribution, member, scheme, and account. All allocation associations must be query-visible. Allocation modifications must record actor and timestamp.
+Business data objects: contribution receipt, contribution submission, contribution allocation, contribution, employer, member, scheme, pension account. Field constraints and data relationships beyond the associations named above are not specified.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-016 | Contributions and Financial Reconciliation | SRC-016-FR-01, SRC-016-FR-02, SRC-016-FR-03, SRC-016-FR-04 | Covered
+SRC-017 | Contributions and Financial Reconciliation | SRC-017-FR-01, SRC-017-FR-02, SRC-017-FR-03 | Covered
+SRC-018 | Contributions and Financial Reconciliation | SRC-018-FR-01, SRC-018-FR-02, SRC-018-FR-03, SRC-018-FR-04 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-016: How is a receipt linked to the relevant submission (matching key, reference, or manual selection)? What values are expected for receipt source and format? What is the structure of the recorded update (actor, timestamp, changed fields)?
+- SRC-017: How are allocation associations validated at record time? What is the structure of the recorded modification (actor, timestamp, changed fields)?
+- SRC-018: What are the exact association status values (e.g., incomplete, fully associated, flagged)? What is the resolution workflow for flagged contributions, and who performs resolution? Can associations be added after initial recording?
+- SRC-016, SRC-017, SRC-018: Which receipt, allocation, and contribution fields are mandatory? No mandatory field constraints are specified in the source.
+
+===========================================================================
+
+PART 7 OF 12 | JIRA STORIES: SRC-019, SRC-020, SRC-021
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Contributions and Financial Reconciliation epic. It supports three capabilities: (1) reconciliation of submitted, received, and allocated amounts with difference identification; (2) flagging of unmatched amounts, invalid records, and failed transactions; and (3) tracking of exceptions through to resolution. Story keys in this batch: SRC-019, SRC-020, SRC-021.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Reconciliation of Submitted, Received, and Allocated Amounts
+
+Jira Story Key: SRC-019
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Reconcile submitted, received, and allocated amounts
+Supported actor(s): Finance personnel
+Trigger/precondition: A reconciliation run is executed.
+Functional requirements:
+SRC-019-FR-01: The system shall, upon execution of a reconciliation run, report submitted totals, received totals, and allocated totals.
+SRC-019-FR-02: The system shall identify and report any differences among submitted, received, and allocated totals.
+SRC-019-FR-03: The system shall, when a reconciliation is queried, display the reconciliation's method and period.
+Inputs and outputs: Input — execution of a reconciliation run. Output — reported submitted, received, and allocated totals, identified differences, and reconciliation method and period.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a reconciliation run, when it is executed, then it reports submitted, received, and allocated totals with any differences.
+Given a reconciliation, when it is queried, then its method and period are visible.
+Given a difference, when it is identified, then it is flagged for resolution rather than silently cleared.
+Missing details or ambiguities: The reconciliation method is not specified (e.g., rule-based matching, threshold-based, or manual). The period definition (e.g., contribution period, calendar period, or run period) is not specified. The difference calculation logic (submitted minus received, received minus allocated, or a three-way comparison) is not specified. The mechanism and data fields used to flag a difference for resolution are not specified.
+
+Capability 2: Flagging of Unmatched, Invalid, and Failed Items
+
+Jira Story Key: SRC-020
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Flag unmatched and failed items
+Supported actor(s): Finance or operations personnel
+Trigger/precondition: An unmatched amount, invalid record, or failed transaction is detected.
+Functional requirements:
+SRC-020-FR-01: The system shall detect unmatched amounts, invalid records, and failed transactions.
+SRC-020-FR-02: The system shall flag each detected unmatched amount, invalid record, or failed transaction for resolution.
+SRC-020-FR-03: The system shall not mark a flagged item complete without an explicit resolution.
+SRC-020-FR-04: The system shall, when a flagged item is queried, display its status and the associated source records.
+SRC-020-FR-05: The system shall, when a flagged item is resolved, record the resolution and clear the flag.
+Inputs and outputs: Input — detection of an unmatched amount, invalid record, or failed transaction. Output — flagged status, displayed status and source records, recorded resolution, and cleared flag.
+Explicit business rules and validations: Invalid records must be flagged rather than silently accepted. Failed transactions must be flagged rather than silently marked complete. Unmatched amounts must be flagged rather than silently cleared.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an unmatched amount, invalid record, or failed transaction, when it is detected, then it is flagged.
+Given a flagged item, when it is queried, then its status and source records are displayed.
+Given a flagged item, when it is resolved, then the resolution is recorded and the flag is cleared.
+Missing details or ambiguities: The criteria for classifying an amount as unmatched, a record as invalid, or a transaction as failed are not specified. The resolution workflow (who may resolve, required resolution fields, and whether resolution requires review/approval) is not specified. The data model for storing the resolution record is not specified.
+
+Capability 3: Exception Tracking Through Resolution
+
+Jira Story Key: SRC-021
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Track exceptions through resolution
+Supported actor(s): Operations or finance personnel
+Trigger/precondition: An exception is created.
+Functional requirements:
+SRC-021-FR-01: The system shall create an exception record with a status and a resolution record.
+SRC-021-FR-02: The system shall keep an unresolved exception visible in exception listings until it is handled.
+SRC-021-FR-03: The system shall, when a resolved exception is queried, display the resolution details.
+Inputs and outputs: Input — creation of an exception. Output — exception status, resolution record, exception listings visibility, and resolution details.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an exception, when it is created, then it has a status and a resolution record.
+Given an unresolved exception, when it is queried, then it remains visible in exception listings.
+Given a resolved exception, when it is queried, then the resolution details are displayed.
+Missing details or ambiguities: The exception lifecycle statuses (e.g., open, in progress, resolved, closed) are not specified. The definition of "handled" for visibility purposes is not specified. The resolution details that must be displayed are not specified. The relationship between flagged items (SRC-020) and exceptions (SRC-021) is not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports three linked behaviors: (1) a reconciliation run produces totals and differences (SRC-019); (2) unmatched amounts, invalid records, and failed transactions are detected and flagged (SRC-020); and (3) exceptions are created, tracked, and resolved (SRC-021). The trigger sequence between reconciliation runs and exception creation, and the handoff between flagging and exception tracking, are not specified.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules: Differences must be flagged for resolution rather than silently cleared (SRC-019). Unmatched amounts, invalid records, and failed transactions must be flagged rather than silently marked complete (SRC-020). Unresolved exceptions must remain visible until handled (SRC-021).
+Data objects implied by the stories: reconciliation run (with method and period), submitted/received/allocated totals, differences, flagged items (with status and source records), exceptions (with status and resolution record), and resolution records. Field-level constraints, data types, and relationships are not specified.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-019 | Contributions and Financial Reconciliation | SRC-019-FR-01, SRC-019-FR-02, SRC-019-FR-03 | covered
+SRC-020 | Contributions and Financial Reconciliation | SRC-020-FR-01, SRC-020-FR-02, SRC-020-FR-03, SRC-020-FR-04, SRC-020-FR-05 | covered
+SRC-021 | Contributions and Financial Reconciliation | SRC-021-FR-01, SRC-021-FR-02, SRC-021-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-019: What reconciliation method should be supported (rule-based, threshold-based, or manual)? What defines the reconciliation period? What is the exact difference calculation logic? What fields and mechanism are used to flag a difference for resolution?
+SRC-020: What are the precise criteria for unmatched amounts, invalid records, and failed transactions? What is the resolution workflow, including who may resolve and what resolution fields are required? Is resolution subject to review or approval?
+SRC-021: What exception lifecycle statuses are required? What does "handled" mean for visibility in exception listings? What resolution details must be displayed? How do flagged items from SRC-020 relate to exceptions in SRC-021?
+All three stories have acceptance criteria; however, the acceptance criteria reference behaviors (flagging, resolution recording, visibility) whose implementation details are not specified in the source.
+
+===========================================================================
+
+PART 8 OF 12 | JIRA STORIES: SRC-022, SRC-023, SRC-024
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers two capabilities: (1) preservation and query of audit evidence for material financial actions (SRC-022, epic Contributions and Financial Reconciliation), and (2) maintenance and audit of approved investment and allocation records (SRC-023, SRC-024, epic Investment Records). Story keys in this batch: SRC-022, SRC-023, SRC-024.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Audit evidence for material financial actions
+
+Jira Story Key: SRC-022
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Preserve evidence of material financial actions
+Supported actor(s): compliance or management reviewer (consumer of audit records); actor performing the material financial action (recorded by the system)
+Trigger/precondition: a material financial action occurs
+Functional requirements:
+SRC-022-FR-01: The system shall preserve every material financial action in a traceable audit record at the time the action occurs.
+SRC-022-FR-02: The system shall return, in response to an audit query on financial actions, the actor, timestamp, and content of the recorded actions.
+SRC-022-FR-03: The system shall prevent alteration of an existing audit record; any modification to the underlying action shall be recorded as a new audit entry rather than changing the original entry.
+Inputs and outputs:
+- Input: occurrence of a material financial action; an audit query on financial actions.
+- Output: a traceable audit record; query results containing actor, timestamp, and content.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define which financial actions are "material," the required audit record fields beyond actor/timestamp/content, the audit query parameters (for example, date range or action type), or the retention period.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given a material financial action, when it occurs, then it is preserved in a traceable audit record.
+- Given an audit query on financial actions, when it is run, then the actor, timestamp, and content are returned.
+- Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities:
+- What defines a "material financial action"? Which transaction types or thresholds qualify?
+- What exact fields must the audit record contain beyond actor, timestamp, and content?
+- What parameters must the audit query support, and what result set shape is expected?
+- Does "cannot be altered without a new audit entry" mean the original record is immutable, or that changes are appended as new entries?
+
+Capability 2: Approved investment and allocation records
+
+Jira Story Key: SRC-023
+Parent Epic Key: Investment Records
+Story Summary: Maintain approved investment and allocation records
+Supported actor(s): pension administrator
+Trigger/precondition: creation of an approved investment record; update of an allocation record; query of an investment record
+Functional requirements:
+SRC-023-FR-01: The system shall allow a pension administrator to create approved investment records and allocation records.
+SRC-023-FR-02: The system shall allow a pension administrator to maintain (update) approved investment and allocation records after creation.
+SRC-023-FR-03: The system shall allow approved investment and allocation records to be queried.
+SRC-023-FR-04: The system shall record each update to an allocation record with the actor and timestamp of the change.
+SRC-023-FR-05: The system shall display the approval status of an investment record when it is queried.
+Inputs and outputs:
+- Input: creation and update of investment/allocation records; investment record queries.
+- Output: maintained investment and allocation records; query results including approval status.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the investment record or allocation record data model, the meaning or allowed values of approval status, who may approve records, or what "maintain" includes (for example, whether deletion or reversion is permitted).
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given an approved investment record, when it is created, then it can be maintained and queried.
+- Given an allocation record, when it is updated, then the change is recorded with actor and timestamp.
+- Given an investment record, when it is queried, then its approval status is displayed.
+Missing details or ambiguities:
+- What fields constitute an investment record and an allocation record?
+- What approval status values exist, and how is a record marked approved?
+- Does "maintained" include deletion, cancellation, or only updates?
+
+Jira Story Key: SRC-024
+Parent Epic Key: Investment Records
+Story Summary: Audit investment record changes
+Supported actor(s): compliance or management reviewer (consumer of audit records); actor making the investment record change (recorded by the system)
+Trigger/precondition: a change is made to an investment record
+Functional requirements:
+SRC-024-FR-01: The system shall record every change to an investment record with the actor, timestamp, and content of the change.
+SRC-024-FR-02: The system shall return all investment record changes within a queried period in response to an audit query on investment records.
+SRC-024-FR-03: The system shall prevent alteration of an existing investment audit record; any modification shall be recorded as a new audit entry rather than changing the original entry.
+Inputs and outputs:
+- Input: change to an investment record; audit query on investment records.
+- Output: audit entries containing actor, timestamp, and content; query results containing all changes within the period.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the audit query parameters (for example, date range, record identifier, or change type), the definition of "content" for a change, or the retention period.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given an investment record change, when it is made, then it is recorded with actor, timestamp, and content.
+- Given an audit query on investment records, when it is run, then all changes within the period are returned.
+- Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities:
+- What parameters must the investment audit query support, and what result set shape is expected?
+- What exactly must be captured in the change "content"?
+- Does "cannot be altered without a new audit entry" mean the original audit entry is immutable, or that changes are appended as new entries?
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports two partial, traceability-focused flows:
+- Material financial action flow: a material financial action occurs -> the system preserves it in a traceable audit record -> a compliance or management reviewer can query the record and receive actor, timestamp, and content -> the record is retrieved and remains unalterable except via a new audit entry. Linked to SRC-022.
+- Investment record change flow: a pension administrator creates/maintains an approved investment or allocation record -> updates to allocation records are recorded with actor and timestamp -> an investment record can be queried with its approval status displayed -> a compliance or management reviewer can query investment record changes within a period and receive actor, timestamp, and content -> audit entries remain unalterable except via a new audit entry. Linked to SRC-023 and SRC-024.
+
+D. RULES, VALIDATIONS, AND DATA
+- Audit immutability rule: audit records for financial actions (SRC-022) and investment records (SRC-024) shall not be altered; changes shall be recorded as new audit entries.
+- Audit content rule: financial action audit records shall include actor, timestamp, and content (SRC-022); investment record change audit entries shall include actor, timestamp, and content (SRC-024).
+- Investment record data objects: approved investment records and allocation records, with an approval status displayed on query (SRC-023).
+- No field constraints, data relationships, status enumerations, or validation rules are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-022 | Contributions and Financial Reconciliation | SRC-022-FR-01, SRC-022-FR-02, SRC-022-FR-03 | covered
+SRC-023 | Investment Records | SRC-023-FR-01, SRC-023-FR-02, SRC-023-FR-03, SRC-023-FR-04, SRC-023-FR-05 | covered
+SRC-024 | Investment Records | SRC-024-FR-01, SRC-024-FR-02, SRC-024-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-022: Which financial actions are "material," and what threshold or type rules define them?
+- SRC-022: What exact fields must the financial action audit record contain beyond actor, timestamp, and content?
+- SRC-022: What parameters must the financial action audit query support, and what result set shape is expected?
+- SRC-022: Does "cannot be altered without a new audit entry" mean the original record is immutable, or that changes are appended as new entries?
+- SRC-023: What fields constitute an investment record and an allocation record?
+- SRC-023: What approval status values exist, and how is a record marked approved?
+- SRC-023: Does "maintain" include deletion or cancellation, or only updates?
+- SRC-024: What parameters must the investment audit query support, and what result set shape is expected?
+- SRC-024: What exactly must be captured in the change "content"?
+- SRC-024: Does "cannot be altered without a new audit entry" mean the original audit entry is immutable, or that changes are appended as new entries?
+- SRC-022, SRC-024: What is the audit record retention period?
+- SRC-022, SRC-024: All three stories have acceptance criteria; however, the criteria reference behaviors (for example, "material," "within the period") that require definition before testable acceptance can be finalized.
+
+===========================================================================
+
+PART 9 OF 12 | JIRA STORIES: SRC-025, SRC-026, SRC-027
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Benefits Administration epic. It defines the recording and validation of benefit requests, controlled routing through review and approval with recorded decisions and separation of duties, and visibility into benefit request processing status. Story keys in this batch: SRC-025, SRC-026, SRC-027.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Functional Capability: Benefit Request Recording and Validation (SRC-025)
+Jira Story Key: SRC-025
+Parent Epic Key: Benefits Administration
+Story Summary: Record and validate benefit requests
+Supported actor(s): Member, pension administrator
+Trigger/precondition: A benefit request is submitted.
+Functional requirements:
+SRC-025-FR-01: The system shall record a benefit request when it is submitted.
+SRC-025-FR-02: The system shall validate a submitted benefit request against stored rules.
+SRC-025-FR-03: The system shall flag an invalid benefit request for resolution rather than approving it.
+SRC-025-FR-04: The system shall allow a valid benefit request that passes validation to proceed to review.
+Inputs and outputs: Input is a submitted benefit request. Outputs are a recorded request, a validation result (valid or invalid), and, for valid requests, progression to the review stage.
+Explicit business rules and validations: Validation is performed against stored rules. Invalid requests are flagged for resolution and are not silently approved. Valid requests proceed to review.
+Exceptions/alternate paths: Invalid requests are routed to resolution instead of approval.
+Acceptance criteria:
+Given a benefit request, when it is submitted, then it is recorded and validated against stored rules.
+Given an invalid benefit request, when it is validated, then it is flagged for resolution rather than silently approved.
+Given a valid benefit request, when it passes validation, then it proceeds to review.
+Missing details or ambiguities: The stored rules themselves, the data model of a benefit request, the definition of "flagged for resolution," and the exact transition to review are not specified in source — requires confirmation.
+
+Functional Capability: Controlled Review and Approval of Benefit Requests (SRC-026)
+Jira Story Key: SRC-026
+Parent Epic Key: Benefits Administration
+Story Summary: Route benefit requests through controlled review and approval
+Supported actor(s): Pension administrator, finance personnel
+Trigger/precondition: A benefit request enters the workflow.
+Functional requirements:
+SRC-026-FR-01: The system shall route a benefit request through review and approval steps when it enters the workflow.
+SRC-026-FR-02: The system shall record a decision when a decision is made on a benefit request.
+SRC-026-FR-03: The system shall prevent a single actor from completing all stages end-to-end for a sensitive benefit action requiring separation of duties.
+Inputs and outputs: Input is a benefit request entering the workflow. Outputs are routed workflow steps, recorded decisions, and enforcement of separation of duties.
+Explicit business rules and validations: Sensitive benefit actions require separation of duties, and a single actor cannot complete all stages end-to-end.
+Exceptions/alternate paths: A single actor attempting all stages of a sensitive benefit action is blocked from completing them.
+Acceptance criteria:
+Given a benefit request, when it enters the workflow, then it is routed through review and approval steps.
+Given a benefit request, when a decision is made, then the decision is recorded.
+Given a sensitive benefit action requiring separation of duties, when it is attempted by a single actor, then the actor cannot complete all stages end-to-end.
+Missing details or ambiguities: The workflow steps, the definition of "sensitive benefit action," the roles or actors assigned to each step, and the decision data model are not specified in source — requires confirmation.
+
+Functional Capability: Benefit Request Processing Status Visibility (SRC-027)
+Jira Story Key: SRC-027
+Parent Epic Key: Benefits Administration
+Story Summary: Track benefit request processing status
+Supported actor(s): Pension administrator, operations personnel
+Trigger/precondition: A benefit request exists and is queried, or a benefit request moves to a new status.
+Functional requirements:
+SRC-027-FR-01: The system shall display the current processing status of a benefit request when it is queried.
+SRC-027-FR-02: The system shall record a status change with a timestamp when a benefit request moves to a new status.
+SRC-027-FR-03: The system shall return only benefit requests matching a status filter when a status query is performed.
+Inputs and outputs: Inputs are a benefit request query and an optional status filter. Outputs are the current processing status, a recorded status change with timestamp, and a filtered list of matching requests.
+Explicit business rules and validations: Status changes are recorded with a timestamp. Status queries filter to matching requests only.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a benefit request, when it is queried, then its current processing status is displayed.
+Given a benefit request, when it moves to a new status, then the status change is recorded with timestamp.
+Given a status query, when it filters by status, then only matching requests are returned.
+Missing details or ambiguities: The set of possible statuses, the status transition rules, and the query/filter interface are not specified in source — requires confirmation.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+The batch supports a partial benefit request lifecycle: submission and validation (SRC-025), routing through review and approval with recorded decisions and separation-of-duties enforcement (SRC-026), and status tracking with timestamped status changes and status-filtered queries (SRC-027). A complete end-to-end workflow including benefit request data fields, the full status set, step-level routing rules, and payment outcomes is not fully specified in this batch.
+
+D. RULES, VALIDATIONS, AND DATA
+- Validation rule: Benefit requests are validated against stored rules (SRC-025).
+- Validation rule: Invalid benefit requests are flagged for resolution and are not silently approved (SRC-025).
+- Validation rule: Valid benefit requests proceed to review (SRC-025).
+- Workflow rule: Benefit requests are routed through review and approval steps (SRC-026).
+- Workflow rule: Decisions on benefit requests are recorded (SRC-026).
+- Workflow rule: Separation of duties prevents a single actor from completing all stages of a sensitive benefit action (SRC-026).
+- Status rule: Benefit request status changes are recorded with a timestamp (SRC-027).
+- Status rule: Status queries return only matching requests (SRC-027).
+- Data objects: Benefit request, stored validation rules, workflow steps, decisions, and processing status with timestamps are referenced but not fully defined in source — requires confirmation.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-025 | Benefits Administration | SRC-025-FR-01, SRC-025-FR-02, SRC-025-FR-03, SRC-025-FR-04 | Covered
+SRC-026 | Benefits Administration | SRC-026-FR-01, SRC-026-FR-02, SRC-026-FR-03 | Covered
+SRC-027 | Benefits Administration | SRC-027-FR-01, SRC-027-FR-02, SRC-027-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-025: What are the stored validation rules and their data model? What constitutes an invalid request, and what does "flagged for resolution" mean operationally? What is the exact transition to review?
+- SRC-026: What are the review and approval workflow steps, and which roles perform each step? Which benefit actions are "sensitive," and how is separation of duties enforced technically? What is the decision data model?
+- SRC-027: What are the possible processing statuses and transition rules? What is the query/filter interface? Are there any exception paths for status changes?
+- SRC-025, SRC-026, SRC-027: Payment outcomes and final benefit decision outcomes are referenced in the epic description but are not covered by these stories — requires confirmation of scope.
+
+===========================================================================
+
+PART 10 OF 12 | JIRA STORIES: SRC-028, SRC-029, SRC-030
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three capabilities within the Benefits Administration and Reporting and Audit epics: recording and tracing benefit payment outcomes (SRC-028), and generating operational and financial reports (SRC-029, SRC-030). Supported story keys: SRC-028, SRC-029, SRC-030.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Benefit Payment Outcome Recording and Traceability (Epic: Benefits Administration)
+
+Jira Story Key: SRC-028
+Parent Epic Key: Benefits Administration
+Story Summary: Record benefit payment outcomes
+Supported actor(s): pension administrator, finance personnel
+Trigger/precondition: A benefit decision exists.
+Functional requirements:
+SRC-028-FR-01: The system shall record a payment outcome for a benefit request and link it to the associated benefit decision.
+SRC-028-FR-02: The system shall display the associated benefit request and benefit decision when a payment outcome is queried.
+SRC-028-FR-03: The system shall record the actor and timestamp of any update made to a payment outcome.
+Inputs and outputs: Input — benefit decision reference and payment outcome details. Output — recorded payment outcome with decision linkage and audit record.
+Business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a benefit decision, when a payment outcome is recorded, then it is traced to the benefit decision.
+Given a payment outcome, when it is queried, then the associated benefit request and decision are displayed.
+Given a payment outcome, when it is updated, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: The specific fields required to record a payment outcome (e.g., amount, currency, payment method, payment date, status) are not specified. The mechanism for linking to the benefit decision is not specified. The retention and display rules for the audit record are not specified.
+
+Capability 2: Operational Reporting (Epic: Reporting and Audit)
+
+Jira Story Key: SRC-029
+Parent Epic Key: Reporting and Audit
+Story Summary: Generate operational reports
+Supported actor(s): pension administrator, operations personnel, management
+Trigger/precondition: An operational report request is submitted.
+Functional requirements:
+SRC-029-FR-01: The system shall generate an operational report covering key pension administration activities when requested.
+SRC-029-FR-02: The system shall display the content and format of a generated operational report when queried.
+SRC-029-FR-03: The system shall produce consistent results when an operational report is regenerated for the same period.
+Inputs and outputs: Input — operational report request. Output — operational report with defined content and format.
+Business rules and validations: The definition of "key pension administration activities" is not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an operational report request, when it is generated, then it covers key pension administration activities.
+Given an operational report, when it is queried, then its content and format are displayed.
+Given an operational report, when it is regenerated for the same period, then the results are consistent.
+Missing details or ambiguities: The report period selection mechanism, available report types, output formats, and the specific activities included are not specified.
+
+Capability 3: Financial Reporting (Epic: Reporting and Audit)
+
+Jira Story Key: SRC-030
+Parent Epic Key: Reporting and Audit
+Story Summary: Generate financial reports
+Supported actor(s): finance personnel, management
+Trigger/precondition: A financial report request is submitted.
+Functional requirements:
+SRC-030-FR-01: The system shall generate a financial report reflecting submitted, received, allocated, and reconciled contribution amounts for the requested period.
+SRC-030-FR-02: The system shall display the period and content of a generated financial report when queried.
+SRC-030-FR-03: The system shall produce consistent results when a financial report is regenerated for the same period.
+Inputs and outputs: Input — financial report request including period. Output — financial report with contribution status amounts.
+Business rules and validations: The calculation definitions for submitted, received, allocated, and reconciled contribution amounts are not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a financial report, when it is generated, then it reflects submitted, received, allocated, and reconciled contribution amounts.
+Given a financial report, when it is queried, then its period and content are displayed.
+Given a financial report, when it is regenerated for the same period, then the results are consistent.
+Missing details or ambiguities: The report period selection mechanism, available report types, output formats, and the exact definitions of each contribution status are not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. SRC-028 implies a partial flow: benefit decision exists → payment outcome recorded → payment outcome linked to decision → payment outcome queryable with request and decision displayed → payment outcome updates audited with actor and timestamp. SRC-029 and SRC-030 imply a reporting flow: report request submitted → report generated → report queryable with content, format, and period displayed → report regenerated for same period yields consistent results.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules and validations: None specified beyond the traceability and consistency requirements in the acceptance criteria.
+Business data objects referenced: benefit decision, benefit request, payment outcome, operational report, financial report, contribution amounts (submitted, received, allocated, reconciled). Field-level constraints and data relationships are not specified in source — requires confirmation.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-028 | Benefits Administration | SRC-028-FR-01, SRC-028-FR-02, SRC-028-FR-03 | covered
+SRC-029 | Reporting and Audit | SRC-029-FR-01, SRC-029-FR-02, SRC-029-FR-03 | covered
+SRC-030 | Reporting and Audit | SRC-030-FR-01, SRC-030-FR-02, SRC-030-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-028: What specific fields are required to record a payment outcome (amount, currency, payment method, payment date, status, etc.)? What is the mechanism for linking a payment outcome to its benefit decision? What audit retention and display rules apply to payment outcome updates?
+SRC-029: What are the "key pension administration activities" that must be covered? What report types, periods, and output formats are supported?
+SRC-030: What are the exact calculation definitions for submitted, received, allocated, and reconciled contribution amounts? What report types, periods, and output formats are supported?
+All three stories lack explicit business rules and validation rules beyond the acceptance criteria.
+
+===========================================================================
+
+PART 11 OF 12 | JIRA STORIES: SRC-031, SRC-032, SRC-033
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Reporting and Audit epic. It supports three capabilities: visibility into processing status, reconciliation discrepancies, and unresolved exceptions; retrieval of traceable audit records of material actions and changes; and assurance that reports are complete and consistent with underlying records. Story keys in this batch: SRC-031, SRC-032, SRC-033.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Discrepancy and exception visibility (SRC-031)
+
+Jira Story Key: SRC-031
+Parent Epic Key: Reporting and Audit
+Story Summary: Provide visibility into discrepancies and exceptions
+Supported actor(s): operations, finance, or management users
+Trigger/precondition: A discrepancy or unresolved exception exists in the system.
+
+SRC-031-FR-01: The system shall make a discrepancy or unresolved exception visible in reporting or dashboards when it is queried.
+Inputs: Query for a discrepancy or unresolved exception.
+Outputs: Display of the queried discrepancy or unresolved exception in reporting or dashboards.
+
+SRC-031-FR-02: The system shall display current processing status, discrepancies, and unresolved exceptions when a dashboard is loaded.
+Inputs: Dashboard load request.
+Outputs: Dashboard showing current processing status, discrepancies, and unresolved exceptions.
+
+SRC-031-FR-03: The system shall no longer show a discrepancy as unresolved when it is resolved.
+Inputs: Resolution of a discrepancy.
+Outputs: Discrepancy no longer displayed as unresolved.
+
+Acceptance criteria:
+- Given a discrepancy or unresolved exception, when it is queried, then it is visible in reporting or dashboards.
+- Given a dashboard, when it is loaded, then it displays current processing status, discrepancies, and unresolved exceptions.
+- Given a discrepancy, when it is resolved, then it is no longer shown as unresolved.
+
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: Which specific fields or attributes must be shown for each discrepancy or unresolved exception (for example, identifier, type, amount, date, status, owner)?
+- Not specified in source — requires confirmation: What defines "current" processing status, and how often must the dashboard refresh?
+- Not specified in source — requires confirmation: What status or state indicates that a discrepancy has been resolved, and does resolution require an explicit action or approval?
+- Not specified in source — requires confirmation: Are unresolved exceptions treated the same as discrepancies for visibility purposes, or are they separate categories?
+
+Capability 2: Audit record retrieval (SRC-032)
+
+Jira Story Key: SRC-032
+Parent Epic Key: Reporting and Audit
+Story Summary: Retrieve audit records of material actions
+Supported actor(s): compliance or management reviewers
+Trigger/precondition: An audit query is run, or an audit record is retrieved.
+
+SRC-032-FR-01: The system shall return, for an audit query, who performed the action, what the action was, when it occurred, and to which business record it applied.
+Inputs: Audit query.
+Outputs: Audit records containing actor, action, timestamp, and target business record.
+
+SRC-032-FR-02: The system shall prevent alteration of a retrieved audit record without creating a new audit entry.
+Inputs: Attempt to alter a retrieved audit record.
+Outputs: Alteration blocked and a new audit entry created instead.
+
+SRC-032-FR-03: The system shall return only matching records when an audit query includes filters.
+Inputs: Audit query with filters.
+Outputs: Audit records matching the specified filters only.
+
+Acceptance criteria:
+- Given an audit query, when it is run, then it returns who did what, when, and to which business record.
+- Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+- Given an audit query with filters, when it is run, then only matching records are returned.
+
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: What constitutes a "material action" that must be audited?
+- Not specified in source — requires confirmation: What is the required level of detail for "who" (user ID, name, role, session) and "when" (timestamp with time zone and precision)?
+- Not specified in source — requires confirmation: What is the definition of "business record" in audit entries (record type, identifier, version)?
+- Not specified in source — requires confirmation: What actions are permitted on an audit record, if any, and what constitutes a "new audit entry" for an alteration attempt?
+- Not specified in source — requires confirmation: Which filter fields are supported for audit queries?
+
+Capability 3: Reporting completeness and consistency (SRC-033)
+
+Jira Story Key: SRC-033
+Parent Epic Key: Reporting and Audit
+Story Summary: Ensure reporting completeness and consistency
+Supported actor(s): compliance or management reviewers
+Trigger/precondition: A report is generated, or a report is compared with its underlying records.
+
+SRC-033-FR-01: The system shall ensure that totals in a report agree with totals in the underlying records for the same reporting period.
+Inputs: Report and its underlying records for the same period.
+Outputs: Agreement of totals between report and underlying records.
+
+SRC-033-FR-02: The system shall include all records within the reporting period when a report is generated.
+Inputs: Report generation request with a reporting period.
+Outputs: Report containing all records within that reporting period.
+
+SRC-033-FR-03: The system shall flag a discrepancy between a report and its underlying records for investigation when it is detected.
+Inputs: Comparison of a report with underlying records.
+Outputs: Discrepancy flagged for investigation.
+
+Acceptance criteria:
+- Given a report and its underlying records for the same period, when they are compared, then the totals agree.
+- Given a report, when it is generated, then all records within the reporting period are included.
+- Given a discrepancy between a report and underlying records, when it is detected, then it is flagged for investigation.
+
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: Which totals must agree (for example, contribution totals, balance totals, transaction counts), and at what aggregation level?
+- Not specified in source — requires confirmation: How is the reporting period defined and bounded (start/end dates, time zone, cut-off rules)?
+- Not specified in source — requires confirmation: What mechanism or status indicates that a discrepancy has been flagged for investigation, and who is notified?
+- Not specified in source — requires confirmation: Is the comparison performed at report generation time, on demand, or on a scheduled basis?
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports the following reportable states and retrieval flows, linked to story keys:
+- Discrepancy or unresolved exception exists -> queried -> visible in reporting or dashboards (SRC-031-FR-01).
+- Dashboard loaded -> displays current processing status, discrepancies, and unresolved exceptions (SRC-031-FR-02).
+- Discrepancy resolved -> no longer shown as unresolved (SRC-031-FR-03).
+- Audit query run -> returns who, what, when, and target business record (SRC-032-FR-01).
+- Audit record retrieved -> alteration blocked and new audit entry created (SRC-032-FR-02).
+- Audit query with filters run -> only matching records returned (SRC-032-FR-03).
+- Report generated -> includes all records within the reporting period (SRC-033-FR-02).
+- Report compared with underlying records -> totals agree (SRC-033-FR-01).
+- Discrepancy between report and underlying records detected -> flagged for investigation (SRC-033-FR-03).
+
+D. RULES, VALIDATIONS, AND DATA
+- Discrepancies and unresolved exceptions must be queryable and visible in reporting or dashboards (SRC-031).
+- Dashboards must display current processing status, discrepancies, and unresolved exceptions on load (SRC-031).
+- Resolved discrepancies must not be shown as unresolved (SRC-031).
+- Audit records must capture actor, action, timestamp, and target business record (SRC-032).
+- Audit records must be immutable except through creation of a new audit entry (SRC-032).
+- Audit queries with filters must return only matching records (SRC-032).
+- Report totals must agree with underlying record totals for the same period (SRC-033).
+- Reports must include all records within the reporting period (SRC-033).
+- Discrepancies between reports and underlying records must be flagged for investigation (SRC-033).
+No field constraints, data types, or data relationships are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-031 | Reporting and Audit | SRC-031-FR-01, SRC-031-FR-02, SRC-031-FR-03 | Covered
+SRC-032 | Reporting and Audit | SRC-032-FR-01, SRC-032-FR-02, SRC-032-FR-03 | Covered
+SRC-033 | Reporting and Audit | SRC-033-FR-01, SRC-033-FR-02, SRC-033-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-031: Which specific fields must be shown for each discrepancy or unresolved exception in reporting and dashboards?
+- SRC-031: What defines "current" processing status, and how often must the dashboard refresh?
+- SRC-031: What state or action constitutes resolution of a discrepancy, and is approval required?
+- SRC-031: Are unresolved exceptions a separate category from discrepancies, or are they handled identically?
+- SRC-032: What actions qualify as "material actions" requiring audit records?
+- SRC-032: What detail is required for actor identity and timestamp (user ID, name, role, time zone, precision)?
+- SRC-032: What is the required representation of the target business record (type, identifier, version)?
+- SRC-032: What operations, if any, are permitted on an audit record, and what exactly constitutes a new audit entry on an alteration attempt?
+- SRC-032: Which filter fields are supported for audit queries?
+- SRC-033: Which totals must agree and at what aggregation level?
+- SRC-033: How is the reporting period defined and bounded?
+- SRC-033: What mechanism or status indicates a discrepancy is flagged for investigation, and who is notified?
+- SRC-033: When is the report-versus-records comparison performed (generation, on demand, scheduled)?
+
+===========================================================================
+
+PART 12 OF 12 | JIRA STORIES: SRC-034, SRC-035, SRC-036
+===========================================================================
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Access Control and Security epic. It defines role-based access enforcement, role and permission configuration with separation of duties, and controlled access to sensitive operations. Story keys in this batch: SRC-034, SRC-035, SRC-036.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Role-Based Access Enforcement (SRC-034)
+Jira Story Key: SRC-034
+Parent Epic Key: Access Control and Security
+Story Summary: Enforce role-based access control
+Supported actor(s): System administrator (role definition), any authenticated user performing operations
+Trigger/precondition: A user with a defined role attempts an operation; a role definition is updated
+Functional requirements:
+SRC-034-FR-01: The system shall grant or deny access to an operation based on the role assigned to the user attempting the operation.
+SRC-034-FR-02: The system shall deny a sensitive operation when the requesting role is not authorized for that operation.
+SRC-034-FR-03: The system shall apply access rights from an updated role definition immediately upon the update.
+Inputs and outputs: Input — user role, operation identifier, updated role definition. Output — access granted or denied, effective access rights.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: None specified in source.
+Acceptance criteria:
+Given a user with a defined role, when they attempt an operation, then access is granted or denied based on their role.
+Given a sensitive operation, when it is attempted by an unauthorized role, then it is denied.
+Given a role definition, when it is updated, then access rights are applied immediately.
+Missing details or ambiguities: The source does not specify how roles are assigned to users, how roles are defined, which operations are sensitive, or what constitutes "immediately" for applying updated rights.
+
+Capability: Role and Permission Configuration with Separation of Duties (SRC-035)
+Jira Story Key: SRC-035
+Parent Epic Key: Access Control and Security
+Story Summary: Configure roles and permissions
+Supported actor(s): System administrator
+Trigger/precondition: A role configuration is saved; a sensitive action requiring separation of duties is attempted; a role change is made
+Functional requirements:
+SRC-035-FR-01: The system shall configure roles so that each role can submit, review, or approve as defined in the role configuration.
+SRC-035-FR-02: The system shall block a sensitive action requiring separation of duties when a single actor attempts all stages of that action.
+SRC-035-FR-03: The system shall record every role change with the actor who made the change and the timestamp of the change.
+Inputs and outputs: Input — role configuration, role change. Output — configured role capabilities, blocked action, recorded role change.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: None specified in source.
+Acceptance criteria:
+Given a role configuration, when it is saved, then the role can submit, review, or approve as defined.
+Given a sensitive action requiring separation of duties, when a single actor attempts all stages, then the action is blocked.
+Given a role change, when it is made, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: The source does not specify the data model for role configuration, the definition of a "stage" in a sensitive action, the exact fields recorded for a role change, or the retention and visibility of the recorded changes.
+
+Capability: Controlled Access to Sensitive Operations (SRC-036)
+Jira Story Key: SRC-036
+Parent Epic Key: Access Control and Security
+Story Summary: Control access to sensitive operations
+Supported actor(s): System administrator (defines sensitive operations), any authenticated user
+Trigger/precondition: A sensitive operation is accessed; a sensitive operation is performed; a list of sensitive operations is queried
+Functional requirements:
+SRC-036-FR-01: The system shall deny access to a sensitive operation when the requesting role is not authorized for that operation.
+SRC-036-FR-02: The system shall record a sensitive operation when it is performed by an authorized role.
+SRC-036-FR-03: The system shall restrict visibility of the list of sensitive operations to authorized users only.
+Inputs and outputs: Input — sensitive operation, authorized role, query for the list of sensitive operations. Output — denied access, recorded operation, authorized view of the list.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: None specified in source.
+Acceptance criteria:
+Given a sensitive operation, when it is accessed by an unauthorized role, then access is denied.
+Given a sensitive operation, when it is performed by an authorized role, then the action is recorded.
+Given a list of sensitive operations, when it is queried, then only authorized users can view it.
+Missing details or ambiguities: The source does not specify how the list of sensitive operations is maintained, what fields are recorded for a performed sensitive operation, or how authorization for viewing the list is determined.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports three access-control behaviors linked to story keys:
+- Access decision at operation time: SRC-034 (grant/deny based on role), SRC-036 (deny unauthorized access to sensitive operations).
+- Role configuration and separation of duties: SRC-035 (configure submit/review/approve capabilities, block single-actor completion of sensitive actions).
+- Audit recording: SRC-035 (record role changes with actor and timestamp), SRC-036 (record sensitive operations performed by authorized roles).
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules and validations:
+- Access is granted or denied based on the user's role (SRC-034).
+- Sensitive operations are denied to unauthorized roles (SRC-034, SRC-036).
+- Updated role definitions take effect immediately (SRC-034).
+- Roles are configured to submit, review, or approve as defined (SRC-035).
+- A single actor attempting all stages of a sensitive action requiring separation of duties is blocked (SRC-035).
+- Role changes are recorded with actor and timestamp (SRC-035).
+- Sensitive operations performed by authorized roles are recorded (SRC-036).
+- The list of sensitive operations is visible only to authorized users (SRC-036).
+Business data objects: role definitions, role configurations, role changes, sensitive operations, and access decisions. Field-level constraints and data relationships are not specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-034 | Access Control and Security | SRC-034-FR-01, SRC-034-FR-02, SRC-034-FR-03 | Covered
+SRC-035 | Access Control and Security | SRC-035-FR-01, SRC-035-FR-02, SRC-035-FR-03 | Covered
+SRC-036 | Access Control and Security | SRC-036-FR-01, SRC-036-FR-02, SRC-036-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-034: How are roles assigned to users, and how are roles defined and stored? Which operations are classified as sensitive? What is the expected behavior and timing for "immediately" applying updated access rights?
+SRC-035: What is the data model for role configuration, and what fields must be captured? How is a "stage" of a sensitive action defined, and how is a single actor detected across stages? What exact fields are recorded for a role change, and how are those records retained and viewed?
+SRC-036: How is the list of sensitive operations maintained and updated? What fields are recorded when a sensitive operation is performed? How is authorization to view the list of sensitive operations determined?
+All three stories have acceptance criteria; however, several implementation details required for testable validation are not specified in the source.
 
 AUTOMATED COVERAGE CHECK
 Every source story key was found in its generated batch text.

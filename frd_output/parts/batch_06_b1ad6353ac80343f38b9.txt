@@ -1,0 +1,88 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within two epics: SRC-016 and SRC-017 belong to the Contributions and Financial Reconciliation epic (track and resolve financial exceptions; preserve evidence of material financial actions), and SRC-018 belongs to the Investment Records epic (create and link investment records). Supported capabilities are exception tracking and resolution, audit evidence preservation for financial actions, and creation and linking of investment records to pension accounts, members, and schemes.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Financial Exception Tracking and Resolution (SRC-016, SRC-017)
+
+Jira Story Key: SRC-016
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Track and resolve financial exceptions
+Supported actor(s): Operations personnel (exception creation and resolution)
+Trigger/precondition: A financial exception is flagged/identified
+Functional requirements:
+- SRC-016-FR-01: The system shall allow operations personnel to create a record for a flagged financial exception.
+- SRC-016-FR-02: The system shall maintain a trackable status for each exception that progresses from open to resolved.
+- SRC-016-FR-03: The system shall record the resolution outcome when an exception is resolved.
+- SRC-016-FR-04: The system shall record the actor who performed the exception resolution.
+Inputs and outputs: Input is a flagged exception; output is an exception record with status, resolution outcome, and resolving actor.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the full status lifecycle, status transition rules, required fields on exception creation, or whether an exception must be resolved by the same actor who created it.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given a flagged exception, when it is created, then it has a trackable status from open to resolved.
+- Given an exception resolution, when it is recorded, then the resolution outcome and actor are retained.
+Missing details or ambiguities: The exact status values and transitions beyond "open" to "resolved" are not specified. Required fields for exception creation, resolution, and audit evidence are not specified. It is not specified whether exceptions are linked to specific financial transactions, accounts, or schemes.
+
+Jira Story Key: SRC-017
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Preserve evidence of material financial actions
+Supported actor(s): Compliance personnel (audit); any actor performing a material financial action
+Trigger/precondition: A material financial action is performed
+Functional requirements:
+- SRC-017-FR-01: The system shall record the actor who performed each material financial action.
+- SRC-017-FR-02: The system shall record the timestamp of each material financial action.
+- SRC-017-FR-03: The system shall record the values associated with each material financial action.
+- SRC-017-FR-04: The system shall record the outcome of each material financial action.
+- SRC-017-FR-05: The system shall make the end-to-end evidence for a financial action retrievable for audit purposes.
+Inputs and outputs: Input is a material financial action; output is an auditable evidence record containing actor, timestamp, values, and outcome.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define which actions are "material," the required format or precision of values, retention period, or audit retrieval criteria.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given a material financial action, when it is performed, then the actor, timestamp, values, and outcome are recorded.
+- Given a financial action, when it is audited, then the end-to-end evidence is retrievable.
+Missing details or ambiguities: The definition of "material financial action" is not specified. Required fields, value formats, and audit retrieval mechanisms are not specified.
+
+Capability 2: Investment Record Creation and Linking (SRC-018)
+
+Jira Story Key: SRC-018
+Parent Epic Key: Investment Records
+Story Summary: Create and link investment records
+Supported actor(s): Pension administrator
+Trigger/precondition: An approved investment record exists and is to be created
+Functional requirements:
+- SRC-018-FR-01: The system shall allow a pension administrator to create an approved investment record.
+- SRC-018-FR-02: The system shall link each created investment record to a pension account.
+- SRC-018-FR-03: The system shall make each created investment record queryable.
+- SRC-018-FR-04: When an investment record is queried, the system shall return the associated pension account.
+- SRC-018-FR-05: When an investment record is queried, the system shall return the associated member.
+- SRC-018-FR-06: When an investment record is queried, the system shall return the associated scheme.
+Inputs and outputs: Input is an approved investment record with a pension account reference; output is a linked, queryable investment record and, on query, the associated pension account, member, and scheme.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define required fields on investment record creation, validation rules for the pension account/member/scheme linkage, or whether the record must be approved before creation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given an approved investment record, when it is created, then it is linked to a pension account and queryable.
+- Given an investment record, when it is queried, then the associated pension account, member, and scheme are returned.
+Missing details or ambiguities: The exact fields and linkage mechanism for pension account, member, and scheme are not specified. Query behavior for records with missing or invalid links is not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+- Exception lifecycle: An exception is flagged, an exception record is created with an open status, the exception is resolved by an operations actor with the resolution outcome recorded, and the status progresses to resolved. Linked to SRC-016.
+- Financial action audit trail: A material financial action is performed, the actor, timestamp, values, and outcome are recorded, and the evidence is retrievable for audit. Linked to SRC-017.
+- Investment record creation: A pension administrator creates an approved investment record, links it to a pension account, member, and scheme, and the record is queryable with those associations returned. Linked to SRC-018.
+No complete end-to-end workflow spanning multiple capabilities is specified in this batch; each workflow is confined to its own story.
+
+D. RULES, VALIDATIONS, AND DATA
+- Exception data object: exception record with trackable status (open to resolved), resolution outcome, and resolving actor. Story keys: SRC-016.
+- Financial action evidence object: material financial action record with actor, timestamp, values, and outcome, retrievable for audit. Story keys: SRC-017.
+- Investment record data object: approved investment record linked to a pension account, member, and scheme, queryable with those associations returned. Story keys: SRC-018.
+No field-level constraints, value formats, or data relationships are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-016 | Contributions and Financial Reconciliation | SRC-016-FR-01, SRC-016-FR-02, SRC-016-FR-03, SRC-016-FR-04 | Covered
+SRC-017 | Contributions and Financial Reconciliation | SRC-017-FR-01, SRC-017-FR-02, SRC-017-FR-03, SRC-017-FR-04, SRC-017-FR-05 | Covered
+SRC-018 | Investment Records | SRC-018-FR-01, SRC-018-FR-02, SRC-018-FR-03, SRC-018-FR-04, SRC-018-FR-05, SRC-018-FR-06 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-016: What are the complete status values and allowed transitions for an exception beyond open and resolved? What fields are required when creating an exception record? Must an exception be resolved by a specific role or the same actor who created it? Are exceptions linked to specific financial transactions, accounts, or schemes?
+- SRC-017: What defines a "material financial action"? Which actions require evidence preservation? What is the required format and precision of recorded values? What is the evidence retention period and how is audit retrieval performed?
+- SRC-018: What fields are required to create an investment record? How is the linkage to pension account, member, and scheme validated? Must the record be approved before creation, and what does "approved" mean in this context? How should queries behave when a link is missing or invalid?
+All three stories have acceptance criteria; however, several acceptance criteria reference entities (pension account, member, scheme) whose fields and linkage mechanisms are not specified in the source.

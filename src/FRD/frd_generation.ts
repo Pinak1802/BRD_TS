@@ -8,15 +8,16 @@ import { createHash } from 'node:crypto';
 const FRD_DIR = path.dirname(fileURLToPath(import.meta.url));
 const SRC_DIR = path.dirname(FRD_DIR);
 const ROOT_DIR = path.dirname(SRC_DIR);
-const JIRA_PATH = path.join(SRC_DIR, 'epics_and_stories.json');
+const JIRA_PATH = path.join(SRC_DIR, 'BRD_TO_STORY', 'epics_and_stories.json');
 const PROMPT_PATH = path.join(FRD_DIR, 'FRD_prompt.txt');
 const OUTPUT_DIR = path.join(ROOT_DIR, 'frd_output');
 const PARTS_DIR = path.join(OUTPUT_DIR, 'parts');
 const OUTPUT_PATH = path.join(OUTPUT_DIR, 'FRD.txt');
+const JSON_OUTPUT_PATH = path.join(OUTPUT_DIR, 'FRD.json');
 const LLM_URL = process.env.LLM_URL || 'https://api.apinex.bond/v1/chat/completions';
 const MODEL = process.env.LLM_MODEL || 'free/gpt-6-luna';
 const API_KEY = process.env.LLM_API_KEY;
-const BATCH_SIZE = Math.max(1, Math.min(10, Number(process.env.FRD_BATCH_SIZE || 3)));
+const BATCH_SIZE = Number(process.env.FRD_BATCH_SIZE || 3);
 const MAX_RETRIES = 2;
 const RETRY_DELAY_MS = 120_000;
 const REQUEST_TIMEOUT_MS = 115_000;
@@ -37,25 +38,21 @@ function parseJira(raw: unknown): { epics: Epic[]; stories: Story[] } {
   const epics: Epic[] = [];
   const stories: Story[] = [];
   const seen = new Set<string>();
-function addStory(s: Obj, epicKey: string, epicSummary: string) {
-  const key = value(pick(s, 'key', 'issueKey', 'issue_key')).trim();
-
-  const storyReference =
-    key || `SRC-${String(stories.length + 1).padStart(3, '0')}`;
-
-  stories.push({
-    key: storyReference,
-    epicKey,
-    epicSummary,
-    summary: value(pick(s, 'summary', 'title', 'name')),
-    description: pick(s, 'description', 'details') ?? '',
-    acceptanceCriteria:
-      pick(s, 'acceptanceCriteria', 'acceptance_criteria') ?? [],
-    businessRules:
-      pick(s, 'businessRules', 'business_rules') ?? [],
-    priority: pick(s, 'priority') ?? ''
-  });
-}
+  function addStory(s: Obj, epicKey: string, epicSummary: string) {
+    const key = value(pick(s, 'key', 'issueKey', 'issue_key')).trim();
+    const storyReference = key || `SRC-${String(stories.length + 1).padStart(3, '0')}`;
+    // Do not add the same Jira story twice when present in nested and top-level lists.
+    if (seen.has(storyReference)) return;
+    seen.add(storyReference);
+    stories.push({
+      key: storyReference, epicKey, epicSummary,
+      summary: value(pick(s, 'summary', 'title', 'name')),
+      description: pick(s, 'description', 'details') ?? '',
+      acceptanceCriteria: pick(s, 'acceptanceCriteria', 'acceptance_criteria') ?? [],
+      businessRules: pick(s, 'businessRules', 'business_rules') ?? [],
+      priority: pick(s, 'priority') ?? ''
+    });
+  }
   for (const item of epicRaw) {
     if (!isObj(item)) continue;
     const epicKey = value(pick(item, 'key', 'epic_key', 'id'));
@@ -120,7 +117,7 @@ async function main() {
   if (!existsSync(JIRA_PATH)) throw new Error(`Missing Jira JSON: ${JIRA_PATH}. No Jira download attempted.`);
   if (!existsSync(PROMPT_PATH)) throw new Error(`Missing FRD prompt: ${PROMPT_PATH}`);
   if (!API_KEY?.trim()) throw new Error('LLM_API_KEY missing from BRD_TS/.env');
-  if (!Number.isInteger(BATCH_SIZE)) throw new Error('FRD_BATCH_SIZE must be an integer.');
+  if (!Number.isInteger(BATCH_SIZE) || BATCH_SIZE < 1 || BATCH_SIZE > 10) throw new Error('FRD_BATCH_SIZE must be an integer between 1 and 10.');
   const [jsonText, prompt] = await Promise.all([readFile(JIRA_PATH, 'utf8'), readFile(PROMPT_PATH, 'utf8')]);
   if (!prompt.trim()) throw new Error('FRD prompt is empty.');
   const { epics, stories } = parseJira(JSON.parse(jsonText));
@@ -129,6 +126,7 @@ async function main() {
   await mkdir(PARTS_DIR, { recursive: true });
   console.log(`Jira: ${JIRA_PATH}\nEpics: ${epics.length}; Stories: ${stories.length}; Batches: ${batches.length}\nModel: ${MODEL}`);
   const sections: string[] = [];
+  const functionalRequirements: { sectionId: string; batchNumber: number; storyKeys: string[]; content: string }[] = [];
   const issues: string[] = [];
   for (let i = 0; i < batches.length; i++) {
     const batch = batches[i];
@@ -148,14 +146,16 @@ async function main() {
     }
     const missing = batch.filter(s => !content.includes(s.key)).map(s => s.key);
     if (missing.length) issues.push(`Batch ${i + 1}: missing Jira references in generated text: ${missing.join(', ')}`);
-    sections.push(`PART ${i + 1} OF ${batches.length} | JIRA STORIES: ${batch.map(s => s.key).join(', ')}\n${'='.repeat(75)}\n${content.trim()}`);
+    const storyKeys = batch.map(s => s.key);
+    functionalRequirements.push({ sectionId: `FRD-${String(i + 1).padStart(3, '0')}`, batchNumber: i + 1, storyKeys, content: content.trim() });
+    sections.push(`PART ${i + 1} OF ${batches.length} | JIRA STORIES: ${storyKeys.join(', ')}\n${'='.repeat(75)}\n${content.trim()}`);
   }
   const trace = stories.map(s => `${s.key} | Epic: ${s.epicKey || 'Not specified'} | ${s.summary}`).join('\n');
   const gaps = epics.filter(e => !stories.some(s => s.epicKey === e.key));
   const report = [
     'FUNCTIONAL REQUIREMENTS DOCUMENT (FRD)',
     'Compiled from Jira Epics and Stories using batched LLM generation.',
-    `Source: src/epics_and_stories.json`,
+    'Source: src/epics_and_stories.json',
     `Epics: ${epics.length} | Unique stories: ${stories.length} | Generated sections: ${batches.length}`,
     'Requirement IDs in generated sections are batch-local; use Jira keys for cross-section traceability.',
     '', 'SOURCE STORY INVENTORY', trace,
@@ -164,8 +164,25 @@ async function main() {
     '', 'AUTOMATED COVERAGE CHECK', issues.length ? issues.join('\n') : 'Every source story key was found in its generated batch text.',
     'NOTE: Key presence is a basic check, not proof that every acceptance criterion was captured. Review each section against Jira.',
   ].join('\n');
-  await writeFile(OUTPUT_PATH, `${report}\n`, 'utf8');
-  console.log(`FRD saved: ${OUTPUT_PATH}`);
+  const frdJson = {
+    documentType: 'Functional Requirements Document',
+    source: 'src/epics_and_stories.json',
+    generatedAt: new Date().toISOString(),
+    projectSummary: { totalEpics: epics.length, totalStories: stories.length, totalBatches: batches.length, model: MODEL },
+    epics,
+    stories,
+    functionalRequirements,
+    traceability: stories.map(story => ({ storyKey: story.key, epicKey: story.epicKey, summary: story.summary })),
+    epicsWithoutAssociatedStories: gaps,
+    coverageWarnings: issues,
+    coverageNote: 'Key presence does not prove that all acceptance criteria were captured.'
+  };
+  await Promise.all([
+    writeFile(OUTPUT_PATH, `${report}\n`, 'utf8'),
+    writeFile(JSON_OUTPUT_PATH, JSON.stringify(frdJson, null, 2) + '\n', 'utf8')
+  ]);
+  console.log(`FRD TXT saved: ${OUTPUT_PATH}`);
+  console.log(`FRD JSON saved: ${JSON_OUTPUT_PATH}`);
   if (issues.length) console.warn('Coverage warnings:\n' + issues.join('\n'));
 }
 main().catch(err => { console.error('FRD generation failed:', err); process.exitCode = 1; });

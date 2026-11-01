@@ -1,101 +1,155 @@
-%%{init: {'theme': 'base', 'flowchart': {'htmlLabels': true, 'curve': 'basis', 'nodeSpacing': 80, 'rankSpacing': 100}, 'themeVariables': {'fontSize': '20px', 'fontFamily': 'Arial'}}}%%
+%%{init: {'theme': 'base', 'flowchart': {'htmlLabels': false, 'nodeSpacing': 70, 'rankSpacing': 80}}}%%
 flowchart TB
 
-    subgraph CLIENT["Client Layer"]
-        ACTOR_1["Pension Administrator"]
-    end
-
-    subgraph APPLICATION["Application Layer"]
-        COMP_1["API Gateway<br/><span style='font-size:16px'>Handle incoming API requests and route them to the appropriate service</span>"]
-        COMP_2["Authentication Module<br/><span style='font-size:16px'>Verify user credentials and authenticate requests</span>"]
-        COMP_3["Business/Application Services<br/><span style='font-size:16px'>Provide business logic and application services</span>"]
-        COMP_4["Repository/Data Access Layer<br/><span style='font-size:16px'>Provide data access and storage</span>"]
-        COMP_5["Database<br/><span style='font-size:16px'>Store and manage data</span>"]
-        COMP_6["Cache<br/><span style='font-size:16px'>Provide caching functionality</span>"]
-        COMP_7["Message Broker<br/><span style='font-size:16px'>Provide message queuing and routing functionality</span>"]
-        COMP_8["External Integrations<br/><span style='font-size:16px'>Provide integration with external systems</span>"]
-        COMP_9["Notification Service<br/><span style='font-size:16px'>Provide notification functionality</span>"]
-    end
-
-    subgraph DATABASE["Data Layer"]
-        DB_1["scheme"]
-        DB_2["employer"]
-        DB_3["member"]
-        DB_4["pension_account"]
-        DB_5["contribution_submission"]
-        DB_6["contribution_receipt"]
-        DB_7["contribution_allocation"]
-        DB_8["financial_exception"]
-        DB_9["benefit_request"]
-        DB_10["benefit_approval"]
-        DB_11["investment_record"]
-    end
-
-    subgraph INFRA["Infrastructure / External Layer"]
-        INFRA_1["API Gateway"]
-        INFRA_2["Authentication Module"]
-        INFRA_3["Business/Application Services"]
-        INFRA_4["Repository/Data Access Layer"]
-        INFRA_5["Database"]
-        INFRA_6["Cache"]
-        INFRA_7["Message Broker"]
-        INFRA_8["External Integrations"]
-        INFRA_9["Notification Service"]
-    end
-
-    ACTOR_1 --> COMP_1
-    DB_2 -.-> DB_5
-    DB_2 -.-> DB_6
-    DB_1 -.-> DB_3
-    DB_1 -.-> DB_4
-    DB_3 -.-> DB_4
-    DB_3 -.-> DB_9
-    DB_2 -.-> DB_7
-    DB_3 -.-> DB_7
-    DB_1 -.-> DB_7
-    DB_5 -.-> DB_6
-    DB_6 -.-> DB_7
-    DB_5 -.-> DB_7
-    DB_4 -.-> DB_7
-    DB_8 -.-> DB_6
-    DB_8 -.-> DB_5
-    DB_8 -.-> DB_7
-    DB_8 -.-> DB_9
-    DB_8 -.-> DB_10
-    DB_4 -.-> DB_11
-    DB_9 -.-> DB_10
-
-    classDef actor fill:#e8f0fe,stroke:#333
-    classDef component fill:#e8f5e9,stroke:#333
-    classDef database fill:#fff3e0,stroke:#333
-    classDef infra fill:#f3e5f5,stroke:#333
-    class ACTOR_1 actor
-    class COMP_1 component
-    class COMP_2 component
-    class COMP_3 component
-    class COMP_4 component
-    class COMP_5 component
-    class COMP_6 component
-    class COMP_7 component
-    class COMP_8 component
-    class COMP_9 component
-    class DB_1 database
-    class DB_2 database
-    class DB_3 database
-    class DB_4 database
-    class DB_5 database
-    class DB_6 database
-    class DB_7 database
-    class DB_8 database
-    class DB_9 database
-    class DB_10 database
-    class DB_11 database
-    class INFRA_1 infra
-    class INFRA_2 infra
-    class INFRA_3 infra
-    class INFRA_4 infra
-    class INFRA_5 infra
-    class INFRA_6 infra
-    class INFRA_7 infra
-    class INFRA_8 infra
-    class INFRA_9 infra
+subgraph CLIENT["Actors and Clients"]
+A0["Administrator"]
+end
+subgraph APP["Application Components"]
+C0["Scheme Management"]
+C1["Employer Management"]
+C2["Member Management"]
+C3["Contributions and Financial Reconciliation"]
+C4["Benefits Administration"]
+C5["Reporting and Audit"]
+C6["Security, Access Control, and Exception Handling"]
+end
+subgraph MODULES["Functional Modules"]
+M0["Scheme Management"]
+M1["Employer Management"]
+M2["Member Management"]
+M3["Pension Account Administration"]
+M4["Contributions and Financial Reconciliation"]
+M5["Investment Records"]
+M6["Benefits Administration"]
+M7["Reporting and Audit"]
+M8["Security, Access Control, and Exception Handling"]
+end
+subgraph DATA["ERD Entities"]
+D0[("scheme")]
+D1[("employer")]
+D2[("employer_contact")]
+D3[("employer_scheme")]
+D4[("member")]
+D5[("member_audit")]
+D6[("pension_account")]
+D7[("pension_account_audit")]
+D8[("contribution_submission")]
+D9[("contribution_receipt")]
+D10[("contribution_allocation")]
+D11[("reconciliation")]
+D12[("reconciliation_exception")]
+D13[("financial_audit")]
+D14[("investment")]
+D15[("investment_audit")]
+D16[("benefit_request")]
+D17[("benefit_validation")]
+D18[("benefit_workflow")]
+D19[("benefit_payment")]
+D20[("user_role")]
+D21[("system_user")]
+D22[("audit_report")]
+D23[("material_action")]
+end
+A0 --> C0
+C0 --> C1
+C0 --> C2
+C0 --> D0
+C0 --> D3
+C1 --> C0
+C1 --> C2
+C1 --> D1
+C1 --> D2
+C2 --> C0
+C2 --> C1
+C2 --> D4
+C2 --> D5
+C3 --> C2
+C3 --> D8
+C3 --> D9
+C3 --> D10
+C3 --> D11
+C3 --> D12
+C4 --> C2
+C4 --> D16
+C4 --> D17
+C4 --> D18
+C4 --> D19
+C5 --> C3
+C5 --> C4
+C5 --> D22
+C5 --> D23
+C6 --> C5
+M0 --> D0
+M0 --> D3
+C0 --> M0
+M1 --> D1
+M1 --> D2
+C1 --> M1
+M2 --> D4
+M2 --> D5
+C2 --> M2
+M3 --> D6
+M3 --> D7
+M4 --> D8
+M4 --> D9
+M4 --> D10
+M4 --> D11
+M4 --> D12
+M4 --> D13
+C3 --> M4
+M5 --> D14
+M5 --> D15
+M6 --> D16
+M6 --> D17
+M6 --> D18
+M6 --> D19
+C4 --> M6
+M7 --> D22
+M7 --> D23
+C5 --> M7
+C6 --> M8
+classDef actor fill:#dceafd,stroke:#3863a0
+classDef component fill:#d9f5e9,stroke:#2c8464
+classDef module fill:#eee3fc,stroke:#8359ad
+classDef data fill:#fff0d4,stroke:#a97829
+class A0 actor
+class C0 component
+class C1 component
+class C2 component
+class C3 component
+class C4 component
+class C5 component
+class C6 component
+class M0 module
+class M1 module
+class M2 module
+class M3 module
+class M4 module
+class M5 module
+class M6 module
+class M7 module
+class M8 module
+class D0 data
+class D1 data
+class D2 data
+class D3 data
+class D4 data
+class D5 data
+class D6 data
+class D7 data
+class D8 data
+class D9 data
+class D10 data
+class D11 data
+class D12 data
+class D13 data
+class D14 data
+class D15 data
+class D16 data
+class D17 data
+class D18 data
+class D19 data
+class D20 data
+class D21 data
+class D22 data
+class D23 data

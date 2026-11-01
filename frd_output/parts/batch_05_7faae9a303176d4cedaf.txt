@@ -1,0 +1,88 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within two epics: Pension Accounts (SRC-013, SRC-014) and Contributions and Financial Reconciliation (SRC-015). Supported capabilities are account-to-member/scheme linkage, traceability of account activity to business records, and recording of contribution submissions with associations and change audit.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Pension Account Linkage and Traceability
+
+Jira Story Key: SRC-013
+Parent Epic Key: Pension Accounts
+Story Summary: Link accounts to members and schemes
+Supported actor(s): Pension administrator
+Trigger/precondition: An account exists and its member and scheme links are queried.
+Functional requirements:
+SRC-013-FR-01: The system shall return the member and scheme links associated with a queried account.
+SRC-013-FR-02: The system shall enable tracing of a contribution or investment that references an account to the relevant member and scheme.
+SRC-013-FR-03: The system shall flag an account for resolution when its member or scheme links are missing or inconsistent.
+Inputs and outputs: Input is an account identifier; output is the account's member and scheme linkage, traceability results, and a flag indicating missing or inconsistent links.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: Accounts with missing or inconsistent links are flagged for resolution.
+Acceptance criteria:
+Given an account, when its member and scheme links are queried, then they are returned.
+Given a contribution or investment, when it references an account, then it can be traced to the relevant member and scheme.
+Given an account, when its links are missing or inconsistent, then it is flagged for resolution.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which fields constitute a missing or inconsistent link? What is the resolution workflow and who resolves flagged accounts? What defines the traceability path for contributions and investments?
+
+Jira Story Key: SRC-014
+Parent Epic Key: Pension Accounts
+Story Summary: Trace account activity to business records
+Supported actor(s): Compliance reviewer, management reviewer
+Trigger/precondition: An account activity record exists and is queried, or an audit query is run on an account.
+Functional requirements:
+SRC-014-FR-01: The system shall link a queried account activity record to the relevant submission, receipt, allocation, and investment records.
+SRC-014-FR-02: The system shall return all linked business records within the period specified by an audit query on an account.
+SRC-014-FR-03: The system shall prevent alteration of a retrieved account activity without creating a new audit entry.
+Inputs and outputs: Input is an account activity record or an account with a period; output is the set of linked business records and audit entries.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: Any change to an account activity record must generate a new audit entry rather than modify the original.
+Acceptance criteria:
+Given an account activity record, when it is queried, then it links to the relevant submission, receipt, allocation, and investment records.
+Given an audit query on an account, when it is run, then all linked business records within the period are returned.
+Given an account activity, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities: Not specified in source — requires confirmation. What constitutes a period for audit queries? What information must a new audit entry contain? What actions count as alteration?
+
+Capability: Contribution Submission Recording
+
+Jira Story Key: SRC-015
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution submissions
+Supported actor(s): Employer, pension administrator
+Trigger/precondition: A contribution submission is to be recorded, modified, or queried.
+Functional requirements:
+SRC-015-FR-01: The system shall record a contribution submission with identifiable employer, member, and scheme associations.
+SRC-015-FR-02: The system shall display the status and associations of a queried submission.
+SRC-015-FR-03: The system shall record any modification to a submission with the actor and timestamp.
+Inputs and outputs: Input is a contribution submission with employer, member, and scheme associations; output is the recorded submission, its status and associations, and a modification record containing actor and timestamp.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: Modifications are recorded rather than silently overwritten.
+Acceptance criteria:
+Given a contribution submission, when it is recorded, then it has identifiable employer, member, and scheme associations.
+Given a submission, when it is queried, then its status and associations are displayed.
+Given a submission, when it is modified, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: Not specified in source — requires confirmation. What fields identify the employer, member, and scheme? What submission statuses exist? What is the modification workflow and who may modify submissions?
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports the following linked steps:
+- Account linkage: a pension administrator links an account to a member and scheme (SRC-013).
+- Contribution submission: an employer or pension administrator records a submission with employer, member, and scheme associations (SRC-015).
+- Activity traceability: a compliance or management reviewer queries account activity and links it to submission, receipt, allocation, and investment records (SRC-014).
+- Change audit: modifications to submissions and account activities are recorded with actor and timestamp and new audit entries (SRC-015, SRC-014).
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules, validations, and data objects for this batch are limited to the following, with story keys:
+- Account linkage data: account, member, and scheme associations (SRC-013).
+- Account activity data: links to submission, receipt, allocation, and investment records (SRC-014).
+- Submission data: employer, member, and scheme associations, status, and modification records with actor and timestamp (SRC-015).
+- Auditability: account activities cannot be altered without a new audit entry (SRC-014); submission modifications are recorded with actor and timestamp (SRC-015).
+No field constraints, data relationships, or status enumerations are specified in source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-013 | Pension Accounts | SRC-013-FR-01, SRC-013-FR-02, SRC-013-FR-03 | Covered
+SRC-014 | Pension Accounts | SRC-014-FR-01, SRC-014-FR-02, SRC-014-FR-03 | Covered
+SRC-015 | Contributions and Financial Reconciliation | SRC-015-FR-01, SRC-015-FR-02, SRC-015-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-013: What fields define a missing or inconsistent account link, and what is the resolution workflow and responsible actor? What is the exact traceability path from contributions and investments to member and scheme?
+SRC-014: What defines the period for audit queries, and what must a new audit entry contain? Which actions count as alteration of an account activity?
+SRC-015: What fields identify the employer, member, and scheme on a submission? What submission statuses exist, and who may modify submissions?
+All three stories have acceptance criteria; however, business rules, field constraints, and workflow details are not specified in source and require confirmation.

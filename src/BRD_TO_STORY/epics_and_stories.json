@@ -1,0 +1,382 @@
+{
+  "epics": [
+    {
+      "summary": "Scheme Management",
+      "description": "Establish and maintain governing scheme configuration, eligibility rules, status, effective dating, and auditability of material scheme changes.",
+      "stories": [
+        {
+          "summary": "Register and configure pension schemes",
+          "description": "As a pension administrator, I want to register a scheme and configure its details, eligibility rules, status, and effective dates, so that enrollment, contributions, and benefits are applied against consistent, effective rules.",
+          "acceptanceCriteria": [
+            "Given an authorized pension administrator, when a new scheme is created, then the scheme has identifiable details and a configuration record exists.",
+            "Given a scheme registration attempt, when no configuration exists, then the scheme record cannot be created without configuration.",
+            "Given a scheme record, when it is queried, then its identity is unique and no duplicate scheme record exists."
+          ]
+        },
+        {
+          "summary": "Define and store scheme eligibility rules",
+          "description": "As a pension administrator, I want to store scheme eligibility rules and make them available for enrollment validation, so that enrollments comply with applicable scheme rules.",
+          "acceptanceCriteria": [
+            "Given eligibility rules are stored, when an enrollment is validated, then the validation references the stored rules.",
+            "Given a change to eligibility rules, when it is saved, then the change is recorded and traceable.",
+            "Given an enrollment attempt, when eligibility rules are unavailable, then the attempt is not silently approved."
+          ]
+        },
+        {
+          "summary": "Track scheme status and effective dates",
+          "description": "As a pension administrator, I want to track scheme status and effective dates for status and rule changes, so that downstream processing uses the correct rules for each period.",
+          "acceptanceCriteria": [
+            "Given a scheme status change, when it is recorded with an effective date, then the status and effective date are visible on the scheme record.",
+            "Given a downstream process, when it runs against a scheme, then it applies the status and rules effective for that period.",
+            "Given a historical query, when it requests a past effective date, then the scheme state at that date is retrievable."
+          ]
+        },
+        {
+          "summary": "Audit material scheme changes",
+          "description": "As a compliance or management reviewer, I want material scheme changes to be recorded with actor, timestamp, and content, so that accountability for scheme configuration is provable.",
+          "acceptanceCriteria": [
+            "Given a material scheme change, when it is made, then an audit record is produced with actor, timestamp, and change content.",
+            "Given an audit query, when it filters by scheme and date range, then all material changes in that range are returned.",
+            "Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Employer Management",
+      "description": "Maintain authoritative employer identities, authorized contacts, and scheme associations so contributions can be attributed correctly.",
+      "stories": [
+        {
+          "summary": "Register and maintain employer records",
+          "description": "As a pension administrator or employer, I want to register and maintain employer records, so that contributions can be attributed to the correct employer.",
+          "acceptanceCriteria": [
+            "Given an employer registration, when it is submitted, then the employer is recorded with identifiable details.",
+            "Given a registration attempt for an existing employer, when it is processed, then the duplicate is flagged.",
+            "Given an employer record, when it is updated by an authorized actor, then the change is recorded with actor and timestamp."
+          ]
+        },
+        {
+          "summary": "Manage authorized employer contacts",
+          "description": "As an employer, I want to maintain a set of authorized contacts for my employer record, so that only authorized contacts can act on my behalf.",
+          "acceptanceCriteria": [
+            "Given an employer record, when a contact is added or changed, then the change is recorded and traceable.",
+            "Given an action on behalf of an employer, when the actor is not an authorized contact, then the action is rejected.",
+            "Given a request to view authorized contacts, when the requester is authorized, then the contact list is displayed."
+          ]
+        },
+        {
+          "summary": "Associate employers with schemes",
+          "description": "As a pension administrator or employer, I want to associate employers with their relevant schemes, so that contributions can be traced to the correct scheme.",
+          "acceptanceCriteria": [
+            "Given an employer-scheme association, when a contribution is submitted by that employer, then it can be traced to the associated scheme.",
+            "Given an employer, when its scheme associations are queried, then all active associations are returned.",
+            "Given a contribution, when its employer-scheme association is missing, then it is flagged for resolution rather than silently completed."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Member Management",
+      "description": "Enroll eligible members, maintain their records, and prevent duplicate or invalid registrations.",
+      "stories": [
+        {
+          "summary": "Enroll members through a controlled workflow",
+          "description": "As a pension administrator or member, I want to enroll members through a controlled workflow, so that enrollments are validated against scheme rules before being recorded.",
+          "acceptanceCriteria": [
+            "Given an enrollment submission, when it is processed, then it can be submitted, validated against scheme rules, and recorded.",
+            "Given an enrollment, when it is created, then it has a unique identity and is linked to its scheme.",
+            "Given an enrollment workflow, when it is in progress, then its status is visible to authorized users."
+          ]
+        },
+        {
+          "summary": "Validate enrollment against eligibility rules",
+          "description": "As a pension administrator or operations personnel, I want enrollment to be validated against applicable scheme eligibility rules before recording, so that ineligible enrollments are prevented or routed to an exception.",
+          "acceptanceCriteria": [
+            "Given an enrollment attempt, when it fails eligibility rules, then it is prevented or routed to an exception rather than silently approved.",
+            "Given a rejected enrollment, when it is reviewed, then the rejection reason is recorded.",
+            "Given an eligible enrollment, when it passes validation, then it proceeds to record creation."
+          ]
+        },
+        {
+          "summary": "Maintain member records",
+          "description": "As a pension administrator or member, I want to maintain member records, so that member information stays accurate and changes are auditable.",
+          "acceptanceCriteria": [
+            "Given a member record change, when it is made by an authorized actor, then the change is recorded with actor and timestamp.",
+            "Given a member record, when it is queried, then its current information is displayed.",
+            "Given a historical query, when it requests a past member state, then the state at that date is retrievable."
+          ]
+        },
+        {
+          "summary": "Prevent duplicate and invalid member registrations",
+          "description": "As a pension administrator or operations personnel, I want duplicate or invalid member registrations to be detected and prevented, so that member records remain unique and valid.",
+          "acceptanceCriteria": [
+            "Given a registration attempt for a potential duplicate, when it is processed, then the potential duplicate is flagged.",
+            "Given an invalid registration, when it is submitted, then it cannot be completed silently.",
+            "Given a duplicate detection, when it occurs, then the outcome (block, merge, or escalate) is recorded."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Pension Accounts",
+      "description": "Administer pension-account records and their associations with members and schemes, with clear traceability to relevant business records.",
+      "stories": [
+        {
+          "summary": "Create and maintain pension-account records",
+          "description": "As a pension administrator, I want to create and maintain pension-account records, so that each account has an identifiable record associated with a member and scheme.",
+          "acceptanceCriteria": [
+            "Given an account creation, when it is completed, then the account has an identifiable record and is linked to a member and scheme.",
+            "Given an account record, when it is updated, then the change is recorded with actor and timestamp.",
+            "Given an account, when it is queried, then its associations are displayed."
+          ]
+        },
+        {
+          "summary": "Link accounts to members and schemes",
+          "description": "As a pension administrator, I want each pension account to be linked to its member and scheme, so that contributions and investments can be traced to the correct member and scheme.",
+          "acceptanceCriteria": [
+            "Given an account, when its member and scheme links are queried, then they are returned.",
+            "Given a contribution or investment, when it references an account, then it can be traced to the relevant member and scheme.",
+            "Given an account, when its links are missing or inconsistent, then it is flagged for resolution."
+          ]
+        },
+        {
+          "summary": "Trace account activity to business records",
+          "description": "As a compliance or management reviewer, I want account activity to be traceable to submission, receipt, allocation, and investment records, so that account movements are fully auditable.",
+          "acceptanceCriteria": [
+            "Given an account activity record, when it is queried, then it links to the relevant submission, receipt, allocation, and investment records.",
+            "Given an audit query on an account, when it is run, then all linked business records within the period are returned.",
+            "Given an account activity, when it is retrieved, then it cannot be altered without a new audit entry."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Contributions and Financial Reconciliation",
+      "description": "Record contribution submissions, receipts, and allocations; reconcile differences; and track exceptions to resolution.",
+      "stories": [
+        {
+          "summary": "Record contribution submissions",
+          "description": "As an employer or pension administrator, I want to record contribution submissions, so that submitted amounts are traceable to the relevant employer, member, and scheme.",
+          "acceptanceCriteria": [
+            "Given a contribution submission, when it is recorded, then it has identifiable employer, member, and scheme associations.",
+            "Given a submission, when it is queried, then its status and associations are displayed.",
+            "Given a submission, when it is modified, then the change is recorded with actor and timestamp."
+          ]
+        },
+        {
+          "summary": "Record contribution receipts",
+          "description": "As a finance personnel, I want to record contribution receipts, so that received amounts can be distinguished from submissions and reconciled.",
+          "acceptanceCriteria": [
+            "Given a contribution receipt, when it is recorded, then it is distinguished from submissions and linked to the relevant submission.",
+            "Given a receipt, when it is queried, then its source and format are visible.",
+            "Given a receipt, when it is updated, then the change is recorded with actor and timestamp."
+          ]
+        },
+        {
+          "summary": "Record contribution allocations",
+          "description": "As a finance personnel, I want to record contribution allocations to pension accounts, so that allocated amounts are traceable to contributions, members, schemes, and accounts.",
+          "acceptanceCriteria": [
+            "Given an allocation, when it is recorded, then it is associated with the relevant contribution, member, scheme, and account.",
+            "Given an allocation, when it is queried, then all associations are displayed.",
+            "Given an allocation, when it is modified, then the change is recorded with actor and timestamp."
+          ]
+        },
+        {
+          "summary": "Associate contributions with required entities",
+          "description": "As a finance personnel, I want each contribution to be associated with the relevant employer, member, and scheme, so that contributions cannot be recorded without required associations.",
+          "acceptanceCriteria": [
+            "Given a contribution, when it is recorded without required associations, then it is flagged for resolution rather than silently completed.",
+            "Given a contribution, when its associations are complete, then it is marked as fully associated.",
+            "Given an incomplete contribution, when it is queried, then the missing associations are displayed."
+          ]
+        },
+        {
+          "summary": "Reconcile submitted, received, and allocated amounts",
+          "description": "As a finance personnel, I want submitted, received, and allocated amounts to be reconciled with differences identified, so that financial transactions are reconcilable.",
+          "acceptanceCriteria": [
+            "Given a reconciliation run, when it is executed, then it reports submitted, received, and allocated totals with any differences.",
+            "Given a reconciliation, when it is queried, then its method and period are visible.",
+            "Given a difference, when it is identified, then it is flagged for resolution rather than silently cleared."
+          ]
+        },
+        {
+          "summary": "Flag unmatched and failed items",
+          "description": "As a finance or operations personnel, I want unmatched amounts, invalid records, and failed transactions to be flagged for resolution, so that they are not silently marked complete.",
+          "acceptanceCriteria": [
+            "Given an unmatched amount, invalid record, or failed transaction, when it is detected, then it is flagged.",
+            "Given a flagged item, when it is queried, then its status and source records are displayed.",
+            "Given a flagged item, when it is resolved, then the resolution is recorded and the flag is cleared."
+          ]
+        },
+        {
+          "summary": "Track exceptions through resolution",
+          "description": "As an operations or finance personnel, I want identified exceptions to be tracked through to resolution, so that unresolved exceptions remain visible until handled.",
+          "acceptanceCriteria": [
+            "Given an exception, when it is created, then it has a status and a resolution record.",
+            "Given an unresolved exception, when it is queried, then it remains visible in exception listings.",
+            "Given a resolved exception, when it is queried, then the resolution details are displayed."
+          ]
+        },
+        {
+          "summary": "Preserve evidence of material financial actions",
+          "description": "As a compliance or management reviewer, I want material financial actions to be preserved in a traceable audit record, so that financial accountability is provable.",
+          "acceptanceCriteria": [
+            "Given a material financial action, when it occurs, then it is preserved in a traceable audit record.",
+            "Given an audit query on financial actions, when it is run, then the actor, timestamp, and content are returned.",
+            "Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Investment Records",
+      "description": "Maintain approved investment and allocation records with traceability of changes; trading, execution, and advice remain out of scope.",
+      "stories": [
+        {
+          "summary": "Maintain approved investment and allocation records",
+          "description": "As a pension administrator, I want to maintain approved investment and allocation records, so that investment positions are reliably recorded.",
+          "acceptanceCriteria": [
+            "Given an approved investment record, when it is created, then it can be maintained and queried.",
+            "Given an allocation record, when it is updated, then the change is recorded with actor and timestamp.",
+            "Given an investment record, when it is queried, then its approval status is displayed."
+          ]
+        },
+        {
+          "summary": "Audit investment record changes",
+          "description": "As a compliance or management reviewer, I want changes to investment records to be recorded with actor, timestamp, and content, so that investment changes are traceable.",
+          "acceptanceCriteria": [
+            "Given an investment record change, when it is made, then it is recorded with actor, timestamp, and content.",
+            "Given an audit query on investment records, when it is run, then all changes within the period are returned.",
+            "Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Benefits Administration",
+      "description": "Record and validate benefit requests, route them for controlled review and approval, and record decisions and payment outcomes.",
+      "stories": [
+        {
+          "summary": "Record and validate benefit requests",
+          "description": "As a member or pension administrator, I want benefit requests to be recorded and validated against confirmed rules, so that only compliant requests proceed.",
+          "acceptanceCriteria": [
+            "Given a benefit request, when it is submitted, then it is recorded and validated against stored rules.",
+            "Given an invalid benefit request, when it is validated, then it is flagged for resolution rather than silently approved.",
+            "Given a valid benefit request, when it passes validation, then it proceeds to review."
+          ]
+        },
+        {
+          "summary": "Route benefit requests through controlled review and approval",
+          "description": "As a pension administrator or finance personnel, I want benefit requests to be routed through controlled review and approval steps with decisions recorded, so that sensitive benefit actions are properly authorized.",
+          "acceptanceCriteria": [
+            "Given a benefit request, when it enters the workflow, then it is routed through review and approval steps.",
+            "Given a benefit request, when a decision is made, then the decision is recorded.",
+            "Given a sensitive benefit action requiring separation of duties, when it is attempted by a single actor, then the actor cannot complete all stages end-to-end."
+          ]
+        },
+        {
+          "summary": "Track benefit request processing status",
+          "description": "As a pension administrator or operations personnel, I want the processing status of benefit requests to be visible, so that I can monitor progress and identify delays.",
+          "acceptanceCriteria": [
+            "Given a benefit request, when it is queried, then its current processing status is displayed.",
+            "Given a benefit request, when it moves to a new status, then the status change is recorded with timestamp.",
+            "Given a status query, when it filters by status, then only matching requests are returned."
+          ]
+        },
+        {
+          "summary": "Record benefit payment outcomes",
+          "description": "As a pension administrator or finance personnel, I want payment outcomes for benefit requests to be recorded and traced to the benefit decision, so that benefit payments are auditable.",
+          "acceptanceCriteria": [
+            "Given a benefit decision, when a payment outcome is recorded, then it is traced to the benefit decision.",
+            "Given a payment outcome, when it is queried, then the associated benefit request and decision are displayed.",
+            "Given a payment outcome, when it is updated, then the change is recorded with actor and timestamp."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Reporting and Audit",
+      "description": "Provide operational and financial reporting with visibility into processing status, reconciliation discrepancies, and unresolved exceptions, supported by traceable records.",
+      "stories": [
+        {
+          "summary": "Generate operational reports",
+          "description": "As a pension administrator, operations personnel, or management, I want operational reports on pension administration activity, so that I can monitor day-to-day processing.",
+          "acceptanceCriteria": [
+            "Given an operational report request, when it is generated, then it covers key pension administration activities.",
+            "Given an operational report, when it is queried, then its content and format are displayed.",
+            "Given an operational report, when it is regenerated for the same period, then the results are consistent."
+          ]
+        },
+        {
+          "summary": "Generate financial reports",
+          "description": "As a finance personnel or management, I want financial reports including contribution and reconciliation status, so that financial positions are visible and reconcilable.",
+          "acceptanceCriteria": [
+            "Given a financial report, when it is generated, then it reflects submitted, received, allocated, and reconciled contribution amounts.",
+            "Given a financial report, when it is queried, then its period and content are displayed.",
+            "Given a financial report, when it is regenerated for the same period, then the results are consistent."
+          ]
+        },
+        {
+          "summary": "Provide visibility into discrepancies and exceptions",
+          "description": "As an operations, finance, or management user, I want visibility into processing status, reconciliation discrepancies, and unresolved exceptions, so that issues are identified and resolved promptly.",
+          "acceptanceCriteria": [
+            "Given a discrepancy or unresolved exception, when it is queried, then it is visible in reporting or dashboards.",
+            "Given a dashboard, when it is loaded, then it displays current processing status, discrepancies, and unresolved exceptions.",
+            "Given a discrepancy, when it is resolved, then it is no longer shown as unresolved."
+          ]
+        },
+        {
+          "summary": "Retrieve audit records of material actions",
+          "description": "As a compliance or management reviewer, I want to retrieve traceable records of material actions and changes, so that audit and accountability reviews are supported.",
+          "acceptanceCriteria": [
+            "Given an audit query, when it is run, then it returns who did what, when, and to which business record.",
+            "Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.",
+            "Given an audit query with filters, when it is run, then only matching records are returned."
+          ]
+        },
+        {
+          "summary": "Ensure reporting completeness and consistency",
+          "description": "As a compliance or management reviewer, I want reports to be complete and consistent with underlying records, so that reported totals are trustworthy.",
+          "acceptanceCriteria": [
+            "Given a report and its underlying records for the same period, when they are compared, then the totals agree.",
+            "Given a report, when it is generated, then all records within the reporting period are included.",
+            "Given a discrepancy between a report and underlying records, when it is detected, then it is flagged for investigation."
+          ]
+        }
+      ]
+    },
+    {
+      "summary": "Access Control and Security",
+      "description": "Enforce role-based access, controlled authorization of sensitive operations, and separation of submission, review, and approval functions.",
+      "stories": [
+        {
+          "summary": "Enforce role-based access control",
+          "description": "As a system administrator, I want role-based access to be enforced so that sensitive operations are restricted to authorized roles.",
+          "acceptanceCriteria": [
+            "Given a user with a defined role, when they attempt an operation, then access is granted or denied based on their role.",
+            "Given a sensitive operation, when it is attempted by an unauthorized role, then it is denied.",
+            "Given a role definition, when it is updated, then access rights are applied immediately."
+          ]
+        },
+        {
+          "summary": "Configure roles and permissions",
+          "description": "As a system administrator, I want roles to be configurable so that submission, review, and approval functions can be separated for sensitive actions.",
+          "acceptanceCriteria": [
+            "Given a role configuration, when it is saved, then the role can submit, review, or approve as defined.",
+            "Given a sensitive action requiring separation of duties, when a single actor attempts all stages, then the action is blocked.",
+            "Given a role change, when it is made, then the change is recorded with actor and timestamp."
+          ]
+        },
+        {
+          "summary": "Control access to sensitive operations",
+          "description": "As a system administrator, I want access to sensitive operations to be controlled so that only authorized roles can perform them.",
+          "acceptanceCriteria": [
+            "Given a sensitive operation, when it is accessed by an unauthorized role, then access is denied.",
+            "Given a sensitive operation, when it is performed by an authorized role, then the action is recorded.",
+            "Given a list of sensitive operations, when it is queried, then only authorized users can view it."
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Access Control and Security epic. It defines role-based access enforcement, role and permission configuration with separation of duties, and controlled access to sensitive operations. Story keys in this batch: SRC-034, SRC-035, SRC-036.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Role-Based Access Enforcement (SRC-034)
+Jira Story Key: SRC-034
+Parent Epic Key: Access Control and Security
+Story Summary: Enforce role-based access control
+Supported actor(s): System administrator (role definition), any authenticated user performing operations
+Trigger/precondition: A user with a defined role attempts an operation; a role definition is updated
+Functional requirements:
+SRC-034-FR-01: The system shall grant or deny access to an operation based on the role assigned to the user attempting the operation.
+SRC-034-FR-02: The system shall deny a sensitive operation when the requesting role is not authorized for that operation.
+SRC-034-FR-03: The system shall apply access rights from an updated role definition immediately upon the update.
+Inputs and outputs: Input — user role, operation identifier, updated role definition. Output — access granted or denied, effective access rights.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: None specified in source.
+Acceptance criteria:
+Given a user with a defined role, when they attempt an operation, then access is granted or denied based on their role.
+Given a sensitive operation, when it is attempted by an unauthorized role, then it is denied.
+Given a role definition, when it is updated, then access rights are applied immediately.
+Missing details or ambiguities: The source does not specify how roles are assigned to users, how roles are defined, which operations are sensitive, or what constitutes "immediately" for applying updated rights.
+
+Capability: Role and Permission Configuration with Separation of Duties (SRC-035)
+Jira Story Key: SRC-035
+Parent Epic Key: Access Control and Security
+Story Summary: Configure roles and permissions
+Supported actor(s): System administrator
+Trigger/precondition: A role configuration is saved; a sensitive action requiring separation of duties is attempted; a role change is made
+Functional requirements:
+SRC-035-FR-01: The system shall configure roles so that each role can submit, review, or approve as defined in the role configuration.
+SRC-035-FR-02: The system shall block a sensitive action requiring separation of duties when a single actor attempts all stages of that action.
+SRC-035-FR-03: The system shall record every role change with the actor who made the change and the timestamp of the change.
+Inputs and outputs: Input — role configuration, role change. Output — configured role capabilities, blocked action, recorded role change.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: None specified in source.
+Acceptance criteria:
+Given a role configuration, when it is saved, then the role can submit, review, or approve as defined.
+Given a sensitive action requiring separation of duties, when a single actor attempts all stages, then the action is blocked.
+Given a role change, when it is made, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: The source does not specify the data model for role configuration, the definition of a "stage" in a sensitive action, the exact fields recorded for a role change, or the retention and visibility of the recorded changes.
+
+Capability: Controlled Access to Sensitive Operations (SRC-036)
+Jira Story Key: SRC-036
+Parent Epic Key: Access Control and Security
+Story Summary: Control access to sensitive operations
+Supported actor(s): System administrator (defines sensitive operations), any authenticated user
+Trigger/precondition: A sensitive operation is accessed; a sensitive operation is performed; a list of sensitive operations is queried
+Functional requirements:
+SRC-036-FR-01: The system shall deny access to a sensitive operation when the requesting role is not authorized for that operation.
+SRC-036-FR-02: The system shall record a sensitive operation when it is performed by an authorized role.
+SRC-036-FR-03: The system shall restrict visibility of the list of sensitive operations to authorized users only.
+Inputs and outputs: Input — sensitive operation, authorized role, query for the list of sensitive operations. Output — denied access, recorded operation, authorized view of the list.
+Explicit business rules and validations: None specified in source.
+Exceptions/alternate paths: None specified in source.
+Acceptance criteria:
+Given a sensitive operation, when it is accessed by an unauthorized role, then access is denied.
+Given a sensitive operation, when it is performed by an authorized role, then the action is recorded.
+Given a list of sensitive operations, when it is queried, then only authorized users can view it.
+Missing details or ambiguities: The source does not specify how the list of sensitive operations is maintained, what fields are recorded for a performed sensitive operation, or how authorization for viewing the list is determined.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports three access-control behaviors linked to story keys:
+- Access decision at operation time: SRC-034 (grant/deny based on role), SRC-036 (deny unauthorized access to sensitive operations).
+- Role configuration and separation of duties: SRC-035 (configure submit/review/approve capabilities, block single-actor completion of sensitive actions).
+- Audit recording: SRC-035 (record role changes with actor and timestamp), SRC-036 (record sensitive operations performed by authorized roles).
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules and validations:
+- Access is granted or denied based on the user's role (SRC-034).
+- Sensitive operations are denied to unauthorized roles (SRC-034, SRC-036).
+- Updated role definitions take effect immediately (SRC-034).
+- Roles are configured to submit, review, or approve as defined (SRC-035).
+- A single actor attempting all stages of a sensitive action requiring separation of duties is blocked (SRC-035).
+- Role changes are recorded with actor and timestamp (SRC-035).
+- Sensitive operations performed by authorized roles are recorded (SRC-036).
+- The list of sensitive operations is visible only to authorized users (SRC-036).
+Business data objects: role definitions, role configurations, role changes, sensitive operations, and access decisions. Field-level constraints and data relationships are not specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-034 | Access Control and Security | SRC-034-FR-01, SRC-034-FR-02, SRC-034-FR-03 | Covered
+SRC-035 | Access Control and Security | SRC-035-FR-01, SRC-035-FR-02, SRC-035-FR-03 | Covered
+SRC-036 | Access Control and Security | SRC-036-FR-01, SRC-036-FR-02, SRC-036-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-034: How are roles assigned to users, and how are roles defined and stored? Which operations are classified as sensitive? What is the expected behavior and timing for "immediately" applying updated access rights?
+SRC-035: What is the data model for role configuration, and what fields must be captured? How is a "stage" of a sensitive action defined, and how is a single actor detected across stages? What exact fields are recorded for a role change, and how are those records retained and viewed?
+SRC-036: How is the list of sensitive operations maintained and updated? What fields are recorded when a sensitive operation is performed? How is authorization to view the list of sensitive operations determined?
+All three stories have acceptance criteria; however, several implementation details required for testable validation are not specified in the source.

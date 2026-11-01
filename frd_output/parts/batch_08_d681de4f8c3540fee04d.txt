@@ -1,0 +1,144 @@
+A. BATCH FUNCTIONAL SCOPE
+
+This batch covers the Benefits Administration epic. It defines the end-to-end handling of benefit requests: validation against confirmed scheme rules, controlled review and approval routing with recorded decisions and approvers, and tracking of request status and payment outcomes.
+
+Story keys in this batch: SRC-022, SRC-023, SRC-024.
+Parent epic: Benefits Administration (epic key not provided in source).
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Functional Capability: Benefit Request Validation (SRC-022)
+
+Jira Story Key: SRC-022
+Parent Epic Key: Not specified in source
+Story Summary: Validate benefit requests against scheme rules
+Supported actor(s): Pension administrator
+Trigger/precondition: A benefit request exists and is submitted for validation.
+Functional requirements:
+- SRC-022-FR-01: The system shall validate each benefit request against the confirmed scheme rules before the request proceeds to the review stage.
+- SRC-022-FR-02: The system shall flag or reject a benefit request that does not satisfy the confirmed scheme rules.
+- SRC-022-FR-03: The system shall record the reason for flagging or rejecting a non-compliant benefit request.
+- SRC-022-FR-04: The system shall allow a compliant benefit request to proceed to the review stage.
+Inputs and outputs:
+- Input: benefit request and confirmed scheme rules.
+- Output: validation result (compliant / non-compliant), rejection or flag reason, and progression to review stage for compliant requests.
+Explicit business rules and validations:
+- Only requests that satisfy confirmed scheme rules may proceed to review.
+- Non-compliant requests must be flagged or rejected with a recorded reason.
+Exceptions/alternate paths:
+- Non-compliant requests are diverted from the review stage; the specific diversion path is not specified.
+Acceptance criteria:
+- Given a benefit request that does not satisfy confirmed scheme rules, when it is validated, then it is flagged or rejected with the reason recorded.
+- Given a compliant benefit request, when it is validated, then it proceeds to the review stage.
+Missing details or ambiguities:
+- The source does not specify which scheme rules are used, how rules are configured or maintained, or whether rules are versioned.
+- The source does not specify whether a request can be corrected and resubmitted after rejection, or whether rejection is final.
+- The source does not specify the exact rejection/flag statuses or the format of the recorded reason.
+
+Functional Capability: Benefit Request Review and Approval (SRC-023)
+
+Jira Story Key: SRC-023
+Parent Epic Key: Not specified in source
+Story Summary: Route benefit requests through review and approval
+Supported actor(s): Pension administrator; approver(s) implied by "approvers recorded" but not explicitly defined.
+Trigger/precondition: A benefit request has passed validation and enters the review and approval workflow.
+Functional requirements:
+- SRC-023-FR-01: The system shall route benefit requests through a controlled review and approval workflow.
+- SRC-023-FR-02: The system shall record the decision made for each benefit request in the workflow.
+- SRC-023-FR-03: The system shall record the approver associated with each decision.
+- SRC-023-FR-04: The system shall record the denial reason when a benefit request is denied.
+- SRC-023-FR-05: The system shall preserve an audit trail of benefit request decisions and approvals.
+Inputs and outputs:
+- Input: benefit request entering the workflow.
+- Output: workflow stage progression, recorded decision, recorded approver, recorded denial reason (if denied), and preserved audit trail.
+Explicit business rules and validations:
+- Sensitive benefit actions require controlled review and approval with recorded decisions and approvers.
+- Denied requests must have both a denial reason and an approver recorded.
+Exceptions/alternate paths:
+- Denied requests follow a decision path that records denial reason and approver; the source does not specify post-denial handling or whether denials can be appealed or reopened.
+Acceptance criteria:
+- Given a benefit request, when it enters the workflow, then it passes through review and approval stages with the decision and approver recorded.
+- Given a denied benefit request, when it is decided, then the denial reason and approver are recorded and the audit trail is preserved.
+Missing details or ambiguities:
+- The source does not define the workflow stages, the number of stages, or the order of stages.
+- The source does not define the roles or actors that perform review and approval, nor how approvers are assigned.
+- The source does not specify whether approval is single-level or multi-level, or whether parallel approvals are supported.
+- The source does not specify the decision options beyond approval and denial.
+
+Functional Capability: Benefit Request Status and Payment Tracking (SRC-024)
+
+Jira Story Key: SRC-024
+Parent Epic Key: Not specified in source
+Story Summary: Track benefit request status and payment outcomes
+Supported actor(s): Pension scheme member (consumer of status); payment outcome recording actor not specified.
+Trigger/precondition: A benefit request exists and has a processing status; a payment may be associated with the request.
+Functional requirements:
+- SRC-024-FR-01: The system shall make the processing status of a benefit request visible when queried.
+- SRC-024-FR-02: The system shall record the payment outcome for a benefit request that has a payment.
+- SRC-024-FR-03: The system shall record the payment outcome when the benefit request is completed.
+Inputs and outputs:
+- Input: benefit request status query; benefit request with an associated payment.
+- Output: visible processing status; recorded payment outcome upon completion.
+Explicit business rules and validations:
+- Processing status must be queryable for benefit requests.
+- Payment outcomes must be recorded for completed benefit requests that have a payment.
+Exceptions/alternate paths:
+- The source does not specify behavior for requests without payments, nor for status queries on requests in intermediate stages.
+Acceptance criteria:
+- Given a benefit request, when its status is queried, then the processing status is visible.
+- Given a benefit request with a payment, when it is completed, then the payment outcome is recorded.
+Missing details or ambiguities:
+- The source does not define the set of processing statuses or their meanings.
+- The source does not define what constitutes a "payment outcome" or the data captured for it.
+- The source does not specify who records the payment outcome or through which process.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+
+The batch supports a partial benefit request lifecycle, linked to story keys as follows:
+
+1. Benefit request validation:
+   - Step 1: A pension administrator submits a benefit request for validation (SRC-022).
+   - Step 2: The system validates the request against confirmed scheme rules (SRC-022-FR-01).
+   - Step 3: If compliant, the request proceeds to the review stage (SRC-022-FR-04). If non-compliant, the request is flagged or rejected with a recorded reason (SRC-022-FR-02, SRC-022-FR-03).
+
+2. Benefit request review and approval:
+   - Step 1: A compliant benefit request enters the review and approval workflow (SRC-023).
+   - Step 2: The request passes through review and approval stages with decisions and approvers recorded (SRC-023-FR-01, SRC-023-FR-02, SRC-023-FR-03).
+   - Step 3: If denied, the denial reason and approver are recorded and the audit trail is preserved (SRC-023-FR-04, SRC-023-FR-05).
+
+3. Benefit request status and payment tracking:
+   - Step 1: The processing status of a benefit request is visible when queried (SRC-024-FR-01).
+   - Step 2: When a benefit request with a payment is completed, the payment outcome is recorded (SRC-024-FR-02, SRC-024-FR-03).
+
+No complete end-to-end workflow is fully specified in this batch; the workflow is described only to the extent supported by the three stories.
+
+D. RULES, VALIDATIONS, AND DATA
+
+- Validation rule: A benefit request must satisfy confirmed scheme rules to proceed to review (SRC-022).
+- Rejection rule: Non-compliant benefit requests must be flagged or rejected with a recorded reason (SRC-022).
+- Approval rule: Benefit requests must pass through controlled review and approval with decisions and approvers recorded (SRC-023).
+- Denial rule: Denied benefit requests must have a denial reason and approver recorded, with the audit trail preserved (SRC-023).
+- Status visibility rule: The processing status of a benefit request must be visible when queried (SRC-024).
+- Payment outcome rule: Payment outcomes must be recorded for completed benefit requests that have a payment (SRC-024).
+
+Business data objects referenced: benefit request, confirmed scheme rules, validation result, review/approval workflow, decision, approver, denial reason, audit trail, processing status, payment outcome. No field-level constraints, data types, or relationships are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+
+SRC-022 | Benefits Administration (epic key not specified) | SRC-022-FR-01, SRC-022-FR-02, SRC-022-FR-03, SRC-022-FR-04 | Covered
+SRC-023 | Benefits Administration (epic key not specified) | SRC-023-FR-01, SRC-023-FR-02, SRC-023-FR-03, SRC-023-FR-04, SRC-023-FR-05 | Covered
+SRC-024 | Benefits Administration (epic key not specified) | SRC-024-FR-01, SRC-024-FR-02, SRC-024-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+
+- SRC-022: Which scheme rules are used for validation, and how are they configured, maintained, and versioned? (Not specified in source — requires confirmation.)
+- SRC-022: Can a rejected or flagged benefit request be corrected and resubmitted, or is rejection final? (Not specified in source — requires confirmation.)
+- SRC-022: What are the exact rejection/flag statuses and the required format of the recorded reason? (Not specified in source — requires confirmation.)
+- SRC-023: What are the workflow stages, their order, and the number of stages? (Not specified in source — requires confirmation.)
+- SRC-023: Which roles or actors perform review and approval, and how are approvers assigned? (Not specified in source — requires confirmation.)
+- SRC-023: Is approval single-level or multi-level, and are parallel approvals supported? (Not specified in source — requires confirmation.)
+- SRC-023: What decision options exist beyond approval and denial? (Not specified in source — requires confirmation.)
+- SRC-023: What happens to a denied request after the decision is recorded? (Not specified in source — requires confirmation.)
+- SRC-024: What are the defined processing statuses and their meanings? (Not specified in source — requires confirmation.)
+- SRC-024: What data is captured in a payment outcome, and who records it? (Not specified in source — requires confirmation.)
+- SRC-024: How should the system behave for benefit requests without payments or for status queries on requests in intermediate stages? (Not specified in source — requires confirmation.)

@@ -1,0 +1,142 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Reporting and Audit epic. It supports three capabilities: visibility into processing status, reconciliation discrepancies, and unresolved exceptions; retrieval of traceable audit records of material actions and changes; and assurance that reports are complete and consistent with underlying records. Story keys in this batch: SRC-031, SRC-032, SRC-033.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Discrepancy and exception visibility (SRC-031)
+
+Jira Story Key: SRC-031
+Parent Epic Key: Reporting and Audit
+Story Summary: Provide visibility into discrepancies and exceptions
+Supported actor(s): operations, finance, or management users
+Trigger/precondition: A discrepancy or unresolved exception exists in the system.
+
+SRC-031-FR-01: The system shall make a discrepancy or unresolved exception visible in reporting or dashboards when it is queried.
+Inputs: Query for a discrepancy or unresolved exception.
+Outputs: Display of the queried discrepancy or unresolved exception in reporting or dashboards.
+
+SRC-031-FR-02: The system shall display current processing status, discrepancies, and unresolved exceptions when a dashboard is loaded.
+Inputs: Dashboard load request.
+Outputs: Dashboard showing current processing status, discrepancies, and unresolved exceptions.
+
+SRC-031-FR-03: The system shall no longer show a discrepancy as unresolved when it is resolved.
+Inputs: Resolution of a discrepancy.
+Outputs: Discrepancy no longer displayed as unresolved.
+
+Acceptance criteria:
+- Given a discrepancy or unresolved exception, when it is queried, then it is visible in reporting or dashboards.
+- Given a dashboard, when it is loaded, then it displays current processing status, discrepancies, and unresolved exceptions.
+- Given a discrepancy, when it is resolved, then it is no longer shown as unresolved.
+
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: Which specific fields or attributes must be shown for each discrepancy or unresolved exception (for example, identifier, type, amount, date, status, owner)?
+- Not specified in source — requires confirmation: What defines "current" processing status, and how often must the dashboard refresh?
+- Not specified in source — requires confirmation: What status or state indicates that a discrepancy has been resolved, and does resolution require an explicit action or approval?
+- Not specified in source — requires confirmation: Are unresolved exceptions treated the same as discrepancies for visibility purposes, or are they separate categories?
+
+Capability 2: Audit record retrieval (SRC-032)
+
+Jira Story Key: SRC-032
+Parent Epic Key: Reporting and Audit
+Story Summary: Retrieve audit records of material actions
+Supported actor(s): compliance or management reviewers
+Trigger/precondition: An audit query is run, or an audit record is retrieved.
+
+SRC-032-FR-01: The system shall return, for an audit query, who performed the action, what the action was, when it occurred, and to which business record it applied.
+Inputs: Audit query.
+Outputs: Audit records containing actor, action, timestamp, and target business record.
+
+SRC-032-FR-02: The system shall prevent alteration of a retrieved audit record without creating a new audit entry.
+Inputs: Attempt to alter a retrieved audit record.
+Outputs: Alteration blocked and a new audit entry created instead.
+
+SRC-032-FR-03: The system shall return only matching records when an audit query includes filters.
+Inputs: Audit query with filters.
+Outputs: Audit records matching the specified filters only.
+
+Acceptance criteria:
+- Given an audit query, when it is run, then it returns who did what, when, and to which business record.
+- Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+- Given an audit query with filters, when it is run, then only matching records are returned.
+
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: What constitutes a "material action" that must be audited?
+- Not specified in source — requires confirmation: What is the required level of detail for "who" (user ID, name, role, session) and "when" (timestamp with time zone and precision)?
+- Not specified in source — requires confirmation: What is the definition of "business record" in audit entries (record type, identifier, version)?
+- Not specified in source — requires confirmation: What actions are permitted on an audit record, if any, and what constitutes a "new audit entry" for an alteration attempt?
+- Not specified in source — requires confirmation: Which filter fields are supported for audit queries?
+
+Capability 3: Reporting completeness and consistency (SRC-033)
+
+Jira Story Key: SRC-033
+Parent Epic Key: Reporting and Audit
+Story Summary: Ensure reporting completeness and consistency
+Supported actor(s): compliance or management reviewers
+Trigger/precondition: A report is generated, or a report is compared with its underlying records.
+
+SRC-033-FR-01: The system shall ensure that totals in a report agree with totals in the underlying records for the same reporting period.
+Inputs: Report and its underlying records for the same period.
+Outputs: Agreement of totals between report and underlying records.
+
+SRC-033-FR-02: The system shall include all records within the reporting period when a report is generated.
+Inputs: Report generation request with a reporting period.
+Outputs: Report containing all records within that reporting period.
+
+SRC-033-FR-03: The system shall flag a discrepancy between a report and its underlying records for investigation when it is detected.
+Inputs: Comparison of a report with underlying records.
+Outputs: Discrepancy flagged for investigation.
+
+Acceptance criteria:
+- Given a report and its underlying records for the same period, when they are compared, then the totals agree.
+- Given a report, when it is generated, then all records within the reporting period are included.
+- Given a discrepancy between a report and underlying records, when it is detected, then it is flagged for investigation.
+
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: Which totals must agree (for example, contribution totals, balance totals, transaction counts), and at what aggregation level?
+- Not specified in source — requires confirmation: How is the reporting period defined and bounded (start/end dates, time zone, cut-off rules)?
+- Not specified in source — requires confirmation: What mechanism or status indicates that a discrepancy has been flagged for investigation, and who is notified?
+- Not specified in source — requires confirmation: Is the comparison performed at report generation time, on demand, or on a scheduled basis?
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports the following reportable states and retrieval flows, linked to story keys:
+- Discrepancy or unresolved exception exists -> queried -> visible in reporting or dashboards (SRC-031-FR-01).
+- Dashboard loaded -> displays current processing status, discrepancies, and unresolved exceptions (SRC-031-FR-02).
+- Discrepancy resolved -> no longer shown as unresolved (SRC-031-FR-03).
+- Audit query run -> returns who, what, when, and target business record (SRC-032-FR-01).
+- Audit record retrieved -> alteration blocked and new audit entry created (SRC-032-FR-02).
+- Audit query with filters run -> only matching records returned (SRC-032-FR-03).
+- Report generated -> includes all records within the reporting period (SRC-033-FR-02).
+- Report compared with underlying records -> totals agree (SRC-033-FR-01).
+- Discrepancy between report and underlying records detected -> flagged for investigation (SRC-033-FR-03).
+
+D. RULES, VALIDATIONS, AND DATA
+- Discrepancies and unresolved exceptions must be queryable and visible in reporting or dashboards (SRC-031).
+- Dashboards must display current processing status, discrepancies, and unresolved exceptions on load (SRC-031).
+- Resolved discrepancies must not be shown as unresolved (SRC-031).
+- Audit records must capture actor, action, timestamp, and target business record (SRC-032).
+- Audit records must be immutable except through creation of a new audit entry (SRC-032).
+- Audit queries with filters must return only matching records (SRC-032).
+- Report totals must agree with underlying record totals for the same period (SRC-033).
+- Reports must include all records within the reporting period (SRC-033).
+- Discrepancies between reports and underlying records must be flagged for investigation (SRC-033).
+No field constraints, data types, or data relationships are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-031 | Reporting and Audit | SRC-031-FR-01, SRC-031-FR-02, SRC-031-FR-03 | Covered
+SRC-032 | Reporting and Audit | SRC-032-FR-01, SRC-032-FR-02, SRC-032-FR-03 | Covered
+SRC-033 | Reporting and Audit | SRC-033-FR-01, SRC-033-FR-02, SRC-033-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-031: Which specific fields must be shown for each discrepancy or unresolved exception in reporting and dashboards?
+- SRC-031: What defines "current" processing status, and how often must the dashboard refresh?
+- SRC-031: What state or action constitutes resolution of a discrepancy, and is approval required?
+- SRC-031: Are unresolved exceptions a separate category from discrepancies, or are they handled identically?
+- SRC-032: What actions qualify as "material actions" requiring audit records?
+- SRC-032: What detail is required for actor identity and timestamp (user ID, name, role, time zone, precision)?
+- SRC-032: What is the required representation of the target business record (type, identifier, version)?
+- SRC-032: What operations, if any, are permitted on an audit record, and what exactly constitutes a new audit entry on an alteration attempt?
+- SRC-032: Which filter fields are supported for audit queries?
+- SRC-033: Which totals must agree and at what aggregation level?
+- SRC-033: How is the reporting period defined and bounded?
+- SRC-033: What mechanism or status indicates a discrepancy is flagged for investigation, and who is notified?
+- SRC-033: When is the report-versus-records comparison performed (generation, on demand, scheduled)?

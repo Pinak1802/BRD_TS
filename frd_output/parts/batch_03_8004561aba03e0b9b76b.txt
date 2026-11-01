@@ -1,0 +1,77 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three user stories within two epics: SRC-007 and SRC-008 under Member Management, and SRC-009 under Pension Account Administration. Supported capabilities: maintenance of member records with audit of material changes, prevention or flagging of duplicate/invalid member registrations, and creation and linking of pension accounts to members and schemes with auditable associations.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Member Record Maintenance and Audit
+
+Jira Story Key: SRC-007
+Parent Epic Key: Member Management
+Story Summary: Maintain member records with audit
+Supported actor(s): Pension administrator
+Trigger/precondition: A material member record change is initiated by the pension administrator.
+Functional requirements:
+SRC-007-FR-01: The system shall record, for each material member record change, the identity of the changing user, the timestamp of the change, and both the prior and new values.
+SRC-007-FR-02: The system shall make the change history of a member record retrievable when the record is queried.
+Inputs and outputs: Input is a material change to a member record. Output is an audit record containing user, timestamp, prior value, and new value, and a retrievable change history for the member record.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define what constitutes a material change, which fields are material, or the retention period for audit records.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a material member record change, when it is made, then the changing user, timestamp, and prior and new values are recorded.
+Given a member record, when it is queried, then its change history is retrievable.
+Missing details or ambiguities: Definition of material change; list of material fields; audit record retention and access controls; whether non-material changes are excluded from audit.
+
+Capability: Member Registration Validation and Deduplication
+
+Jira Story Key: SRC-008
+Parent Epic Key: Member Management
+Story Summary: Prevent duplicate or invalid member registrations
+Supported actor(s): Pension administrator
+Trigger/precondition: A new member registration is submitted.
+Functional requirements:
+SRC-008-FR-01: The system shall prevent or flag the creation of a member registration when a duplicate member identity is detected at creation.
+SRC-008-FR-02: The system shall flag or reject a member registration when the registration is invalid, and record the reason for the flag or rejection.
+Inputs and outputs: Input is a new member registration. Output is either a prevented/flagged registration or a rejected registration with a recorded reason.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the duplicate identity matching rules, the set of invalid registration conditions, or the format of the recorded reason.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a duplicate member identity, when it is attempted, then it is prevented at creation or flagged for manual review.
+Given an invalid member registration, when it is submitted, then it is flagged or rejected with the reason recorded.
+Missing details or ambiguities: Duplicate identity matching criteria; invalid registration rules; whether flagged records can be approved by an authorized user; reason code definitions.
+
+Capability: Pension Account Creation and Linkage
+
+Jira Story Key: SRC-009
+Parent Epic Key: Pension Account Administration
+Story Summary: Create and link pension accounts
+Supported actor(s): Pension administrator
+Trigger/precondition: A pension account is created.
+Functional requirements:
+SRC-009-FR-01: The system shall link a created pension account to exactly one member and exactly one scheme.
+SRC-009-FR-02: The system shall make the member and scheme linkage of a pension account auditable.
+SRC-009-FR-03: The system shall return the member and scheme associations when a pension account is queried.
+Inputs and outputs: Input is a pension account creation request with member and scheme identifiers. Output is a pension account linked to one member and one scheme, with auditable linkage and queryable associations.
+Explicit business rules and validations: The pension account shall be linked to exactly one member and one scheme.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a pension account, when it is created, then it is linked to exactly one member and one scheme and the linkage is auditable.
+Given a pension account, when it is queried, then the member and scheme associations are returned.
+Missing details or ambiguities: Whether a pension account can be re-linked to a different member or scheme after creation; whether a member or scheme must exist before linkage; audit record contents for linkage changes.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports discrete operations: (1) a pension administrator makes a material member record change and the system records the audit entry (SRC-007); (2) a pension administrator submits a member registration and the system prevents, flags, or rejects it based on duplicate or invalid identity checks (SRC-008); (3) a pension administrator creates a pension account and the system links it to one member and one scheme, records the linkage, and returns the associations on query (SRC-009).
+
+D. RULES, VALIDATIONS, AND DATA
+- SRC-007: Audit record must contain changing user, timestamp, prior value, and new value for each material member record change. Retention and materiality definition not specified.
+- SRC-008: Duplicate member identities must be prevented at creation or flagged for manual review. Invalid registrations must be flagged or rejected with the reason recorded. Duplicate matching rules and invalid registration criteria not specified.
+- SRC-009: A pension account must be linked to exactly one member and one scheme; the linkage must be auditable; member and scheme associations must be returned on query. Re-linking rules and pre-existence requirements for member/scheme not specified.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-007 | Member Management | SRC-007-FR-01, SRC-007-FR-02 | covered
+SRC-008 | Member Management | SRC-008-FR-01, SRC-008-FR-02 | covered
+SRC-009 | Pension Account Administration | SRC-009-FR-01, SRC-009-FR-02, SRC-009-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-007: What defines a material member record change, and which fields are material? What is the audit record retention period and who may access it?
+SRC-008: What are the duplicate member identity matching rules? What conditions make a registration invalid, and what reason codes must be recorded? Can flagged registrations be approved by an authorized user?
+SRC-009: Can a pension account be re-linked to a different member or scheme after creation? Must the member and scheme already exist before linkage? What audit details are required for linkage changes?

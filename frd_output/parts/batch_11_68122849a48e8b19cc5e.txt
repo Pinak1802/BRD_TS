@@ -1,0 +1,61 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch (11 of 11) covers a single capability within the Security, Access Control, and Exception Handling epic: controlled handling of failed transactions and exceptions. It supports the capability of preventing silent completion of failed transactions and recording failure evidence for visibility and resolution.
+
+Story key in this batch: SRC-031.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Story: SRC-031
+Parent Epic Key: Not specified in source (epic key field is empty; epic summary is "Security, Access Control, and Exception Handling")
+Story Summary: Handle failed transactions and exceptions controllably
+Supported actor(s): Operations personnel (as the requesting role); the actor who caused or observed the failure is recorded.
+Trigger/precondition: A transaction fails during processing.
+
+Functional requirements:
+SRC-031-FR-01: The system shall detect a failed transaction and flag it, so that the failure is visible to operations personnel.
+SRC-031-FR-02: The system shall prevent silent completion of a failed transaction, so that a failed transaction is not treated as successfully completed.
+SRC-031-FR-03: The system shall record, for each failed transaction, the transaction reference, the failure reason, the actor responsible for the transaction, and the timestamp of the failure.
+
+Inputs and outputs:
+- Input: occurrence of a failed transaction.
+- Output: a flagged failed-transaction record containing transaction reference, failure reason, actor, and timestamp; the transaction is not marked as completed.
+
+Explicit business rules and validations:
+- A failed transaction must not be silently completed.
+- Failure evidence must include transaction reference, failure reason, actor, and timestamp.
+- No additional fields, statuses, or resolution workflows are specified in the source.
+
+Exceptions/alternate paths:
+- Not specified in source — requires confirmation.
+
+Acceptance criteria (restated as testable):
+- Given a failed transaction, when it occurs, then it is flagged and prevented from silent completion.
+  Testable form: Given a transaction that fails during processing, when the failure occurs, then the system flags the transaction and does not mark it as completed.
+- Given a failed transaction, when it is logged, then the transaction reference, failure reason, actor, and timestamp are recorded.
+  Testable form: Given a failed transaction that is logged, when the log record is created, then it contains the transaction reference, failure reason, actor, and timestamp.
+
+Missing details or ambiguities:
+- The mechanism for flagging (status, queue, dashboard, alert) is not specified.
+- The definition of "actor" (user ID, name, role) is not specified.
+- The storage location and retention of the failure log are not specified.
+- No resolution workflow, reprocessing steps, or escalation path is specified.
+- No distinction is made between transaction types or failure severities.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The only behavior specified is: a transaction fails → the system flags it and prevents silent completion → the failure is logged with reference, reason, actor, and timestamp. This is a single-step failure-handling behavior linked to SRC-031. Resolution, reprocessing, and escalation steps are not specified.
+
+D. RULES, VALIDATIONS, AND DATA
+- Rule: Failed transactions must be flagged and must not be silently completed (SRC-031).
+- Data object: failed-transaction log record with fields transaction reference, failure reason, actor, and timestamp (SRC-031).
+- No field constraints, data relationships, or additional validations are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-031 | Epic key not specified (epic summary: Security, Access Control, and Exception Handling) | SRC-031-FR-01, SRC-031-FR-02, SRC-031-FR-03 | Acceptance criteria coverage: covered, subject to the missing-detail clarifications noted above.
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-031: What mechanism should be used to flag a failed transaction (status, queue, alert, dashboard)?
+- SRC-031: How should "actor" be defined and captured (user ID, name, role, system account)?
+- SRC-031: Where should failed-transaction records be stored, and what retention period applies?
+- SRC-031: What resolution, reprocessing, or escalation steps should follow a flagged failure?
+- SRC-031: Should different transaction types or failure severities be handled differently?
+- SRC-031: Is there any additional context on what constitutes a "failed transaction" for this system?

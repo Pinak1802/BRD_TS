@@ -1,0 +1,87 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Benefits Administration epic. It defines the recording and validation of benefit requests, controlled routing through review and approval with recorded decisions and separation of duties, and visibility into benefit request processing status. Story keys in this batch: SRC-025, SRC-026, SRC-027.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Functional Capability: Benefit Request Recording and Validation (SRC-025)
+Jira Story Key: SRC-025
+Parent Epic Key: Benefits Administration
+Story Summary: Record and validate benefit requests
+Supported actor(s): Member, pension administrator
+Trigger/precondition: A benefit request is submitted.
+Functional requirements:
+SRC-025-FR-01: The system shall record a benefit request when it is submitted.
+SRC-025-FR-02: The system shall validate a submitted benefit request against stored rules.
+SRC-025-FR-03: The system shall flag an invalid benefit request for resolution rather than approving it.
+SRC-025-FR-04: The system shall allow a valid benefit request that passes validation to proceed to review.
+Inputs and outputs: Input is a submitted benefit request. Outputs are a recorded request, a validation result (valid or invalid), and, for valid requests, progression to the review stage.
+Explicit business rules and validations: Validation is performed against stored rules. Invalid requests are flagged for resolution and are not silently approved. Valid requests proceed to review.
+Exceptions/alternate paths: Invalid requests are routed to resolution instead of approval.
+Acceptance criteria:
+Given a benefit request, when it is submitted, then it is recorded and validated against stored rules.
+Given an invalid benefit request, when it is validated, then it is flagged for resolution rather than silently approved.
+Given a valid benefit request, when it passes validation, then it proceeds to review.
+Missing details or ambiguities: The stored rules themselves, the data model of a benefit request, the definition of "flagged for resolution," and the exact transition to review are not specified in source — requires confirmation.
+
+Functional Capability: Controlled Review and Approval of Benefit Requests (SRC-026)
+Jira Story Key: SRC-026
+Parent Epic Key: Benefits Administration
+Story Summary: Route benefit requests through controlled review and approval
+Supported actor(s): Pension administrator, finance personnel
+Trigger/precondition: A benefit request enters the workflow.
+Functional requirements:
+SRC-026-FR-01: The system shall route a benefit request through review and approval steps when it enters the workflow.
+SRC-026-FR-02: The system shall record a decision when a decision is made on a benefit request.
+SRC-026-FR-03: The system shall prevent a single actor from completing all stages end-to-end for a sensitive benefit action requiring separation of duties.
+Inputs and outputs: Input is a benefit request entering the workflow. Outputs are routed workflow steps, recorded decisions, and enforcement of separation of duties.
+Explicit business rules and validations: Sensitive benefit actions require separation of duties, and a single actor cannot complete all stages end-to-end.
+Exceptions/alternate paths: A single actor attempting all stages of a sensitive benefit action is blocked from completing them.
+Acceptance criteria:
+Given a benefit request, when it enters the workflow, then it is routed through review and approval steps.
+Given a benefit request, when a decision is made, then the decision is recorded.
+Given a sensitive benefit action requiring separation of duties, when it is attempted by a single actor, then the actor cannot complete all stages end-to-end.
+Missing details or ambiguities: The workflow steps, the definition of "sensitive benefit action," the roles or actors assigned to each step, and the decision data model are not specified in source — requires confirmation.
+
+Functional Capability: Benefit Request Processing Status Visibility (SRC-027)
+Jira Story Key: SRC-027
+Parent Epic Key: Benefits Administration
+Story Summary: Track benefit request processing status
+Supported actor(s): Pension administrator, operations personnel
+Trigger/precondition: A benefit request exists and is queried, or a benefit request moves to a new status.
+Functional requirements:
+SRC-027-FR-01: The system shall display the current processing status of a benefit request when it is queried.
+SRC-027-FR-02: The system shall record a status change with a timestamp when a benefit request moves to a new status.
+SRC-027-FR-03: The system shall return only benefit requests matching a status filter when a status query is performed.
+Inputs and outputs: Inputs are a benefit request query and an optional status filter. Outputs are the current processing status, a recorded status change with timestamp, and a filtered list of matching requests.
+Explicit business rules and validations: Status changes are recorded with a timestamp. Status queries filter to matching requests only.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a benefit request, when it is queried, then its current processing status is displayed.
+Given a benefit request, when it moves to a new status, then the status change is recorded with timestamp.
+Given a status query, when it filters by status, then only matching requests are returned.
+Missing details or ambiguities: The set of possible statuses, the status transition rules, and the query/filter interface are not specified in source — requires confirmation.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+The batch supports a partial benefit request lifecycle: submission and validation (SRC-025), routing through review and approval with recorded decisions and separation-of-duties enforcement (SRC-026), and status tracking with timestamped status changes and status-filtered queries (SRC-027). A complete end-to-end workflow including benefit request data fields, the full status set, step-level routing rules, and payment outcomes is not fully specified in this batch.
+
+D. RULES, VALIDATIONS, AND DATA
+- Validation rule: Benefit requests are validated against stored rules (SRC-025).
+- Validation rule: Invalid benefit requests are flagged for resolution and are not silently approved (SRC-025).
+- Validation rule: Valid benefit requests proceed to review (SRC-025).
+- Workflow rule: Benefit requests are routed through review and approval steps (SRC-026).
+- Workflow rule: Decisions on benefit requests are recorded (SRC-026).
+- Workflow rule: Separation of duties prevents a single actor from completing all stages of a sensitive benefit action (SRC-026).
+- Status rule: Benefit request status changes are recorded with a timestamp (SRC-027).
+- Status rule: Status queries return only matching requests (SRC-027).
+- Data objects: Benefit request, stored validation rules, workflow steps, decisions, and processing status with timestamps are referenced but not fully defined in source — requires confirmation.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-025 | Benefits Administration | SRC-025-FR-01, SRC-025-FR-02, SRC-025-FR-03, SRC-025-FR-04 | Covered
+SRC-026 | Benefits Administration | SRC-026-FR-01, SRC-026-FR-02, SRC-026-FR-03 | Covered
+SRC-027 | Benefits Administration | SRC-027-FR-01, SRC-027-FR-02, SRC-027-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-025: What are the stored validation rules and their data model? What constitutes an invalid request, and what does "flagged for resolution" mean operationally? What is the exact transition to review?
+- SRC-026: What are the review and approval workflow steps, and which roles perform each step? Which benefit actions are "sensitive," and how is separation of duties enforced technically? What is the decision data model?
+- SRC-027: What are the possible processing statuses and transition rules? What is the query/filter interface? Are there any exception paths for status changes?
+- SRC-025, SRC-026, SRC-027: Payment outcomes and final benefit decision outcomes are referenced in the epic description but are not covered by these stories — requires confirmation of scope.

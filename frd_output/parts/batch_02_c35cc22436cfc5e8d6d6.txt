@@ -1,0 +1,98 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three user stories within the Scheme Management and Employer Management epics. Supported business capabilities: auditability of material scheme configuration changes; registration and maintenance of employer records with duplicate detection; and management of authorized employer contacts with authorization enforcement. Story keys in this batch: SRC-004, SRC-005, SRC-006. Epic keys are not provided in the source records; epic summaries are "Scheme Management" (SRC-004) and "Employer Management" (SRC-005, SRC-006).
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Scheme Change Auditability
+
+Jira Story Key: SRC-004
+Parent Epic Key: Not specified in source
+Story Summary: Audit material scheme changes
+Supported actor(s): Compliance or management reviewer (consumer of audit records); actor performing the change (not specified)
+Trigger/precondition: A material scheme change is made
+Functional requirements:
+SRC-004-FR-01: The system shall record a material scheme change with the actor who made the change, the timestamp of the change, and the content of the change.
+SRC-004-FR-02: The system shall return all material scheme changes within a specified scheme and date range when an audit query is filtered by scheme and date range.
+SRC-004-FR-03: The system shall prevent alteration of a retrieved audit record without creating a new audit entry.
+Inputs and outputs: Input — scheme identifier and date range for query; output — list of material scheme changes with actor, timestamp, and change content.
+Explicit business rules and validations: Not specified in source — requires confirmation. Question: What defines a "material" scheme change, and is there a threshold or classification rule?
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a material scheme change, when it is made, then an audit record is produced with actor, timestamp, and change content.
+Given an audit query, when it filters by scheme and date range, then all material changes in that range are returned.
+Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities: The actor performing the change is not defined; the definition of "material" is not specified; the mechanism for preventing alteration (e.g., immutability, append-only log) is not specified.
+
+Capability 2: Employer Registration and Maintenance
+
+Jira Story Key: SRC-005
+Parent Epic Key: Not specified in source
+Story Summary: Register and maintain employer records
+Supported actor(s): Pension administrator or employer
+Trigger/precondition: Employer registration is submitted; an existing employer record exists; an authorized actor updates an employer record
+Functional requirements:
+SRC-005-FR-01: The system shall record an employer registration with identifiable details when the registration is submitted.
+SRC-005-FR-02: The system shall flag a registration attempt as a duplicate when the employer already exists.
+SRC-005-FR-03: The system shall record an update to an employer record with the actor and timestamp when the update is performed by an authorized actor.
+Inputs and outputs: Input — employer registration details; output — recorded employer record with identifiable details.
+Explicit business rules and validations: Not specified in source — requires confirmation. Question: What constitutes "identifiable details" for an employer, and what matching logic determines a duplicate?
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an employer registration, when it is submitted, then the employer is recorded with identifiable details.
+Given a registration attempt for an existing employer, when it is processed, then the duplicate is flagged.
+Given an employer record, when it is updated by an authorized actor, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: The set of identifiable details is not specified; duplicate detection logic is not specified; the authorization mechanism for updates is not specified.
+
+Capability 3: Authorized Employer Contacts
+
+Jira Story Key: SRC-006
+Parent Epic Key: Not specified in source
+Story Summary: Manage authorized employer contacts
+Supported actor(s): Employer; authorized requester
+Trigger/precondition: An employer record exists; a contact is added or changed; an action is attempted on behalf of an employer; a request to view authorized contacts is made
+Functional requirements:
+SRC-006-FR-01: The system shall record and make traceable any addition or change to an authorized contact for an employer record.
+SRC-006-FR-02: The system shall reject an action on behalf of an employer when the actor is not an authorized contact.
+SRC-006-FR-03: The system shall display the authorized contact list when the requester is authorized.
+Inputs and outputs: Input — contact details; output — authorized contact list.
+Explicit business rules and validations: Not specified in source — requires confirmation. Question: What authorization determines whether a requester may view the contact list, and what defines an authorized contact?
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an employer record, when a contact is added or changed, then the change is recorded and traceable.
+Given an action on behalf of an employer, when the actor is not an authorized contact, then the action is rejected.
+Given a request to view authorized contacts, when the requester is authorized, then the contact list is displayed.
+Missing details or ambiguities: The mechanism for recording and tracing contact changes is not specified; the authorization criteria for viewing contacts is not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. Partial workflow fragments supported:
+- Material scheme change: change made → audit record produced with actor, timestamp, and content (SRC-004-FR-01).
+- Employer registration: registration submitted → employer recorded with identifiable details; duplicate attempt → flagged (SRC-005-FR-01, SRC-005-FR-02).
+- Employer record update: authorized actor updates → change recorded with actor and timestamp (SRC-005-FR-03).
+- Contact management: contact added or changed → change recorded and traceable; unauthorized action → rejected; authorized request → contact list displayed (SRC-006-FR-01, SRC-006-FR-02, SRC-006-FR-03).
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules, validations, and data objects for this batch:
+- Audit record data object: actor, timestamp, change content (SRC-004-FR-01).
+- Employer record data object: identifiable details (SRC-005-FR-01).
+- Duplicate detection rule: registration attempt for an existing employer is flagged (SRC-005-FR-02).
+- Update audit rule: employer record updates by authorized actors are recorded with actor and timestamp (SRC-005-FR-03).
+- Contact change audit rule: contact additions or changes are recorded and traceable (SRC-006-FR-01).
+- Authorization rule: actions on behalf of an employer are rejected when the actor is not an authorized contact (SRC-006-FR-02).
+- Access rule: authorized requesters may view the authorized contact list (SRC-006-FR-03).
+No field constraints, data relationships, or additional validations are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-004 | Epic not specified | SRC-004-FR-01, SRC-004-FR-02, SRC-004-FR-03 | Covered
+SRC-005 | Epic not specified | SRC-005-FR-01, SRC-005-FR-02, SRC-005-FR-03 | Covered
+SRC-006 | Epic not specified | SRC-006-FR-01, SRC-006-FR-02, SRC-006-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-004: What defines a "material" scheme change? (business rule missing)
+- SRC-004: What mechanism enforces immutability of audit records without creating a new entry? (implementation detail missing)
+- SRC-004: Who is the actor performing the change, and how is it captured? (actor definition missing)
+- SRC-005: What are the "identifiable details" required for an employer record? (data definition missing)
+- SRC-005: What matching logic determines a duplicate employer registration? (validation rule missing)
+- SRC-005: How is an "authorized actor" defined for employer record updates? (authorization rule missing)
+- SRC-006: What authorization determines whether a requester may view the authorized contact list? (access rule missing)
+- SRC-006: What defines an "authorized contact" for acting on behalf of an employer? (definition missing)
+- All stories: Epic keys are not provided in the source records; please confirm the correct epic key for each story.

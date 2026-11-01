@@ -1,0 +1,110 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers two capabilities: (1) preservation and query of audit evidence for material financial actions (SRC-022, epic Contributions and Financial Reconciliation), and (2) maintenance and audit of approved investment and allocation records (SRC-023, SRC-024, epic Investment Records). Story keys in this batch: SRC-022, SRC-023, SRC-024.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Audit evidence for material financial actions
+
+Jira Story Key: SRC-022
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Preserve evidence of material financial actions
+Supported actor(s): compliance or management reviewer (consumer of audit records); actor performing the material financial action (recorded by the system)
+Trigger/precondition: a material financial action occurs
+Functional requirements:
+SRC-022-FR-01: The system shall preserve every material financial action in a traceable audit record at the time the action occurs.
+SRC-022-FR-02: The system shall return, in response to an audit query on financial actions, the actor, timestamp, and content of the recorded actions.
+SRC-022-FR-03: The system shall prevent alteration of an existing audit record; any modification to the underlying action shall be recorded as a new audit entry rather than changing the original entry.
+Inputs and outputs:
+- Input: occurrence of a material financial action; an audit query on financial actions.
+- Output: a traceable audit record; query results containing actor, timestamp, and content.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define which financial actions are "material," the required audit record fields beyond actor/timestamp/content, the audit query parameters (for example, date range or action type), or the retention period.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given a material financial action, when it occurs, then it is preserved in a traceable audit record.
+- Given an audit query on financial actions, when it is run, then the actor, timestamp, and content are returned.
+- Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities:
+- What defines a "material financial action"? Which transaction types or thresholds qualify?
+- What exact fields must the audit record contain beyond actor, timestamp, and content?
+- What parameters must the audit query support, and what result set shape is expected?
+- Does "cannot be altered without a new audit entry" mean the original record is immutable, or that changes are appended as new entries?
+
+Capability 2: Approved investment and allocation records
+
+Jira Story Key: SRC-023
+Parent Epic Key: Investment Records
+Story Summary: Maintain approved investment and allocation records
+Supported actor(s): pension administrator
+Trigger/precondition: creation of an approved investment record; update of an allocation record; query of an investment record
+Functional requirements:
+SRC-023-FR-01: The system shall allow a pension administrator to create approved investment records and allocation records.
+SRC-023-FR-02: The system shall allow a pension administrator to maintain (update) approved investment and allocation records after creation.
+SRC-023-FR-03: The system shall allow approved investment and allocation records to be queried.
+SRC-023-FR-04: The system shall record each update to an allocation record with the actor and timestamp of the change.
+SRC-023-FR-05: The system shall display the approval status of an investment record when it is queried.
+Inputs and outputs:
+- Input: creation and update of investment/allocation records; investment record queries.
+- Output: maintained investment and allocation records; query results including approval status.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the investment record or allocation record data model, the meaning or allowed values of approval status, who may approve records, or what "maintain" includes (for example, whether deletion or reversion is permitted).
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given an approved investment record, when it is created, then it can be maintained and queried.
+- Given an allocation record, when it is updated, then the change is recorded with actor and timestamp.
+- Given an investment record, when it is queried, then its approval status is displayed.
+Missing details or ambiguities:
+- What fields constitute an investment record and an allocation record?
+- What approval status values exist, and how is a record marked approved?
+- Does "maintained" include deletion, cancellation, or only updates?
+
+Jira Story Key: SRC-024
+Parent Epic Key: Investment Records
+Story Summary: Audit investment record changes
+Supported actor(s): compliance or management reviewer (consumer of audit records); actor making the investment record change (recorded by the system)
+Trigger/precondition: a change is made to an investment record
+Functional requirements:
+SRC-024-FR-01: The system shall record every change to an investment record with the actor, timestamp, and content of the change.
+SRC-024-FR-02: The system shall return all investment record changes within a queried period in response to an audit query on investment records.
+SRC-024-FR-03: The system shall prevent alteration of an existing investment audit record; any modification shall be recorded as a new audit entry rather than changing the original entry.
+Inputs and outputs:
+- Input: change to an investment record; audit query on investment records.
+- Output: audit entries containing actor, timestamp, and content; query results containing all changes within the period.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define the audit query parameters (for example, date range, record identifier, or change type), the definition of "content" for a change, or the retention period.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+- Given an investment record change, when it is made, then it is recorded with actor, timestamp, and content.
+- Given an audit query on investment records, when it is run, then all changes within the period are returned.
+- Given an audit record, when it is retrieved, then it cannot be altered without a new audit entry.
+Missing details or ambiguities:
+- What parameters must the investment audit query support, and what result set shape is expected?
+- What exactly must be captured in the change "content"?
+- Does "cannot be altered without a new audit entry" mean the original audit entry is immutable, or that changes are appended as new entries?
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports two partial, traceability-focused flows:
+- Material financial action flow: a material financial action occurs -> the system preserves it in a traceable audit record -> a compliance or management reviewer can query the record and receive actor, timestamp, and content -> the record is retrieved and remains unalterable except via a new audit entry. Linked to SRC-022.
+- Investment record change flow: a pension administrator creates/maintains an approved investment or allocation record -> updates to allocation records are recorded with actor and timestamp -> an investment record can be queried with its approval status displayed -> a compliance or management reviewer can query investment record changes within a period and receive actor, timestamp, and content -> audit entries remain unalterable except via a new audit entry. Linked to SRC-023 and SRC-024.
+
+D. RULES, VALIDATIONS, AND DATA
+- Audit immutability rule: audit records for financial actions (SRC-022) and investment records (SRC-024) shall not be altered; changes shall be recorded as new audit entries.
+- Audit content rule: financial action audit records shall include actor, timestamp, and content (SRC-022); investment record change audit entries shall include actor, timestamp, and content (SRC-024).
+- Investment record data objects: approved investment records and allocation records, with an approval status displayed on query (SRC-023).
+- No field constraints, data relationships, status enumerations, or validation rules are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-022 | Contributions and Financial Reconciliation | SRC-022-FR-01, SRC-022-FR-02, SRC-022-FR-03 | covered
+SRC-023 | Investment Records | SRC-023-FR-01, SRC-023-FR-02, SRC-023-FR-03, SRC-023-FR-04, SRC-023-FR-05 | covered
+SRC-024 | Investment Records | SRC-024-FR-01, SRC-024-FR-02, SRC-024-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-022: Which financial actions are "material," and what threshold or type rules define them?
+- SRC-022: What exact fields must the financial action audit record contain beyond actor, timestamp, and content?
+- SRC-022: What parameters must the financial action audit query support, and what result set shape is expected?
+- SRC-022: Does "cannot be altered without a new audit entry" mean the original record is immutable, or that changes are appended as new entries?
+- SRC-023: What fields constitute an investment record and an allocation record?
+- SRC-023: What approval status values exist, and how is a record marked approved?
+- SRC-023: Does "maintain" include deletion or cancellation, or only updates?
+- SRC-024: What parameters must the investment audit query support, and what result set shape is expected?
+- SRC-024: What exactly must be captured in the change "content"?
+- SRC-024: Does "cannot be altered without a new audit entry" mean the original audit entry is immutable, or that changes are appended as new entries?
+- SRC-022, SRC-024: What is the audit record retention period?
+- SRC-022, SRC-024: All three stories have acceptance criteria; however, the criteria reference behaviors (for example, "material," "within the period") that require definition before testable acceptance can be finalized.

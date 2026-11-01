@@ -1,0 +1,82 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Contributions and Financial Reconciliation epic. It supports three capabilities: (1) reconciliation of submitted, received, and allocated amounts with difference identification; (2) flagging of unmatched amounts, invalid records, and failed transactions; and (3) tracking of exceptions through to resolution. Story keys in this batch: SRC-019, SRC-020, SRC-021.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Reconciliation of Submitted, Received, and Allocated Amounts
+
+Jira Story Key: SRC-019
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Reconcile submitted, received, and allocated amounts
+Supported actor(s): Finance personnel
+Trigger/precondition: A reconciliation run is executed.
+Functional requirements:
+SRC-019-FR-01: The system shall, upon execution of a reconciliation run, report submitted totals, received totals, and allocated totals.
+SRC-019-FR-02: The system shall identify and report any differences among submitted, received, and allocated totals.
+SRC-019-FR-03: The system shall, when a reconciliation is queried, display the reconciliation's method and period.
+Inputs and outputs: Input — execution of a reconciliation run. Output — reported submitted, received, and allocated totals, identified differences, and reconciliation method and period.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a reconciliation run, when it is executed, then it reports submitted, received, and allocated totals with any differences.
+Given a reconciliation, when it is queried, then its method and period are visible.
+Given a difference, when it is identified, then it is flagged for resolution rather than silently cleared.
+Missing details or ambiguities: The reconciliation method is not specified (e.g., rule-based matching, threshold-based, or manual). The period definition (e.g., contribution period, calendar period, or run period) is not specified. The difference calculation logic (submitted minus received, received minus allocated, or a three-way comparison) is not specified. The mechanism and data fields used to flag a difference for resolution are not specified.
+
+Capability 2: Flagging of Unmatched, Invalid, and Failed Items
+
+Jira Story Key: SRC-020
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Flag unmatched and failed items
+Supported actor(s): Finance or operations personnel
+Trigger/precondition: An unmatched amount, invalid record, or failed transaction is detected.
+Functional requirements:
+SRC-020-FR-01: The system shall detect unmatched amounts, invalid records, and failed transactions.
+SRC-020-FR-02: The system shall flag each detected unmatched amount, invalid record, or failed transaction for resolution.
+SRC-020-FR-03: The system shall not mark a flagged item complete without an explicit resolution.
+SRC-020-FR-04: The system shall, when a flagged item is queried, display its status and the associated source records.
+SRC-020-FR-05: The system shall, when a flagged item is resolved, record the resolution and clear the flag.
+Inputs and outputs: Input — detection of an unmatched amount, invalid record, or failed transaction. Output — flagged status, displayed status and source records, recorded resolution, and cleared flag.
+Explicit business rules and validations: Invalid records must be flagged rather than silently accepted. Failed transactions must be flagged rather than silently marked complete. Unmatched amounts must be flagged rather than silently cleared.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an unmatched amount, invalid record, or failed transaction, when it is detected, then it is flagged.
+Given a flagged item, when it is queried, then its status and source records are displayed.
+Given a flagged item, when it is resolved, then the resolution is recorded and the flag is cleared.
+Missing details or ambiguities: The criteria for classifying an amount as unmatched, a record as invalid, or a transaction as failed are not specified. The resolution workflow (who may resolve, required resolution fields, and whether resolution requires review/approval) is not specified. The data model for storing the resolution record is not specified.
+
+Capability 3: Exception Tracking Through Resolution
+
+Jira Story Key: SRC-021
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Track exceptions through resolution
+Supported actor(s): Operations or finance personnel
+Trigger/precondition: An exception is created.
+Functional requirements:
+SRC-021-FR-01: The system shall create an exception record with a status and a resolution record.
+SRC-021-FR-02: The system shall keep an unresolved exception visible in exception listings until it is handled.
+SRC-021-FR-03: The system shall, when a resolved exception is queried, display the resolution details.
+Inputs and outputs: Input — creation of an exception. Output — exception status, resolution record, exception listings visibility, and resolution details.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an exception, when it is created, then it has a status and a resolution record.
+Given an unresolved exception, when it is queried, then it remains visible in exception listings.
+Given a resolved exception, when it is queried, then the resolution details are displayed.
+Missing details or ambiguities: The exception lifecycle statuses (e.g., open, in progress, resolved, closed) are not specified. The definition of "handled" for visibility purposes is not specified. The resolution details that must be displayed are not specified. The relationship between flagged items (SRC-020) and exceptions (SRC-021) is not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports three linked behaviors: (1) a reconciliation run produces totals and differences (SRC-019); (2) unmatched amounts, invalid records, and failed transactions are detected and flagged (SRC-020); and (3) exceptions are created, tracked, and resolved (SRC-021). The trigger sequence between reconciliation runs and exception creation, and the handoff between flagging and exception tracking, are not specified.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules: Differences must be flagged for resolution rather than silently cleared (SRC-019). Unmatched amounts, invalid records, and failed transactions must be flagged rather than silently marked complete (SRC-020). Unresolved exceptions must remain visible until handled (SRC-021).
+Data objects implied by the stories: reconciliation run (with method and period), submitted/received/allocated totals, differences, flagged items (with status and source records), exceptions (with status and resolution record), and resolution records. Field-level constraints, data types, and relationships are not specified.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-019 | Contributions and Financial Reconciliation | SRC-019-FR-01, SRC-019-FR-02, SRC-019-FR-03 | covered
+SRC-020 | Contributions and Financial Reconciliation | SRC-020-FR-01, SRC-020-FR-02, SRC-020-FR-03, SRC-020-FR-04, SRC-020-FR-05 | covered
+SRC-021 | Contributions and Financial Reconciliation | SRC-021-FR-01, SRC-021-FR-02, SRC-021-FR-03 | covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-019: What reconciliation method should be supported (rule-based, threshold-based, or manual)? What defines the reconciliation period? What is the exact difference calculation logic? What fields and mechanism are used to flag a difference for resolution?
+SRC-020: What are the precise criteria for unmatched amounts, invalid records, and failed transactions? What is the resolution workflow, including who may resolve and what resolution fields are required? Is resolution subject to review or approval?
+SRC-021: What exception lifecycle statuses are required? What does "handled" mean for visibility in exception listings? What resolution details must be displayed? How do flagged items from SRC-020 relate to exceptions in SRC-021?
+All three stories have acceptance criteria; however, the acceptance criteria reference behaviors (flagging, resolution recording, visibility) whose implementation details are not specified in the source.

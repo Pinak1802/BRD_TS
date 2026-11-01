@@ -1,0 +1,155 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers three stories within the Employer Management and Member Management epics. Supported capabilities: employer-scheme association and contribution traceability (SRC-007); controlled member enrollment with status visibility (SRC-008); and eligibility validation of enrollments with rejection handling (SRC-009). Story keys in this batch: SRC-007, SRC-008, SRC-009.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Employer-Scheme Association and Contribution Traceability
+Jira Story Key: SRC-007
+Parent Epic Key: Employer Management
+Story Summary: Associate employers with schemes so contributions can be traced to the correct scheme.
+Supported actor(s): pension administrator, employer.
+Trigger/precondition: An employer-scheme association exists or is being created.
+
+SRC-007-FR-01: The system shall associate an employer with one or more relevant schemes upon request by a pension administrator or employer.
+Inputs and outputs: Input — employer identity and scheme identity. Output — a stored employer-scheme association record.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which fields uniquely identify an employer and a scheme? Is an association effective-dated? Can an employer be associated with multiple schemes simultaneously, and are some associations inactive?
+
+SRC-007-FR-02: The system shall return all active employer-scheme associations when an employer's associations are queried.
+Inputs and outputs: Input — employer identity. Output — list of active associations.
+Missing details or ambiguities: Not specified in source — requires confirmation. How is "active" defined — by status flag, effective dates, or both? Are inactive or historical associations retrievable through a separate query or filter?
+
+SRC-007-FR-03: The system shall trace a submitted contribution to the scheme associated with the contributing employer.
+Inputs and outputs: Input — contribution record containing employer identity. Output — the associated scheme identity used for tracing.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which contribution field carries the employer identity? Is tracing performed at submission, receipt, or allocation time?
+
+SRC-007-FR-04: The system shall flag a contribution for resolution when its employer-scheme association is missing, rather than completing it silently.
+Inputs and outputs: Input — contribution record lacking a valid employer-scheme association. Output — a flagged contribution in an exception or resolution state.
+Missing details or ambiguities: Not specified in source — requires confirmation. What state or status represents "flagged for resolution"? Which actors can resolve the flag, and what resolution actions are permitted?
+
+Acceptance criteria coverage:
+- Given an employer-scheme association, when a contribution is submitted by that employer, then it can be traced to the associated scheme. — Covered by SRC-007-FR-03.
+- Given an employer, when its scheme associations are queried, then all active associations are returned. — Covered by SRC-007-FR-02.
+- Given a contribution, when its employer-scheme association is missing, then it is flagged for resolution rather than silently completed. — Covered by SRC-007-FR-04.
+
+Capability: Controlled Member Enrollment and Status Visibility
+Jira Story Key: SRC-008
+Parent Epic Key: Member Management
+Story Summary: Enroll members through a controlled workflow so enrollments are validated against scheme rules before being recorded.
+Supported actor(s): pension administrator, member.
+Trigger/precondition: An enrollment submission is made.
+
+SRC-008-FR-01: The system shall accept an enrollment submission and process it through a controlled workflow.
+Inputs and outputs: Input — enrollment submission data. Output — an enrollment record in a workflow state.
+Missing details or ambiguities: Not specified in source — requires confirmation. What workflow states exist (for example, submitted, validated, recorded, rejected)? What transitions are permitted between states?
+
+SRC-008-FR-02: The system shall validate an enrollment against applicable scheme rules before recording it.
+Inputs and outputs: Input — enrollment data and the scheme's eligibility rules. Output — validation result (pass or fail).
+Missing details or ambiguities: Not specified in source — requires confirmation. Which scheme rules apply to enrollment validation? Are eligibility rules maintained separately and referenced by scheme?
+
+SRC-008-FR-03: The system shall record an enrollment only after it has been submitted, validated against scheme rules, and approved for recording.
+Inputs and outputs: Input — validated enrollment. Output — a recorded enrollment.
+Missing details or ambiguities: Not specified in source — requires confirmation. Does "recorded" mean a final, immutable member record, or a provisional record subject to later change?
+
+SRC-008-FR-04: The system shall assign a unique identity to each enrollment when it is created.
+Inputs and outputs: Input — enrollment submission. Output — a unique enrollment identifier.
+Missing details or ambiguities: Not specified in source — requires confirmation. Is the unique identity generated by the system, or supplied by the submitter?
+
+SRC-008-FR-05: The system shall link each enrollment to its scheme at creation.
+Inputs and outputs: Input — enrollment and scheme identity. Output — an enrollment record associated with the scheme.
+Missing details or ambiguities: Not specified in source — requires confirmation. Is the scheme identity derived from the enrollment data, selected by the actor, or looked up from the employer?
+
+SRC-008-FR-06: The system shall make the status of an in-progress enrollment visible to authorized users.
+Inputs and outputs: Input — enrollment identifier and user authorization. Output — current workflow status.
+Missing details or ambiguities: Not specified in source — requires confirmation. Which users are "authorized" — all pension administrators, only the submitting administrator, or scheme-specific roles? Is status visibility restricted by scheme or employer?
+
+Acceptance criteria coverage:
+- Given an enrollment submission, when it is processed, then it can be submitted, validated against scheme rules, and recorded. — Covered by SRC-008-FR-01, SRC-008-FR-02, SRC-008-FR-03.
+- Given an enrollment, when it is created, then it has a unique identity and is linked to its scheme. — Covered by SRC-008-FR-04, SRC-008-FR-05.
+- Given an enrollment workflow, when it is in progress, then its status is visible to authorized users. — Covered by SRC-008-FR-06.
+
+Capability: Eligibility Validation and Rejection Handling
+Jira Story Key: SRC-009
+Parent Epic Key: Member Management
+Story Summary: Validate enrollment against applicable scheme eligibility rules before recording, so ineligible enrollments are prevented or routed to an exception.
+Supported actor(s): pension administrator, operations personnel.
+Trigger/precondition: An enrollment attempt is submitted for validation.
+
+SRC-009-FR-01: The system shall validate an enrollment attempt against applicable scheme eligibility rules before recording it.
+Inputs and outputs: Input — enrollment data and scheme eligibility rules. Output — validation outcome.
+Missing details or ambiguities: Not specified in source — requires confirmation. What data elements are evaluated against eligibility rules?
+
+SRC-009-FR-02: The system shall prevent or route an enrollment to an exception when it fails eligibility rules, rather than approving it silently.
+Inputs and outputs: Input — enrollment failing eligibility rules. Output — prevented enrollment or enrollment in an exception state.
+Missing details or ambiguities: Not specified in source — requires confirmation. When is an enrollment prevented versus routed to an exception? What determines which path is taken?
+
+SRC-009-FR-03: The system shall record the rejection reason when a rejected enrollment is reviewed.
+Inputs and outputs: Input — rejected enrollment and reviewer. Output — recorded rejection reason.
+Missing details or ambiguities: Not specified in source — requires confirmation. Is the rejection reason entered by the reviewer, generated automatically, or both? Is the reason stored on the enrollment record or in a separate audit log?
+
+SRC-009-FR-04: The system shall proceed to enrollment record creation when an enrollment passes eligibility validation.
+Inputs and outputs: Input — validated eligible enrollment. Output — enrollment record creation.
+Missing details or ambiguities: Not specified in source — requires confirmation. Does passing validation automatically create the record, or does it require a separate recording action by an authorized actor?
+
+Acceptance criteria coverage:
+- Given an enrollment attempt, when it fails eligibility rules, then it is prevented or routed to an exception rather than silently approved. — Covered by SRC-009-FR-02.
+- Given a rejected enrollment, when it is reviewed, then the rejection reason is recorded. — Covered by SRC-009-FR-03.
+- Given an eligible enrollment, when it passes validation, then it proceeds to record creation. — Covered by SRC-009-FR-04.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is fully specified in this batch. The following partial workflows are supported by the stories:
+
+Employer-scheme association and contribution tracing (SRC-007):
+1. A pension administrator or employer creates an employer-scheme association. SRC-007-FR-01.
+2. The system returns all active associations for an employer on query. SRC-007-FR-02.
+3. A contribution is submitted by the employer and traced to the associated scheme. SRC-007-FR-03.
+4. If the employer-scheme association is missing, the contribution is flagged for resolution instead of being completed. SRC-007-FR-04.
+
+Member enrollment workflow (SRC-008, SRC-009):
+1. A pension administrator or member submits an enrollment. SRC-008-FR-01.
+2. The system validates the enrollment against scheme eligibility rules. SRC-008-FR-02, SRC-009-FR-01.
+3. If the enrollment passes, it proceeds to record creation. SRC-008-FR-03, SRC-009-FR-04.
+4. If the enrollment fails, it is prevented or routed to an exception. SRC-009-FR-02.
+5. A rejected enrollment is reviewed and the rejection reason is recorded. SRC-009-FR-03.
+6. At creation, the enrollment receives a unique identity and is linked to its scheme. SRC-008-FR-04, SRC-008-FR-05.
+7. While in progress, the enrollment status is visible to authorized users. SRC-008-FR-06.
+
+D. RULES, VALIDATIONS, AND DATA
+- Employer-scheme associations must exist for contributions to be traced to a scheme. SRC-007-FR-03.
+- Querying an employer's scheme associations returns only active associations. SRC-007-FR-02.
+- Contributions lacking an employer-scheme association must be flagged for resolution and must not be completed silently. SRC-007-FR-04.
+- Enrollments must be validated against scheme eligibility rules before recording. SRC-008-FR-02, SRC-009-FR-01.
+- Enrollments failing eligibility rules must be prevented or routed to an exception, not silently approved. SRC-009-FR-02.
+- Rejected enrollments must have their rejection reason recorded upon review. SRC-009-FR-03.
+- Eligible enrollments must proceed to record creation after passing validation. SRC-009-FR-04.
+- Each enrollment must have a unique identity and be linked to its scheme at creation. SRC-008-FR-04, SRC-008-FR-05.
+- Enrollment workflow status must be visible to authorized users while in progress. SRC-008-FR-06.
+- No explicit field constraints, data types, or data relationships are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-007 | Employer Management | SRC-007-FR-01, SRC-007-FR-02, SRC-007-FR-03, SRC-007-FR-04 | Covered
+SRC-008 | Member Management | SRC-008-FR-01, SRC-008-FR-02, SRC-008-FR-03, SRC-008-FR-04, SRC-008-FR-05, SRC-008-FR-06 | Covered
+SRC-009 | Member Management | SRC-009-FR-01, SRC-009-FR-02, SRC-009-FR-03, SRC-009-FR-04 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-007:
+- What fields uniquely identify an employer and a scheme, and what fields constitute an association record?
+- Can an employer be associated with multiple schemes, and can associations be inactive or historical?
+- How is "active" defined for employer-scheme associations, and are inactive associations retrievable?
+- Which contribution field carries the employer identity, and at what point is tracing performed?
+- What state represents "flagged for resolution," who can resolve it, and what actions are permitted?
+
+SRC-008:
+- What workflow states and transitions exist for enrollment?
+- Which scheme rules apply to enrollment validation, and are eligibility rules maintained separately per scheme?
+- Does "recorded" mean a final immutable record or a provisional one?
+- Is the unique enrollment identity system-generated or supplied by the submitter?
+- How is the scheme identity determined at enrollment creation?
+- Which users are authorized to view in-progress enrollment status, and is visibility restricted by scheme or employer?
+
+SRC-009:
+- Which enrollment data elements are evaluated against eligibility rules?
+- What determines whether a failed enrollment is prevented versus routed to an exception?
+- Is the rejection reason entered by a reviewer, generated automatically, or both, and where is it stored?
+- Does passing validation automatically create the enrollment record, or is a separate recording action required?
+
+All three stories have acceptance criteria; however, several acceptance criteria depend on details not specified in the source and are flagged above for confirmation.

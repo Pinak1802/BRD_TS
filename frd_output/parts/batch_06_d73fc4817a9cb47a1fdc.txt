@@ -1,0 +1,84 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Contributions and Financial Reconciliation epic. It supports recording contribution receipts, recording contribution allocations to pension accounts, and enforcing required associations (employer, member, scheme) on contributions. Story keys in this batch: SRC-016, SRC-017, SRC-018.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Contribution Receipt Recording (SRC-016)
+Jira Story Key: SRC-016
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution receipts
+Supported actor(s): Finance personnel
+Trigger/precondition: A contribution receipt exists and is to be recorded.
+Functional requirements:
+SRC-016-FR-01: The system shall record a contribution receipt and distinguish it from contribution submissions.
+SRC-016-FR-02: The system shall link a recorded receipt to the relevant contribution submission.
+SRC-016-FR-03: The system shall display the source and format of a receipt when it is queried.
+SRC-016-FR-04: The system shall record the actor and timestamp of any update to a receipt.
+Inputs and outputs: Input — contribution receipt data. Output — a recorded receipt record, its linkage to a submission, and query-visible source and format.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define which receipt fields are mandatory, how the receipt is linked to a submission, or what constitutes the receipt's source and format.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a contribution receipt, when it is recorded, then it is distinguished from submissions and linked to the relevant submission.
+Given a receipt, when it is queried, then its source and format are visible.
+Given a receipt, when it is updated, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: Not specified in source — requires confirmation. The linkage mechanism between receipt and submission, the definition of "source" and "format", and the update-change record structure are not defined.
+
+Capability: Contribution Allocation Recording (SRC-017)
+Jira Story Key: SRC-017
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution allocations
+Supported actor(s): Finance personnel
+Trigger/precondition: An allocation is to be recorded against a contribution, member, scheme, and pension account.
+Functional requirements:
+SRC-017-FR-01: The system shall record a contribution allocation and associate it with the relevant contribution, member, scheme, and pension account.
+SRC-017-FR-02: The system shall display all associations of an allocation when it is queried.
+SRC-017-FR-03: The system shall record the actor and timestamp of any modification to an allocation.
+Inputs and outputs: Input — allocation data including contribution, member, scheme, and account references. Output — a recorded allocation record with query-visible associations.
+Explicit business rules and validations: Not specified in source — requires confirmation. The source does not define which allocation fields are mandatory, how associations are validated, or the allocation-change record structure.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an allocation, when it is recorded, then it is associated with the relevant contribution, member, scheme, and account.
+Given an allocation, when it is queried, then all associations are displayed.
+Given an allocation, when it is modified, then the change is recorded with actor and timestamp.
+Missing details or ambiguities: Not specified in source — requires confirmation. The association validation rules, the definition of "all associations", and the modification-change record structure are not defined.
+
+Capability: Contribution Association Enforcement (SRC-018)
+Jira Story Key: SRC-018
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Associate contributions with required entities
+Supported actor(s): Finance personnel
+Trigger/precondition: A contribution is being recorded or queried.
+Functional requirements:
+SRC-018-FR-01: The system shall associate each contribution with the relevant employer, member, and scheme.
+SRC-018-FR-02: The system shall flag a contribution for resolution when it is recorded without required associations, rather than completing it silently.
+SRC-018-FR-03: The system shall mark a contribution as fully associated when its required associations are complete.
+SRC-018-FR-04: The system shall display the missing associations when an incomplete contribution is queried.
+Inputs and outputs: Input — contribution data and association data (employer, member, scheme). Output — a contribution record with association status and, when incomplete, a list of missing associations.
+Explicit business rules and validations: The required associations for a contribution are employer, member, and scheme. A contribution without these required associations must be flagged for resolution rather than silently completed. A contribution is fully associated only when all required associations are present.
+Exceptions/alternate paths: Not specified in source — requires confirmation. The source does not define the resolution workflow, who resolves flagged contributions, or what happens after resolution.
+Acceptance criteria:
+Given a contribution, when it is recorded without required associations, then it is flagged for resolution rather than silently completed.
+Given a contribution, when its associations are complete, then it is marked as fully associated.
+Given an incomplete contribution, when it is queried, then the missing associations are displayed.
+Missing details or ambiguities: Not specified in source — requires confirmation. The source does not define the exact association status values, the resolution workflow, or whether associations can be added after initial recording.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports three discrete capabilities: (1) recording a receipt and linking it to a submission (SRC-016); (2) recording an allocation and associating it with contribution, member, scheme, and account (SRC-017); and (3) recording a contribution with required employer, member, and scheme associations, flagging incomplete contributions for resolution, and displaying missing associations (SRC-018). The linkage between receipt and submission, and between allocation and contribution, is required but the mechanism is not specified.
+
+D. RULES, VALIDATIONS, AND DATA
+Explicit rules and validations:
+- SRC-018: A contribution must be associated with employer, member, and scheme. Missing required associations must be flagged for resolution rather than silently completed. A contribution is marked fully associated when all required associations are complete.
+- SRC-016: A receipt must be distinguished from submissions and linked to the relevant submission. Receipt source and format must be query-visible. Receipt updates must record actor and timestamp.
+- SRC-017: An allocation must be associated with contribution, member, scheme, and account. All allocation associations must be query-visible. Allocation modifications must record actor and timestamp.
+Business data objects: contribution receipt, contribution submission, contribution allocation, contribution, employer, member, scheme, pension account. Field constraints and data relationships beyond the associations named above are not specified.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-016 | Contributions and Financial Reconciliation | SRC-016-FR-01, SRC-016-FR-02, SRC-016-FR-03, SRC-016-FR-04 | Covered
+SRC-017 | Contributions and Financial Reconciliation | SRC-017-FR-01, SRC-017-FR-02, SRC-017-FR-03 | Covered
+SRC-018 | Contributions and Financial Reconciliation | SRC-018-FR-01, SRC-018-FR-02, SRC-018-FR-03, SRC-018-FR-04 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-016: How is a receipt linked to the relevant submission (matching key, reference, or manual selection)? What values are expected for receipt source and format? What is the structure of the recorded update (actor, timestamp, changed fields)?
+- SRC-017: How are allocation associations validated at record time? What is the structure of the recorded modification (actor, timestamp, changed fields)?
+- SRC-018: What are the exact association status values (e.g., incomplete, fully associated, flagged)? What is the resolution workflow for flagged contributions, and who performs resolution? Can associations be added after initial recording?
+- SRC-016, SRC-017, SRC-018: Which receipt, allocation, and contribution fields are mandatory? No mandatory field constraints are specified in the source.

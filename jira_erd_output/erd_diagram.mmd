@@ -11,95 +11,90 @@
 }}%%
 erDiagram
     direction TB
-    scheme ||--o{ scheme_change_audit : "has"
+    scheme ||--o{ member : "has"
     employer ||--o{ employer_contact : "has"
-    employer ||--o{ employer_scheme_association : "associates"
-    employer ||--o{ contribution_submission : "submits"
-    employer ||--o{ contribution_receipt : "submits"
-    scheme ||--o{ employer_scheme_association : "has"
-    scheme ||--o{ member : "enrolls"
-    scheme ||--o{ pension_account : "has"
-    member ||--o{ member_change_audit : "has"
+    employer ||--o{ employer_scheme : "associates_with"
+    scheme ||--o{ employer_scheme : "participates_in"
+    member ||--o{ member_audit : "has_audit"
     member ||--o{ pension_account : "owns"
-    member ||--o{ benefit_request : "submits"
-    employer ||--o{ contribution_allocation : "submits"
-    member ||--o{ contribution_allocation : "receives"
-    scheme ||--o{ contribution_allocation : "has"
-    contribution_submission ||--o{ contribution_receipt : "matched_by"
+    scheme ||--o{ pension_account : "has_account"
+    pension_account ||--o{ pension_account_audit : "has_audit"
+    employer ||--o{ contribution_submission : "submits"
+    scheme ||--o{ contribution_submission : "receives"
+    employer ||--o{ contribution_receipt : "funds_receipt"
+    member ||--o{ contribution_receipt : "belongs_to_receipt"
+    scheme ||--o{ contribution_receipt : "receives_receipt"
     contribution_receipt ||--o{ contribution_allocation : "allocated"
-    contribution_submission ||--o{ contribution_allocation : "covered_by"
-    pension_account ||--o{ contribution_allocation : "receives"
-    financial_exception }o--|| contribution_receipt : "related_to"
-    financial_exception }o--|| contribution_submission : "related_to"
-    financial_exception }o--|| contribution_allocation : "related_to"
-    financial_exception }o--|| benefit_request : "related_to"
-    financial_exception }o--|| benefit_approval : "related_to"
-    pension_account ||--o{ investment_record : "holds"
-    benefit_request ||--o{ benefit_approval : "passes_through"
+    contribution_submission ||--o{ contribution_allocation : "allocated"
+    member ||--o{ contribution_allocation : "credited"
+    scheme ||--o{ contribution_allocation : "credits"
+    contribution_submission ||--o{ reconciliation : "reconciled"
+    contribution_receipt ||--o{ reconciliation : "reconciled"
+    contribution_allocation ||--o{ reconciliation : "reconciled"
+    reconciliation ||--o{ reconciliation_exception : "raises"
+    pension_account ||--o{ investment : "holds"
+    member ||--o{ investment : "owns_investment"
+    scheme ||--o{ investment : "offers"
+    investment ||--o{ investment_audit : "has_audit"
+    member ||--o{ benefit_request : "requests"
+    pension_account ||--o{ benefit_request : "linked"
+    benefit_request ||--o{ benefit_validation : "validated"
+    benefit_request ||--o{ benefit_workflow : "goes_through"
     benefit_request ||--o{ benefit_payment : "pays"
-    role ||--o{ user : "assigned_to"
-    user ||--o{ audit_log : "generated"
+    user_role ||--o{ system_user : "assigned"
+    employer ||--o{ system_user : "employs"
+    audit_report ||--o{ material_action : "exports"
 
     scheme {
         int scheme_id PK
-        string identifier
+        string scheme_name
         string status
         string eligibility_rules
-        date created_date
-        string created_by
-    }
-
-    scheme_change_audit {
-        int audit_id PK
-        int scheme_id FK
-        string changed_by
-        datetime change_timestamp
-        string old_values
-        string new_values
-        string reason
+        date effective_from
+        date effective_to
     }
 
     employer {
         int employer_id PK
-        string identity
+        string employer_name
         string status
-        date created_date
-        string created_by
+        string tax_id
     }
 
     employer_contact {
         int contact_id PK
         int employer_id FK
-        string name
+        string contact_name
         string email
+        string phone
         date effective_from
-        date effective_until
         string reason
     }
 
-    employer_scheme_association {
-        int association_id PK
+    employer_scheme {
+        int employer_scheme_id PK
         int employer_id FK
         int scheme_id FK
-        date effective_date
-        date created_date
+        date effective_from
     }
 
     member {
         int member_id PK
-        string identity
+        string first_name
+        string last_name
+        date dob
+        string national_insurance_number
         string status
-        date registration_date
-        string rejected_reason
     }
 
-    member_change_audit {
+    member_audit {
         int audit_id PK
         int member_id FK
         string changed_by
-        datetime change_timestamp
-        string old_values
-        string new_values
+        datetime changed_at
+        string field_changed
+        string old_value
+        string new_value
     }
 
     pension_account {
@@ -107,129 +102,167 @@ erDiagram
         int member_id FK
         int scheme_id FK
         string status
-        date created_date
+        datetime opened_at
+    }
+
+    pension_account_audit {
+        int audit_id PK
+        int account_id FK
+        string changed_by
+        datetime changed_at
+        string field_changed
+        string old_value
+        string new_value
     }
 
     contribution_submission {
         int submission_id PK
         int employer_id FK
-        int member_id FK
         int scheme_id FK
         decimal submitted_amount
         date submission_date
+        string status
     }
 
     contribution_receipt {
         int receipt_id PK
-        int submission_id FK
         int employer_id FK
         int member_id FK
         int scheme_id FK
+        int account_id FK
         decimal received_amount
-        date receipt_date
+        datetime received_at
     }
 
     contribution_allocation {
         int allocation_id PK
+        int submission_id FK
         int receipt_id FK
-        int contribution_id FK
-        int employer_id FK
         int member_id FK
         int scheme_id FK
         int account_id FK
         decimal allocated_amount
     }
 
-    financial_exception {
-        int exception_id PK
-        int related_record_id FK
-        string exception_type
-        string status
-        string description
-        string created_by
-        datetime created_date
+    reconciliation {
+        int reconciliation_id PK
+        int submission_id FK
+        int receipt_id FK
+        int allocation_id FK
+        decimal submitted_amount
+        decimal received_amount
+        decimal allocated_amount
+        decimal unmatched_amount
     }
 
-    financial_action_audit {
+    reconciliation_exception {
+        int exception_id PK
+        int reconciliation_id FK
+        decimal reconciliation_amount
+        string exception_type
+        string status
+        string resolution_outcome
+        datetime resolved_at
+    }
+
+    financial_audit {
         int audit_id PK
-        string action_type
+        string entity_type
+        int entity_id
         string actor
-        datetime action_timestamp
+        string action
+        datetime timestamp
         string values
         string outcome
     }
 
-    investment_record {
+    investment {
         int investment_id PK
         int account_id FK
-        string type
-        decimal allocated_amount
-        date created_date
+        int member_id FK
+        int scheme_id FK
+        string allocation_type
+        decimal amount
+        datetime created_at
     }
 
-    investment_change_audit {
+    investment_audit {
         int audit_id PK
         int investment_id FK
         string changed_by
-        datetime change_timestamp
-        string old_values
-        string new_values
+        datetime changed_at
+        string field_changed
+        string old_value
+        string new_value
     }
 
     benefit_request {
-        int request_id PK
+        int benefit_request_id PK
         int member_id FK
-        int scheme_id FK
+        int account_id FK
+        string benefit_type
+        decimal requested_amount
+        string supporting_documentation
         string status
-        string details
-        date submitted_date
-        string rejected_reason
+        datetime submitted_at
     }
 
-    benefit_approval {
-        int approval_id PK
-        int request_id FK
-        string stage
+    benefit_validation {
+        int validation_id PK
+        int benefit_request_id FK
+        string validated_by
+        datetime validated_at
+        string result
+        string rule_applied
+        string validation_notes
+    }
+
+    benefit_workflow {
+        int workflow_id PK
+        int benefit_request_id FK
+        string step
+        string reviewer
         string decision
-        string approver
-        datetime decision_date
+        datetime completed_at
     }
 
     benefit_payment {
         int payment_id PK
-        int request_id FK
-        decimal amount
+        int benefit_request_id FK
+        decimal payment_amount
         date payment_date
-        string outcome
+        string payment_status
     }
 
-    transaction_failure {
-        int failure_id PK
-        string reference
-        string failure_reason
-        string actor
-        datetime failure_timestamp
-        string action_type
-    }
-
-    role {
+    user_role {
         int role_id PK
-        string name
+        string role_name
         string permissions
     }
 
-    user {
+    system_user {
         int user_id PK
-        string name
+        string username
         int role_id FK
-        date created_date
+        int employer_id FK
+        string duty_segment
     }
 
-    audit_log {
-        int audit_id PK
+    audit_report {
+        int report_id PK
+        string report_type
+        string generated_by
+        datetime generated_at
+        string format
+        int audit_count
+    }
+
+    material_action {
+        int material_action_id PK
+        string actor
         string action_type
-        int user_id FK
-        datetime change_timestamp
-        string changed_values
-        string entity_id
+        string entity_type
+        int entity_id
+        datetime performed_at
+        string details
     }

@@ -1,0 +1,81 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Reporting and Audit epic. It supports three capabilities: generation of operational and financial reports reflecting current system data; visibility into processing status, reconciliation discrepancies, and unresolved exceptions; and recording and retrieval of material actions and changes for audit. Story keys in this batch: SRC-025, SRC-026, SRC-027. Epic key is not provided in the source records.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability 1: Operational and financial reporting
+
+Jira Story Key: SRC-025
+Parent Epic Key: Not specified in source records
+Story Summary: Generate operational and financial reports
+Supported actor(s): Authorized user (management)
+Trigger/precondition: An authorized user requests a report.
+Functional requirements:
+SRC-025-FR-01: The system shall generate operational and financial reports when requested by an authorized user.
+SRC-025-FR-02: The system shall generate reports that reflect current system data at the time of generation.
+SRC-025-FR-03: The system shall generate reports that are complete and consistent with the underlying system data.
+Inputs and outputs: Input is a report request from an authorized user. Output is a complete, consistent operational or financial report reflecting current system data.
+Explicit business rules and validations: Not specified in source — requires confirmation. Stakeholder question: Which specific operational and financial report types, report formats, and report parameters (filters, date ranges, scheme/member scope) are in scope for this batch?
+Exceptions/alternate paths: Not specified in source — requires confirmation. Stakeholder question: What behavior is expected if the requested report cannot be generated or the underlying data is incomplete?
+Acceptance criteria:
+Given an authorized user, when a report is requested, then operational and financial reports are generated that reflect current system data.
+Given a report, when it is generated, then it is complete and consistent with the underlying system data.
+Missing details or ambiguities: Report types, formats, parameters, scheduling, and output destinations are not specified.
+
+Capability 2: Processing status and reconciliation exception visibility
+
+Jira Story Key: SRC-026
+Parent Epic Key: Not specified in source records
+Story Summary: Display processing status and reconciliation exceptions
+Supported actor(s): Operations personnel
+Trigger/precondition: A dashboard or report is displayed, or an unresolved exception is queried.
+Functional requirements:
+SRC-026-FR-01: The system shall display processing status, reconciliation discrepancies, and unresolved exceptions on a dashboard or report.
+SRC-026-FR-02: The system shall display the status and owner of an unresolved exception when it is queried.
+Inputs and outputs: Input is a dashboard/report display request or an unresolved-exception query. Output is processing status, reconciliation discrepancies, unresolved exceptions, and exception status plus owner.
+Explicit business rules and validations: Not specified in source — requires confirmation. Stakeholder question: Which processing statuses, reconciliation discrepancy types, and exception categories must be shown, and what defines an exception as unresolved?
+Exceptions/alternate paths: Not specified in source — requires confirmation. Stakeholder question: What should be displayed when there are no discrepancies or unresolved exceptions?
+Acceptance criteria:
+Given a dashboard or report, when it is displayed, then processing status, reconciliation discrepancies, and unresolved exceptions are shown.
+Given an unresolved exception, when it is queried, then its status and owner are visible.
+Missing details or ambiguities: Dashboard/report layout, refresh behavior, exception ownership assignment, and exception lifecycle are not specified.
+
+Capability 3: Audit trail of material actions
+
+Jira Story Key: SRC-027
+Parent Epic Key: Not specified in source records
+Story Summary: Maintain traceable records of material actions
+Supported actor(s): Compliance personnel (consumers of audit records); the actor performing the material action is not specified.
+Trigger/precondition: A material action or change occurs.
+Functional requirements:
+SRC-027-FR-01: The system shall record a material action or change when it occurs.
+SRC-027-FR-02: The system shall record, for each material action or change, the user, timestamp, and changed values.
+SRC-027-FR-03: The system shall retrieve material actions and changes with sufficient detail in response to an audit query.
+Inputs and outputs: Input is a material action/change event and an audit query. Output is a recorded audit entry containing user, timestamp, and changed values, and retrievable audit records.
+Explicit business rules and validations: Not specified in source — requires confirmation. Stakeholder question: Which actions and changes are classified as material, and what level of detail constitutes sufficient audit detail?
+Exceptions/alternate paths: Not specified in source — requires confirmation. Stakeholder question: What behavior is expected if an audit query cannot retrieve the requested material actions?
+Acceptance criteria:
+Given a material action or change, when it occurs, then it is recorded with user, timestamp, and changed values.
+Given an audit query, when it is run, then material actions and changes are retrievable with sufficient detail.
+Missing details or ambiguities: Definition of material actions, audit retention, query filters, and audit record immutability are not specified.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+No complete end-to-end workflow is specified in this batch. The batch supports three report/visibility/audit capabilities: (1) report request to report generation (SRC-025); (2) dashboard/report display or exception query to display of processing status, reconciliation discrepancies, and unresolved exceptions (SRC-026); and (3) material action/change occurrence to recording with user, timestamp, and changed values, and audit query to retrieval of those records (SRC-027).
+
+D. RULES, VALIDATIONS, AND DATA
+- Report data consistency: generated operational and financial reports must reflect current system data and be complete and consistent with the underlying system data (SRC-025).
+- Exception visibility: processing status, reconciliation discrepancies, and unresolved exceptions must be shown on a dashboard or report; unresolved exception status and owner must be visible on query (SRC-026).
+- Audit recording: each material action or change must be recorded with user, timestamp, and changed values (SRC-027).
+- Audit retrieval: material actions and changes must be retrievable with sufficient detail in response to an audit query (SRC-027).
+No field constraints, data models, or data relationships are specified in the source.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-025 | Not specified in source records | SRC-025-FR-01, SRC-025-FR-02, SRC-025-FR-03 | Covered
+SRC-026 | Not specified in source records | SRC-026-FR-01, SRC-026-FR-02 | Covered
+SRC-027 | Not specified in source records | SRC-027-FR-01, SRC-027-FR-02, SRC-027-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+SRC-025: Which operational and financial report types, formats, parameters, and output destinations are in scope? What is the expected behavior if a report cannot be generated or underlying data is incomplete?
+SRC-026: Which processing statuses, reconciliation discrepancy types, and exception categories must be shown, and what defines an exception as unresolved? What should be displayed when there are no discrepancies or unresolved exceptions?
+SRC-027: Which actions and changes are classified as material, and what detail level constitutes sufficient audit detail? What is the expected behavior if an audit query cannot retrieve the requested records?
+All three stories have acceptance criteria; however, report types, exception definitions, and the definition of material actions require stakeholder confirmation before implementation.

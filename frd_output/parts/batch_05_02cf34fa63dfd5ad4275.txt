@@ -1,0 +1,107 @@
+A. BATCH FUNCTIONAL SCOPE
+This batch covers the Contributions and Financial Reconciliation epic (SRC-013, SRC-014, SRC-015). Supported capabilities: recording contribution receipts and associating them with employer, member, and scheme; recording allocation outcomes and linking them to contributions and pension accounts; and reconciling submitted, received, and allocated amounts with exception flagging and variance display.
+
+B. DETAILED FUNCTIONAL REQUIREMENTS
+
+Capability: Contribution Receipt Recording (SRC-013)
+
+Jira Story Key: SRC-013
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution receipts
+Supported actor(s): Finance personnel
+Trigger/precondition: A contribution receipt exists and is to be recorded.
+Functional requirements:
+SRC-013-FR-01: The system shall record a contribution receipt when finance personnel submit receipt data.
+SRC-013-FR-02: The system shall associate each recorded receipt with the relevant employer, member, and scheme.
+SRC-013-FR-03: The system shall flag any difference when a receipt is matched to the corresponding submission.
+Inputs and outputs:
+Inputs: contribution receipt data; employer, member, and scheme identifiers; corresponding submission reference.
+Outputs: recorded receipt record; receipt-to-submission match result; difference flag.
+Explicit business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given a contribution receipt, when it is recorded, then it is associated with the relevant employer, member, and scheme.
+Given a receipt, when it is matched to the corresponding submission, then any difference is flagged.
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: which fields constitute a contribution receipt and which fields constitute a submission.
+- Not specified in source — requires confirmation: the matching logic and the threshold or method used to determine a difference.
+- Not specified in source — requires confirmation: the format and location of the difference flag.
+
+Capability: Contribution Allocation Recording (SRC-014)
+
+Jira Story Key: SRC-014
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Record contribution allocations
+Supported actor(s): Finance personnel
+Trigger/precondition: An allocation outcome exists and is to be recorded.
+Functional requirements:
+SRC-014-FR-01: The system shall record an allocation outcome when finance personnel submit allocation data.
+SRC-014-FR-02: The system shall associate each recorded allocation with the relevant employer, member, scheme, and pension account.
+SRC-014-FR-03: The system shall link each recorded allocation to the contribution and reflect it in the reconciliation.
+SRC-014-FR-04: The system shall return the associated employer, member, scheme, and pension account when an allocation is queried.
+Inputs and outputs:
+Inputs: allocation outcome data; contribution reference; employer, member, scheme, and pension account identifiers.
+Outputs: recorded allocation record; allocation-to-contribution link; reconciliation update; query result containing employer, member, scheme, and pension account.
+Explicit business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given an allocation outcome, when it is recorded, then it is linked to the contribution and pension account and reflected in the reconciliation.
+Given an allocation, when it is queried, then the associated employer, member, scheme, and pension account are returned.
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: which fields constitute an allocation outcome and how the allocation is linked to the contribution.
+- Not specified in source — requires confirmation: the mechanism by which an allocation is reflected in the reconciliation.
+- Not specified in source — requires confirmation: the query interface and the exact set of fields returned.
+
+Capability: Reconciliation of Submitted, Received, and Allocated Amounts (SRC-015)
+
+Jira Story Key: SRC-015
+Parent Epic Key: Contributions and Financial Reconciliation
+Story Summary: Reconcile submitted, received, and allocated amounts
+Supported actor(s): Finance personnel
+Trigger/precondition: Submitted, received, and allocated amounts exist for a contribution.
+Functional requirements:
+SRC-015-FR-01: The system shall run reconciliation of submitted, received, and allocated amounts for a contribution.
+SRC-015-FR-02: The system shall display unmatched, discrepancy, invalid, or failed amounts as exceptions rather than marking them complete.
+SRC-015-FR-03: The system shall display stage-by-stage amounts and variances in the reconciliation view.
+Inputs and outputs:
+Inputs: submitted amount, received amount, and allocated amount for a contribution; records of invalid records and failed transactions.
+Outputs: reconciliation view showing stage-by-stage amounts and variances; exception display for unmatched, discrepancy, invalid, or failed amounts.
+Explicit business rules and validations: Not specified in source — requires confirmation.
+Exceptions/alternate paths: Not specified in source — requires confirmation.
+Acceptance criteria:
+Given submitted, received, and allocated amounts for a contribution, when reconciliation runs, then any unmatched, discrepancy, invalid, or failed amounts are displayed as exceptions rather than marked complete.
+Given a reconciliation view, when it is displayed, then stage-by-stage amounts and variances are shown.
+Missing details or ambiguities:
+- Not specified in source — requires confirmation: the reconciliation stages and the order in which submitted, received, and allocated amounts are processed.
+- Not specified in source — requires confirmation: the definitions of unmatched, discrepancy, invalid, and failed amounts and the conditions that classify an amount into each category.
+- Not specified in source — requires confirmation: the scope of a reconciliation run (single contribution, employer, scheme, or batch) and the frequency or trigger.
+- Not specified in source — requires confirmation: the layout and fields of the reconciliation view and the variance calculation method.
+
+C. SUPPORTED BUSINESS WORKFLOWS
+The batch supports a partial contributions lifecycle workflow, but no complete end-to-end workflow is fully specified. The supported steps, linked to story keys, are:
+1. Record a contribution receipt and associate it with the relevant employer, member, and scheme (SRC-013).
+2. Match the receipt to the corresponding submission and flag any difference (SRC-013).
+3. Record an allocation outcome and link it to the contribution and pension account, reflecting it in the reconciliation (SRC-014).
+4. Query an allocation to retrieve the associated employer, member, scheme, and pension account (SRC-014).
+5. Run reconciliation of submitted, received, and allocated amounts and display exceptions and stage-by-stage variances (SRC-015).
+The source does not specify the ordering constraints between receipt recording, allocation recording, and reconciliation runs, nor does it specify what happens after an exception is flagged.
+
+D. RULES, VALIDATIONS, AND DATA
+- Business data objects referenced: contribution receipt, contribution submission, allocation outcome, contribution, pension account, employer, member, scheme, reconciliation view, exception.
+- Explicit rules and validations: The source specifies only that differences between a receipt and its corresponding submission shall be flagged (SRC-013), that allocations shall be linked to contributions and pension accounts and reflected in reconciliation (SRC-014), and that unmatched, discrepancy, invalid, or failed amounts shall be displayed as exceptions rather than marked complete (SRC-015).
+- Field constraints, data relationships, status definitions, and calculation methods are not specified in the source and are not defined here.
+
+E. STORY-TO-REQUIREMENT TRACEABILITY
+SRC-013 | Contributions and Financial Reconciliation | SRC-013-FR-01, SRC-013-FR-02, SRC-013-FR-03 | Covered
+SRC-014 | Contributions and Financial Reconciliation | SRC-014-FR-01, SRC-014-FR-02, SRC-014-FR-03, SRC-014-FR-04 | Covered
+SRC-015 | Contributions and Financial Reconciliation | SRC-015-FR-01, SRC-015-FR-02, SRC-015-FR-03 | Covered
+
+F. OPEN QUESTIONS AND COVERAGE GAPS
+- SRC-013: What fields constitute a contribution receipt and a submission, and what matching logic and difference threshold apply?
+- SRC-013: How and where is the difference flag displayed?
+- SRC-014: What fields constitute an allocation outcome, and how is the allocation linked to the contribution?
+- SRC-014: How is an allocation reflected in the reconciliation, and what query interface and fields are returned?
+- SRC-015: What are the reconciliation stages, and how are unmatched, discrepancy, invalid, and failed amounts defined and classified?
+- SRC-015: What is the scope and trigger of a reconciliation run, and what is the layout and variance calculation of the reconciliation view?
+- SRC-013, SRC-014, SRC-015: What actions follow an exception flag, and are there status transitions or resolution workflows?
+- SRC-013, SRC-014, SRC-015: Are there input validations, error handling, or rollback behavior for invalid records and failed transactions?
